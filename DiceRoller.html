@@ -174,6 +174,30 @@
             box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
         }
 
+        .custom-color-wrap {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .custom-color-wrap.show {
+            display: block;
+        }
+
+        .custom-color-wrap label {
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .custom-color-wrap input[type="color"] {
+            width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+        }
+
         .mode-option input[type="radio"] {
             position: absolute;
             opacity: 0;
@@ -421,7 +445,12 @@
                     <option value="blue" selected>&#128309; Blue</option>
                     <option value="purple">&#128995; Purple</option>
                     <option value="white">&#9898; White</option>
+                    <option value="custom">Custom</option>
                 </select>
+                <div id="customColorWrap" class="custom-color-wrap">
+                    <label for="customDiceColor">Custom Color</label>
+                    <input id="customDiceColor" type="color" value="#8bb8ff">
+                </div>
             </div>
         </div>
 
@@ -544,6 +573,7 @@ function rollDice() {
     const selectedModeInput = document.querySelector('input[name="rollMode"]:checked');
     const rollMode = selectedModeInput ? selectedModeInput.value : "normal";
     const colorValue = document.getElementById("diceColor").value;
+    const customColor = document.getElementById("customDiceColor").value;
     const diceColors = {
         red: "#ff7b7b",
         orange: "#ffb366",
@@ -551,7 +581,8 @@ function rollDice() {
         green: "#9cffb2",
         blue: "#8bb8ff",
         purple: "#d5a3ff",
-        white: "#ffffff"
+        white: "#ffffff",
+        custom: customColor
     };
 
     let input = inputField.value.replace(/\s+/g, "");
@@ -638,6 +669,9 @@ document.getElementById("resetThemeBtn").addEventListener("click", function () {
 
 document.getElementById("diceColor").addEventListener("change", function () {
     const colorValue = this.value;
+    const customColor = document.getElementById("customDiceColor").value;
+    const customWrap = document.getElementById("customColorWrap");
+    customWrap.classList.toggle("show", colorValue === "custom");
     const diceColors = {
         red: "#ff7b7b",
         orange: "#ffb366",
@@ -645,9 +679,16 @@ document.getElementById("diceColor").addEventListener("change", function () {
         green: "#9cffb2",
         blue: "#8bb8ff",
         purple: "#d5a3ff",
-        white: "#ffffff"
+        white: "#ffffff",
+        custom: customColor
     };
     document.getElementById("resultArea").style.color = diceColors[colorValue] || "#f6f1e7";
+});
+
+document.getElementById("customDiceColor").addEventListener("input", function () {
+    if (document.getElementById("diceColor").value === "custom") {
+        document.getElementById("resultArea").style.color = this.value;
+    }
 });
 
 document.getElementById("diceColor").dispatchEvent(new Event("change"));
