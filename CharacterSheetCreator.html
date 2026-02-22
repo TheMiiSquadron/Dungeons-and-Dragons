@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -322,6 +322,13 @@
             gap: 10px;
         }
 
+        .image-lightbox-stage {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+        }
+
         .image-lightbox img {
             max-width: 100%;
             max-height: 80vh;
@@ -329,6 +336,23 @@
             border-radius: 10px;
             border: 1px solid var(--ui-border);
             background: rgba(7, 7, 12, 0.7);
+        }
+
+        .image-nav-btn {
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 999px;
+            width: 38px;
+            height: 38px;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .image-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
         }
 
         .image-lightbox-meta {
@@ -549,7 +573,11 @@
 
 <div id="imageLightbox" class="image-lightbox" aria-hidden="true">
     <div class="image-lightbox-content">
-        <img id="lightboxImage" alt="Uploaded character sheet preview">
+        <div class="image-lightbox-stage">
+            <button id="lightboxPrevBtn" class="image-nav-btn" type="button" aria-label="Previous image">&#8592;</button>
+            <img id="lightboxImage" alt="Uploaded character sheet preview">
+            <button id="lightboxNextBtn" class="image-nav-btn" type="button" aria-label="Next image">&#8594;</button>
+        </div>
         <div id="lightboxMeta" class="image-lightbox-meta"></div>
         <button id="lightboxCloseBtn" class="image-lightbox-close" type="button">Close</button>
     </div>
@@ -656,6 +684,7 @@ function loadSavedSheetImages() {
 }
 
 let savedSheetImages = loadSavedSheetImages();
+let activeLightboxIndex = -1;
 
 function persistSheetImages() {
     try {
@@ -686,7 +715,7 @@ function renderSheetImages() {
         img.alt = imageItem.name || `Sheet image ${index + 1}`;
         img.style.cursor = "zoom-in";
         img.addEventListener("click", function () {
-            openImageLightbox(imageItem.dataUrl, imageItem.name || `Sheet image ${index + 1}`);
+            openImageLightbox(index);
         });
 
         const meta = document.createElement("div");
@@ -701,6 +730,7 @@ function renderSheetImages() {
             savedSheetImages.splice(index, 1);
             persistSheetImages();
             renderSheetImages();
+            syncLightboxAfterImageListChange();
         });
 
         card.appendChild(img);
@@ -725,14 +755,56 @@ function fileToDataUrl(file) {
 
 renderSheetImages();
 
-function openImageLightbox(src, name) {
+function updateLightboxImage() {
+    if (activeLightboxIndex < 0 || activeLightboxIndex >= savedSheetImages.length) {
+        return;
+    }
+
+    const imageItem = savedSheetImages[activeLightboxIndex];
     const lightbox = document.getElementById("imageLightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxMeta = document.getElementById("lightboxMeta");
-    lightboxImage.src = src;
-    lightboxMeta.textContent = name || "";
+    const prevBtn = document.getElementById("lightboxPrevBtn");
+    const nextBtn = document.getElementById("lightboxNextBtn");
+
+    lightboxImage.src = imageItem.dataUrl;
+    lightboxMeta.textContent = `${imageItem.name || `Sheet image ${activeLightboxIndex + 1}`} (${activeLightboxIndex + 1}/${savedSheetImages.length})`;
+    prevBtn.disabled = activeLightboxIndex === 0;
+    nextBtn.disabled = activeLightboxIndex === savedSheetImages.length - 1;
     lightbox.classList.add("open");
     lightbox.setAttribute("aria-hidden", "false");
+}
+
+function openImageLightbox(index) {
+    activeLightboxIndex = index;
+    updateLightboxImage();
+}
+
+function moveLightboxImage(direction) {
+    if (!savedSheetImages.length || activeLightboxIndex < 0) {
+        return;
+    }
+    const nextIndex = activeLightboxIndex + direction;
+    if (nextIndex < 0 || nextIndex >= savedSheetImages.length) {
+        return;
+    }
+    activeLightboxIndex = nextIndex;
+    updateLightboxImage();
+}
+
+function syncLightboxAfterImageListChange() {
+    const lightbox = document.getElementById("imageLightbox");
+    if (!lightbox.classList.contains("open")) {
+        return;
+    }
+    if (!savedSheetImages.length) {
+        closeImageLightbox();
+        return;
+    }
+    if (activeLightboxIndex >= savedSheetImages.length) {
+        activeLightboxIndex = savedSheetImages.length - 1;
+    }
+    updateLightboxImage();
 }
 
 function closeImageLightbox() {
@@ -741,6 +813,7 @@ function closeImageLightbox() {
     lightbox.classList.remove("open");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.src = "";
+    activeLightboxIndex = -1;
 }
 
 function setCreatorMode(mode) {
@@ -880,6 +953,7 @@ document.getElementById("sheetImageInput").addEventListener("change", async func
 
     persistSheetImages();
     renderSheetImages();
+    syncLightboxAfterImageListChange();
     event.target.value = "";
 });
 
@@ -893,17 +967,35 @@ document.getElementById("clearUploadsBtn").addEventListener("click", function ()
     savedSheetImages = [];
     persistSheetImages();
     renderSheetImages();
+    syncLightboxAfterImageListChange();
 });
 
 document.getElementById("lightboxCloseBtn").addEventListener("click", closeImageLightbox);
+document.getElementById("lightboxPrevBtn").addEventListener("click", function () {
+    moveLightboxImage(-1);
+});
+document.getElementById("lightboxNextBtn").addEventListener("click", function () {
+    moveLightboxImage(1);
+});
 document.getElementById("imageLightbox").addEventListener("click", function (event) {
     if (event.target.id === "imageLightbox") {
         closeImageLightbox();
     }
 });
 document.addEventListener("keydown", function (event) {
+    const isLightboxOpen = document.getElementById("imageLightbox").classList.contains("open");
     if (event.key === "Escape") {
         closeImageLightbox();
+        return;
+    }
+    if (!isLightboxOpen) {
+        return;
+    }
+    if (event.key === "ArrowLeft") {
+        moveLightboxImage(-1);
+    }
+    if (event.key === "ArrowRight") {
+        moveLightboxImage(1);
     }
 });
 </script>
