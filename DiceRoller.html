@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mii Man's D&D Toolkit (v1.1)</title>
+    <title>Mii Man's D&D Toolbox (v1.1)</title>
     <style>
         :root {
             --bg-1: #1a1224;
@@ -218,6 +218,11 @@
         .dc-outcome.failure {
             color: #ff7d7d;
             text-shadow: 0 0 14px rgba(201, 66, 66, 0.65);
+        }
+
+        .dc-outcome.impossible {
+            color: #7dc6ff;
+            text-shadow: 0 0 14px rgba(66, 142, 201, 0.7);
         }
 
         @keyframes dc-flicker {
@@ -857,16 +862,21 @@ function rollDice() {
         }
 
         if (dcValue !== null) {
+            const maxPossibleTotal = (numberOfDice * numberOfSides) + modifier;
+            const impossible = dcValue > maxPossibleTotal;
             const passed = total >= dcValue;
-            result += `DC: ${dcValue} (${passed ? "PASS" : "FAIL"})\n`;
+            result += `DC: ${dcValue} (${impossible ? "IMPOSSIBLE" : (passed ? "PASS" : "FAIL")})\n`;
 
-            dcOutcome.textContent = passed ? "SUCCESS" : "FAILURE";
-            dcOutcome.classList.remove("show", "success", "failure");
+            dcOutcome.textContent = impossible ? "IMPOSSIBLE" : (passed ? "SUCCESS" : "FAILURE");
+            dcOutcome.classList.remove("show", "success", "failure", "impossible");
             void dcOutcome.offsetWidth;
-            dcOutcome.classList.add("show", passed ? "success" : "failure");
+            dcOutcome.classList.add(
+                "show",
+                impossible ? "impossible" : (passed ? "success" : "failure")
+            );
         } else {
             dcOutcome.textContent = "";
-            dcOutcome.classList.remove("show", "success", "failure");
+            dcOutcome.classList.remove("show", "success", "failure", "impossible");
         }
 
         result += `Highest Possible Roll: ${(numberOfDice * numberOfSides) + modifier}`;
@@ -876,7 +886,7 @@ function rollDice() {
 
     } catch (e) {
         dcOutcome.textContent = "";
-        dcOutcome.classList.remove("show", "success", "failure");
+        dcOutcome.classList.remove("show", "success", "failure", "impossible");
         alert("Invalid input format. Use <num>d<num> (+ or - <num>). Example: 2d6+3. DC must be a non-negative whole number.");
     }
 }
