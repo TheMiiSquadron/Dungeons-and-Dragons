@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" class="page-pathfinder-initiative-tracker">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Man's Pathfinder Toolbox (v1.1)</title>
+        <link rel="stylesheet" href="img/stylesheet.css">
+</head>
+<body>
+<main class="app">
+    <div class="mode-switcher">
+        <label class="mode-label" for="rulesetSwitch">Mode</label>
+        <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndInitiativeTracker.html">D&amp;D 5E</option>
+            <option value="PathfinderInitiativeTracker.html" selected>Pathfinder</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <a href="PathfinderDiceRoller.html" class="tab-link inactive">Dice Roller</a>
+        <a href="PathfinderCoinConverter.html" class="tab-link inactive">Coin Converter</a>
+        <a href="PathfinderCharacterSheetCreator.html" class="tab-link inactive">Character Sheet</a>
+        <a href="PathfinderInitiativeTracker.html" class="tab-link active">Initiative</a>
+        <a href="PathfinderMonsterDatabase.html" class="tab-link inactive">Monster Database</a>
+    </div>
+
+    <section class="panel">
+        <h1>Mii Man's Pathfinder Toolbox</h1>
+        <p class="subhead">Pathfinder Initiative Tracker v1.0</p>
+
+        <div class="grid-add">
+            <div class="input-group">
+                <label for="entryName">Name</label>
+                <input id="entryName" type="text" placeholder="Goblin 1">
+            </div>
+            <div class="input-group">
+                <label for="entryInit">Initiative</label>
+                <input id="entryInit" type="number" placeholder="14">
+            </div>
+            <div class="input-group">
+                <label for="entryHp">HP</label>
+                <input id="entryHp" type="number" placeholder="7">
+            </div>
+            <button id="addEntryBtn" class="btn btn-primary add-submit" type="button">Add</button>
+        </div>
+
+        <div class="actions">
+            <button id="nextTurnBtn" class="btn btn-primary" type="button">Next Turn</button>
+            <button id="prevTurnBtn" class="btn btn-secondary" type="button">Previous Turn</button>
+            <button id="sortBtn" class="btn btn-secondary" type="button">Sort by Initiative</button>
+            <button id="clearBtn" class="btn btn-secondary" type="button">Clear Combat</button>
+        </div>
+
+        <div id="turnBanner" class="turn-banner">No active combatant.</div>
+        <div id="initiativeList" class="initiative-list"></div>
+
+        <details class="theme-box">
+            <summary>Theme Colors (Site-Wide)</summary>
+            <div class="theme-grid">
+                <div class="theme-item"><label for="themeBg1">Background Top</label><input id="themeBg1" type="color" value="#10233d"></div>
+                <div class="theme-item"><label for="themeBg2">Background Bottom</label><input id="themeBg2" type="color" value="#09111f"></div>
+                <div class="theme-item"><label for="themePanel">Panel</label><input id="themePanel" type="color" value="#181222"></div>
+                <div class="theme-item"><label for="themePanelBorder">Panel Border</label><input id="themePanelBorder" type="color" value="#ffd68c"></div>
+                <div class="theme-item"><label for="themeUiBorder">UI Border</label><input id="themeUiBorder" type="color" value="#ffdf95"></div>
+                <div class="theme-item"><label for="themeText">Primary Text</label><input id="themeText" type="color" value="#f4efe3"></div>
+                <div class="theme-item"><label for="themeMuted">Muted Text</label><input id="themeMuted" type="color" value="#c9b98e"></div>
+                <div class="theme-item"><label for="themeAccent">Accent</label><input id="themeAccent" type="color" value="#f0b84b"></div>
+                <div class="theme-item"><label for="themeAccent2">Accent Highlight</label><input id="themeAccent2" type="color" value="#ffdf95"></div>
+                <div class="theme-item"><label for="themeButton">Primary Button</label><input id="themeButton" type="color" value="#7b2d2d"></div>
+                <div class="theme-item"><label for="themeButtonHover">Primary Button Hover</label><input id="themeButtonHover" type="color" value="#993c3c"></div>
+                <div class="theme-item"><label for="themeSecondaryButton">Secondary Button</label><input id="themeSecondaryButton" type="color" value="#5c506f"></div>
+                <div class="theme-item"><label for="themeSecondaryButtonHover">Secondary Button Hover</label><input id="themeSecondaryButtonHover" type="color" value="#72648a"></div>
+            </div>
+            <div class="theme-actions">
+                <button id="applyThemeBtn" class="theme-btn" type="button">Apply Theme</button>
+                <button id="resetThemeBtn" class="theme-btn" type="button">Reset Theme</button>
+            </div>
+        </details>
+
+        <p class="hint">Track turn order and HP for ongoing combat.</p>
+    </section>
+</main>
+
+<script>
+const THEME_STORAGE_KEY = "pathfinder_toolbox_theme_v2";
+const INIT_STORAGE_KEY = "dnd_initiative_entries_v1";
+const TURN_STORAGE_KEY = "dnd_initiative_turn_v1";
+const themeFields = {
+    themeBg1: "--bg-1",
+    themeBg2: "--bg-2",
+    themePanel: "--panel",
+    themePanelBorder: "--panel-border",
+    themeUiBorder: "--ui-border",
+    themeText: "--text",
+    themeMuted: "--muted",
+    themeAccent: "--accent",
+    themeAccent2: "--accent-2",
+    themeButton: "--button",
+    themeButtonHover: "--button-hover",
+    themeSecondaryButton: "--button-secondary",
+    themeSecondaryButtonHover: "--button-secondary-hover"
+};
+
+const defaultTheme = {
+    "--bg-1": "#10233d",
+    "--bg-2": "#09111f",
+    "--panel": "#181222",
+    "--panel-border": "#ffd68c",
+    "--ui-border": "#ffdf95",
+    "--text": "#f4efe3",
+    "--muted": "#c9b98e",
+    "--accent": "#f0b84b",
+    "--accent-2": "#ffdf95",
+    "--button": "#7b2d2d",
+    "--button-hover": "#993c3c",
+    "--button-secondary": "#2c4f73",
+    "--button-secondary-hover": "#3c6a99"
+};
+
+let entries = loadEntries();
+let activeTurnIndex = loadTurnIndex();
+
+function applyThemeMap(themeMap) {
+    Object.keys(themeMap).forEach(function (cssVar) {
+        document.documentElement.style.setProperty(cssVar, themeMap[cssVar]);
+    });
+}
+
+function loadSavedTheme() {
+    try {
+        const raw = localStorage.getItem(THEME_STORAGE_KEY);
+        if (!raw) {
+            return null;
+        }
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : null;
+    } catch (_) {
+        return null;
+    }
+}
+
+function readThemeFromInputs() {
+    const themeMap = {};
+    Object.keys(themeFields).forEach(function (id) {
+        const input = document.getElementById(id);
+        if (input && input.value) {
+            themeMap[themeFields[id]] = input.value;
+        }
+    });
+    return themeMap;
+}
+
+function syncInputsFromTheme(themeMap) {
+    Object.keys(themeFields).forEach(function (id) {
+        const cssVar = themeFields[id];
+        const input = document.getElementById(id);
+        if (input && themeMap[cssVar]) {
+            input.value = themeMap[cssVar];
+        }
+    });
+}
+
+function saveTheme(themeMap) {
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(themeMap));
+    } catch (_) {}
+}
+
+function loadEntries() {
+    try {
+        const raw = localStorage.getItem(INIT_STORAGE_KEY);
+        if (!raw) {
+            return [];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+        return [];
+    }
+}
+
+function loadTurnIndex() {
+    const raw = localStorage.getItem(TURN_STORAGE_KEY);
+    const parsed = Number.parseInt(raw || "0", 10);
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function persistState() {
+    try {
+        localStorage.setItem(INIT_STORAGE_KEY, JSON.stringify(entries));
+        localStorage.setItem(TURN_STORAGE_KEY, String(activeTurnIndex));
+    } catch (_) {}
+}
+
+function sortEntries() {
+    entries.sort(function (a, b) {
+        return b.initiative - a.initiative;
+    });
+}
+
+function adjustTurnIndex() {
+    if (!entries.length) {
+        activeTurnIndex = -1;
+        return;
+    }
+    if (activeTurnIndex < 0) {
+        activeTurnIndex = 0;
+    }
+    if (activeTurnIndex >= entries.length) {
+        activeTurnIndex = entries.length - 1;
+    }
+}
+
+function render() {
+    const list = document.getElementById("initiativeList");
+    const banner = document.getElementById("turnBanner");
+
+    adjustTurnIndex();
+    list.innerHTML = "";
+
+    if (!entries.length) {
+        banner.textContent = "No active combatant.";
+        list.innerHTML = '<div class="empty">No combatants added yet.</div>';
+        persistState();
+        return;
+    }
+
+    const activeEntry = entries[activeTurnIndex];
+    banner.textContent = "Current Turn: " + activeEntry.name + " (Init " + activeEntry.initiative + ")";
+
+    entries.forEach(function (entry, index) {
+        const row = document.createElement("div");
+        row.className = "entry" + (index === activeTurnIndex ? " active" : "");
+
+        const initCell = document.createElement("div");
+        initCell.className = "init-pill";
+        initCell.textContent = entry.initiative;
+
+        const nameCell = document.createElement("div");
+        nameCell.className = "name-col";
+        nameCell.textContent = entry.name;
+
+        const hpCell = document.createElement("div");
+        hpCell.className = "hp-col";
+
+        const hpText = document.createElement("div");
+        hpText.className = "hp-text";
+        hpText.textContent = "HP: " + entry.hp + (entry.maxHp > 0 ? "/" + entry.maxHp : "");
+        hpCell.appendChild(hpText);
+
+        if (entry.maxHp > 0) {
+            const hpPercent = Math.max(0, Math.min(100, (entry.hp / entry.maxHp) * 100));
+            const hpBar = document.createElement("div");
+            hpBar.className = "hp-bar";
+
+            const hpFill = document.createElement("div");
+            hpFill.className = "hp-fill";
+            hpFill.style.width = hpPercent + "%";
+
+            if (entry.hp <= 0) {
+                hpFill.classList.add("dead");
+            } else if (entry.hp <= entry.maxHp / 2) {
+                hpFill.classList.add("bloodied");
+            }
+
+            hpBar.appendChild(hpFill);
+            hpCell.appendChild(hpBar);
+        }
+
+        const adjustCell = document.createElement("div");
+        adjustCell.className = "hp-actions";
+
+        const amountInput = document.createElement("input");
+        amountInput.type = "number";
+        amountInput.placeholder = "Amount";
+        amountInput.min = "0";
+
+        const dmgBtn = document.createElement("button");
+        dmgBtn.className = "small-btn";
+        dmgBtn.type = "button";
+        dmgBtn.textContent = "-HP";
+        dmgBtn.addEventListener("click", function () {
+            const amount = Number.parseInt(amountInput.value || "0", 10);
+            if (!Number.isFinite(amount) || amount <= 0) {
+                return;
+            }
+            entry.hp = Math.max(0, entry.hp - amount);
+            persistState();
+            render();
+        });
+
+        const healBtn = document.createElement("button");
+        healBtn.className = "small-btn";
+        healBtn.type = "button";
+        healBtn.textContent = "+HP";
+        healBtn.addEventListener("click", function () {
+            const amount = Number.parseInt(amountInput.value || "0", 10);
+            if (!Number.isFinite(amount) || amount <= 0) {
+                return;
+            }
+            if (entry.maxHp > 0) {
+                entry.hp = Math.min(entry.maxHp, entry.hp + amount);
+            } else {
+                entry.hp += amount;
+            }
+            persistState();
+            render();
+        });
+
+        adjustCell.appendChild(amountInput);
+        adjustCell.appendChild(dmgBtn);
+        adjustCell.appendChild(healBtn);
+
+        const removeWrap = document.createElement("div");
+        removeWrap.className = "remove-wrap";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-btn";
+        removeBtn.type = "button";
+        removeBtn.textContent = "Remove";
+        removeBtn.addEventListener("click", function () {
+            entries.splice(index, 1);
+            if (index < activeTurnIndex) {
+                activeTurnIndex -= 1;
+            }
+            render();
+            persistState();
+        });
+
+        removeWrap.appendChild(removeBtn);
+
+        row.appendChild(initCell);
+        row.appendChild(nameCell);
+        row.appendChild(hpCell);
+        row.appendChild(adjustCell);
+        row.appendChild(removeWrap);
+
+        list.appendChild(row);
+    });
+
+    persistState();
+}
+
+function addEntry() {
+    const nameInput = document.getElementById("entryName");
+    const initInput = document.getElementById("entryInit");
+    const hpInput = document.getElementById("entryHp");
+
+    const name = nameInput.value.trim();
+    const initiative = Number.parseInt(initInput.value || "0", 10);
+    const hp = Number.parseInt(hpInput.value || "0", 10);
+
+    if (!name) {
+        alert("Enter a combatant name.");
+        return;
+    }
+
+    entries.push({
+        id: crypto.randomUUID(),
+        name: name,
+        initiative: Number.isFinite(initiative) ? initiative : 0,
+        hp: Number.isFinite(hp) ? Math.max(hp, 0) : 0,
+        maxHp: Number.isFinite(hp) ? Math.max(hp, 0) : 0
+    });
+
+    sortEntries();
+    if (activeTurnIndex < 0) {
+        activeTurnIndex = 0;
+    }
+
+    nameInput.value = "";
+    initInput.value = "";
+    hpInput.value = "";
+
+    render();
+}
+
+function nextTurn() {
+    if (!entries.length) {
+        return;
+    }
+    activeTurnIndex = (activeTurnIndex + 1) % entries.length;
+    render();
+}
+
+function prevTurn() {
+    if (!entries.length) {
+        return;
+    }
+    activeTurnIndex = (activeTurnIndex - 1 + entries.length) % entries.length;
+    render();
+}
+
+function clearCombat() {
+    if (!entries.length) {
+        return;
+    }
+    if (!confirm("Clear all combatants?")) {
+        return;
+    }
+    entries = [];
+    activeTurnIndex = -1;
+    render();
+}
+
+document.getElementById("addEntryBtn").addEventListener("click", addEntry);
+document.getElementById("sortBtn").addEventListener("click", function () {
+    sortEntries();
+    activeTurnIndex = entries.length ? 0 : -1;
+    render();
+});
+document.getElementById("nextTurnBtn").addEventListener("click", nextTurn);
+document.getElementById("prevTurnBtn").addEventListener("click", prevTurn);
+document.getElementById("clearBtn").addEventListener("click", clearCombat);
+document.getElementById("applyThemeBtn").addEventListener("click", function () {
+    const themeMap = readThemeFromInputs();
+    applyThemeMap(themeMap);
+    saveTheme(themeMap);
+});
+document.getElementById("resetThemeBtn").addEventListener("click", function () {
+    applyThemeMap(defaultTheme);
+    syncInputsFromTheme(defaultTheme);
+    saveTheme(defaultTheme);
+});
+document.getElementById("entryName").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        addEntry();
+    }
+});
+document.getElementById("entryInit").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        addEntry();
+    }
+});
+document.getElementById("entryHp").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        addEntry();
+    }
+});
+document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight") {
+        nextTurn();
+    }
+    if (event.key === "ArrowLeft") {
+        prevTurn();
+    }
+});
+
+if (entries.length) {
+    sortEntries();
+}
+const initialTheme = loadSavedTheme() || defaultTheme;
+applyThemeMap(initialTheme);
+syncInputsFromTheme(initialTheme);
+render();
+</script>
+</body>
+</html>

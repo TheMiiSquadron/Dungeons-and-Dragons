@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="page-dnd-monster-database">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Man's D&D Toolbox (v1.1)</title>
+        <link rel="stylesheet" href="img/stylesheet.css">
+</head>
+<body>
+<main class="app">
+    <div class="mode-switcher">
+        <label class="mode-label" for="rulesetSwitch">Mode</label>
+        <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndMonsterDatabase.html" selected>D&amp;D 5E</option>
+            <option value="PathfinderMonsterDatabase.html">Pathfinder</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <a href="DndDiceRoller.html" class="tab-link inactive">Dice Roller</a>
+        <a href="DndCoinConverter.html" class="tab-link inactive">Coin Converter</a>
+        <a href="DndCharacterSheetCreator.html" class="tab-link inactive">Character Sheet</a>
+        <a href="DndInitiativeTracker.html" class="tab-link inactive">Initiative</a>
+        <a href="DndMonsterDatabase.html" class="tab-link active">Monster Database</a>
+    </div>
+
+    <section class="panel">
+        <h1>Mii Man's D&D Toolbox</h1>
+        <p class="subhead">Monster Database</p>
+        <p id="databaseStatus" class="database-status">Loading monsters from JSON...</p>
+
+        <div class="controls">
+            <div>
+                <label for="searchInput">Search Monsters</label>
+                <input id="searchInput" type="text" placeholder="Goblin, dragon, undead, legendary...">
+            </div>
+            <div>
+                <label for="typeFilter">Type</label>
+                <select id="typeFilter">
+                    <option value="all">All Types</option>
+                </select>
+            </div>
+            <div>
+                <label for="crFilter">Challenge Rating</label>
+                <select id="crFilter">
+                    <option value="all">All CRs</option>
+                </select>
+            </div>
+            <div>
+                <label for="sourceFilter">Source</label>
+                <select id="sourceFilter">
+                    <option value="all">All Sources</option>
+                </select>
+            </div>
+            <button id="resetFiltersBtn" class="btn" type="button">Reset</button>
+        </div>
+
+        <div class="db-layout">
+            <div class="monster-list">
+                <div id="resultsMeta" class="results-meta"></div>
+                <div id="monsterCards" class="monster-cards"></div>
+            </div>
+
+            <div class="monster-detail">
+                <div id="monsterDetail"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+const MONSTER_DATA_PATH = "img/DndMonsters5e.json";
+
+const searchInput = document.getElementById("searchInput");
+const typeFilter = document.getElementById("typeFilter");
+const crFilter = document.getElementById("crFilter");
+const sourceFilter = document.getElementById("sourceFilter");
+const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+const resultsMeta = document.getElementById("resultsMeta");
+const monsterCards = document.getElementById("monsterCards");
+const monsterDetail = document.getElementById("monsterDetail");
+const databaseStatus = document.getElementById("databaseStatus");
+
+let baseMonsters = [];
+let monsters = [];
+let filteredMonsters = [];
+let selectedMonsterId = "";
+
+function getFieldValue(id) {
+    const node = document.getElementById(id);
+    return node ? node.value.trim() : "";
+}
+
+function splitLines(value) {
+    return value.split("\n").map(function (item) {
+        return item.trim();
+    }).filter(Boolean);
+}
+
+function slugify(value) {
+    return value.toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || `monster-${Date.now()}`;
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function normalizeMonster(monster) {
+    const abilities = monster.abilities || {};
+    return {
+        id: String(monster.id || slugify(monster.name || "monster")),
+        name: monster.name || "Unnamed Monster",
+        size: monster.size || "-",
+        type: monster.type || "-",
+        alignment: monster.alignment || "-",
+        armorClass: Number(monster.armorClass || 0),
+        hitPoints: Number(monster.hitPoints || 0),
+        speed: monster.speed || "-",
+        abilities: {
+            strength: Number(abilities.strength || 0),
+            dexterity: Number(abilities.dexterity || 0),
+            constitution: Number(abilities.constitution || 0),
+            intelligence: Number(abilities.intelligence || 0),
+            wisdom: Number(abilities.wisdom || 0),
+            charisma: Number(abilities.charisma || 0)
+        },
+        challengeRating: String(monster.challengeRating || "0"),
+        traits: Array.isArray(monster.traits) ? monster.traits : splitLines(String(monster.traits || "")),
+        actions: Array.isArray(monster.actions) ? monster.actions : splitLines(String(monster.actions || "")),
+        source: monster.source || "Unknown"
+    };
+}
+
+function syncMonsterList() {
+    monsters = [...baseMonsters].sort(function (a, b) {
+        return a.name.localeCompare(b.name, undefined, { numeric: true });
+    });
+}
+
+function uniqueValues(key) {
+    return [...new Set(monsters.map(function (monster) {
+        return monster[key];
+    }))].sort(function (a, b) {
+        return a.localeCompare(b, undefined, { numeric: true });
+    });
+}
+
+function populateFilter(selectNode, key, label) {
+    uniqueValues(key).forEach(function (value) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = `${label}: ${value}`;
+        selectNode.appendChild(option);
+    });
+}
+
+function rebuildFilters() {
+    typeFilter.innerHTML = '<option value="all">All Types</option>';
+    crFilter.innerHTML = '<option value="all">All CRs</option>';
+    sourceFilter.innerHTML = '<option value="all">All Sources</option>';
+    populateFilter(typeFilter, "type", "Type");
+    populateFilter(crFilter, "challengeRating", "CR");
+    populateFilter(sourceFilter, "source", "Source");
+}
+
+function matchesFilters(monster) {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const searchHaystack = [
+        monster.id,
+        monster.name,
+        monster.type,
+        monster.alignment,
+        monster.challengeRating,
+        monster.source,
+        monster.traits.join(" "),
+        monster.actions.join(" ")
+    ].join(" ").toLowerCase();
+
+    const matchesSearch = !searchTerm || searchHaystack.includes(searchTerm);
+    const matchesType = typeFilter.value === "all" || monster.type === typeFilter.value;
+    const matchesCr = crFilter.value === "all" || monster.challengeRating === crFilter.value;
+    const matchesSource = sourceFilter.value === "all" || monster.source === sourceFilter.value;
+
+    return matchesSearch && matchesType && matchesCr && matchesSource;
+}
+
+function renderMonsterCards() {
+    monsterCards.innerHTML = "";
+
+    if (!filteredMonsters.length) {
+        monsterCards.innerHTML = '<div class="empty-state">No monsters match those filters yet.</div>';
+        monsterDetail.innerHTML = '<div class="empty-state">Try broadening the search to see monster details.</div>';
+        resultsMeta.textContent = "0 monsters found";
+        return;
+    }
+
+    resultsMeta.textContent = `${filteredMonsters.length} monster${filteredMonsters.length === 1 ? "" : "s"} found`;
+
+    filteredMonsters.forEach(function (monster) {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = `monster-card${monster.id === selectedMonsterId ? " active" : ""}`;
+        card.innerHTML = `
+            <div class="monster-card-top">
+                <h2 class="monster-name">${escapeHtml(monster.name)}</h2>
+                <span class="pill">CR ${escapeHtml(monster.challengeRating)}</span>
+            </div>
+            <p class="monster-meta">${escapeHtml(monster.size)} ${escapeHtml(monster.type)}, ${escapeHtml(monster.alignment)}</p>
+            <div class="pill-row">
+                <span class="pill">${escapeHtml(monster.source)}</span>
+                <span class="pill">AC ${monster.armorClass}</span>
+                <span class="pill">HP ${monster.hitPoints}</span>
+            </div>
+        `;
+        card.addEventListener("click", function () {
+            selectedMonsterId = monster.id;
+            renderMonsterCards();
+            renderMonsterDetail();
+        });
+        monsterCards.appendChild(card);
+    });
+}
+
+function renderMonsterDetail() {
+    const selectedMonster = filteredMonsters.find(function (monster) {
+        return monster.id === selectedMonsterId;
+    }) || filteredMonsters[0];
+
+    if (!selectedMonster) {
+        monsterDetail.innerHTML = '<div class="empty-state">No monster selected.</div>';
+        return;
+    }
+
+    selectedMonsterId = selectedMonster.id;
+
+    monsterDetail.innerHTML = `
+        <div class="detail-top">
+            <div>
+                <h2 class="detail-name">${escapeHtml(selectedMonster.name)}</h2>
+                <p class="detail-meta">${escapeHtml(selectedMonster.size)} ${escapeHtml(selectedMonster.type)}, ${escapeHtml(selectedMonster.alignment)}</p>
+            </div>
+            <span class="pill">CR ${escapeHtml(selectedMonster.challengeRating)}</span>
+        </div>
+
+        <div class="pill-row">
+            <span class="pill">${escapeHtml(selectedMonster.source)}</span>
+            <span class="pill">ID ${escapeHtml(selectedMonster.id)}</span>
+        </div>
+
+        <div class="detail-grid">
+            <div class="stat-box"><span class="stat-label">Armor Class</span><div class="stat-value">${selectedMonster.armorClass}</div></div>
+            <div class="stat-box"><span class="stat-label">Hit Points</span><div class="stat-value">${selectedMonster.hitPoints}</div></div>
+            <div class="stat-box"><span class="stat-label">Speed</span><div class="stat-value">${escapeHtml(selectedMonster.speed)}</div></div>
+            <div class="stat-box"><span class="stat-label">Challenge Rating</span><div class="stat-value">${escapeHtml(selectedMonster.challengeRating)}</div></div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="stat-box"><span class="stat-label">STR</span><div class="stat-value">${selectedMonster.abilities.strength}</div></div>
+            <div class="stat-box"><span class="stat-label">DEX</span><div class="stat-value">${selectedMonster.abilities.dexterity}</div></div>
+            <div class="stat-box"><span class="stat-label">CON</span><div class="stat-value">${selectedMonster.abilities.constitution}</div></div>
+            <div class="stat-box"><span class="stat-label">INT</span><div class="stat-value">${selectedMonster.abilities.intelligence}</div></div>
+            <div class="stat-box"><span class="stat-label">WIS</span><div class="stat-value">${selectedMonster.abilities.wisdom}</div></div>
+            <div class="stat-box"><span class="stat-label">CHA</span><div class="stat-value">${selectedMonster.abilities.charisma}</div></div>
+        </div>
+
+        <h3 class="section-title">Traits</h3>
+        <p class="detail-text">${selectedMonster.traits.length ? selectedMonster.traits.map(escapeHtml).join("<br><br>") : "-"}</p>
+
+        <h3 class="section-title">Actions</h3>
+        <p class="detail-text">${selectedMonster.actions.length ? selectedMonster.actions.map(escapeHtml).join("<br><br>") : "-"}</p>
+    `;
+}
+
+function applyFilters() {
+    filteredMonsters = monsters.filter(matchesFilters);
+    if (!filteredMonsters.some(function (monster) { return monster.id === selectedMonsterId; })) {
+        selectedMonsterId = filteredMonsters[0] ? filteredMonsters[0].id : "";
+    }
+    renderMonsterCards();
+    renderMonsterDetail();
+}
+
+function resetFilters() {
+    searchInput.value = "";
+    typeFilter.value = "all";
+    crFilter.value = "all";
+    sourceFilter.value = "all";
+    applyFilters();
+}
+
+async function loadMonsterData() {
+    try {
+        const response = await fetch(MONSTER_DATA_PATH);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        baseMonsters = Array.isArray(data) ? data.map(normalizeMonster) : [];
+        syncMonsterList();
+        rebuildFilters();
+        selectedMonsterId = monsters[0] ? monsters[0].id : "";
+        databaseStatus.textContent = `Loaded ${baseMonsters.length} 5E monsters from ${MONSTER_DATA_PATH}. Duplicate an entry in img/DndMonsterTemplate.json to add more in code.`;
+        databaseStatus.classList.remove("error");
+        applyFilters();
+    } catch (error) {
+        baseMonsters = [];
+        syncMonsterList();
+        rebuildFilters();
+        selectedMonsterId = monsters[0] ? monsters[0].id : "";
+        databaseStatus.textContent = "Could not load img/DndMonsters5e.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
+        databaseStatus.classList.add("error");
+        applyFilters();
+    }
+}
+
+searchInput.addEventListener("input", applyFilters);
+typeFilter.addEventListener("change", applyFilters);
+crFilter.addEventListener("change", applyFilters);
+sourceFilter.addEventListener("change", applyFilters);
+resetFiltersBtn.addEventListener("click", resetFilters);
+
+loadMonsterData();
+</script>
+</body>
+</html>
