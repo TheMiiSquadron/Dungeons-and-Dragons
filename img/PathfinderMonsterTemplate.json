@@ -1,0 +1,28 @@
+[
+  {
+    "id": "new-monster-id",
+    "name": "New Monster Name",
+    "size": "Medium",
+    "type": "Humanoid",
+    "alignment": "Neutral",
+    "armorClass": 10,
+    "hitPoints": 10,
+    "speed": "30 ft",
+    "abilities": {
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "challengeRating": "1",
+    "traits": [
+      "First trait."
+    ],
+    "actions": [
+      "First action."
+    ],
+    "source": "Bestiary 1"
+  }
+]

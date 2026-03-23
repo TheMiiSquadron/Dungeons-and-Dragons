@@ -1,0 +1,4436 @@
+/* Shared stylesheet for D&D and Pathfinder toolbox pages. */
+
+/* DndCharacterSheetCreator.html */
+html.page-dnd-character-sheet-creator {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2d6a54;
+            --button-hover: #3c8a6e;
+            --button-secondary: #5c506f;
+            --button-secondary-hover: #72648a;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-character-sheet-creator * {
+box-sizing: border-box;
+}
+
+html.page-dnd-character-sheet-creator body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-character-sheet-creator .app {
+width: min(920px, 100%);
+}
+
+html.page-dnd-character-sheet-creator .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-character-sheet-creator .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-character-sheet-creator .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-dnd-character-sheet-creator .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-dnd-character-sheet-creator .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-dnd-character-sheet-creator .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-dnd-character-sheet-creator .tab-link.inactive {
+color: var(--muted);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-character-sheet-creator .tab-link.inactive:hover {
+background: rgba(29, 22, 41, 0.98);
+            color: var(--text);
+}
+
+html.page-dnd-character-sheet-creator .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-character-sheet-creator h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-character-sheet-creator .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-character-sheet-creator .grid-two {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+}
+
+html.page-dnd-character-sheet-creator .grid-six {
+display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+}
+
+html.page-dnd-character-sheet-creator .input-group {
+margin-bottom: 12px;
+}
+
+html.page-dnd-character-sheet-creator label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-character-sheet-creator input,
+html.page-dnd-character-sheet-creator textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-character-sheet-creator input:focus,
+html.page-dnd-character-sheet-creator textarea:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-character-sheet-creator textarea {
+resize: vertical;
+            min-height: 92px;
+}
+
+html.page-dnd-character-sheet-creator .sheet-output {
+min-height: 210px;
+            font-family: monospace;
+            white-space: pre;
+}
+
+html.page-dnd-character-sheet-creator .button-row {
+display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+}
+
+html.page-dnd-character-sheet-creator .creator-mode-tabs {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+}
+
+html.page-dnd-character-sheet-creator .creator-mode-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--muted);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+}
+
+html.page-dnd-character-sheet-creator .creator-mode-btn.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+            border-color: var(--ui-border);
+}
+
+html.page-dnd-character-sheet-creator .creator-panel {
+display: none;
+}
+
+html.page-dnd-character-sheet-creator .creator-panel.active {
+display: block;
+}
+
+html.page-dnd-character-sheet-creator .btn {
+border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-dnd-character-sheet-creator .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-character-sheet-creator .btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-character-sheet-creator .btn-primary {
+background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-dnd-character-sheet-creator .btn-secondary {
+background: linear-gradient(180deg, var(--button-secondary-hover), var(--button-secondary));
+}
+
+html.page-dnd-character-sheet-creator .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-character-sheet-creator .upload-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-dnd-character-sheet-creator .upload-actions {
+display: flex;
+            gap: 8px;
+            margin-top: 8px;
+}
+
+html.page-dnd-character-sheet-creator .upload-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+}
+
+html.page-dnd-character-sheet-creator .upload-card {
+border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(7, 7, 12, 0.55);
+            overflow: hidden;
+}
+
+html.page-dnd-character-sheet-creator .upload-card img {
+display: block;
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            background: rgba(0, 0, 0, 0.35);
+}
+
+html.page-dnd-character-sheet-creator .upload-meta {
+padding: 8px;
+            font-size: 11px;
+            color: var(--muted);
+            word-break: break-word;
+}
+
+html.page-dnd-character-sheet-creator .upload-remove {
+width: 100%;
+            border: none;
+            border-top: 1px solid var(--ui-border);
+            background: rgba(248, 113, 113, 0.2);
+            color: #ffd2d2;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-dnd-character-sheet-creator .upload-empty {
+margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox {
+position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 24px;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox.open {
+display: flex;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox-content {
+max-width: min(95vw, 1200px);
+            max-height: 90vh;
+            display: grid;
+            gap: 10px;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox-stage {
+display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox img {
+max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+}
+
+html.page-dnd-character-sheet-creator .image-nav-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 999px;
+            width: 38px;
+            height: 38px;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+}
+
+html.page-dnd-character-sheet-creator .image-nav-btn:disabled {
+opacity: 0.35;
+            cursor: not-allowed;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox-meta {
+color: #e8ddb9;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-character-sheet-creator .image-lightbox-close {
+justify-self: center;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-dnd-character-sheet-creator .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-dnd-character-sheet-creator .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-dnd-character-sheet-creator .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-dnd-character-sheet-creator .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-character-sheet-creator .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-dnd-character-sheet-creator .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-dnd-character-sheet-creator .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 860px) {
+html.page-dnd-character-sheet-creator .grid-six {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+@media (max-width: 640px) {
+html.page-dnd-character-sheet-creator .panel {
+padding: 16px;
+}
+
+html.page-dnd-character-sheet-creator .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-character-sheet-creator .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-dnd-character-sheet-creator .grid-two,
+html.page-dnd-character-sheet-creator .button-row {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-character-sheet-creator .grid-six {
+grid-template-columns: repeat(2, 1fr);
+}
+
+html.page-dnd-character-sheet-creator .theme-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-character-sheet-creator .upload-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* DndCoinConverter.html */
+html.page-dnd-coin-converter {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2f4f7b;
+            --button-hover: #3e689f;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-coin-converter * {
+box-sizing: border-box;
+}
+
+html.page-dnd-coin-converter body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-coin-converter .app {
+width: min(740px, 100%);
+}
+
+html.page-dnd-coin-converter .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-coin-converter .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-coin-converter .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-dnd-coin-converter .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-dnd-coin-converter .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-dnd-coin-converter .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-dnd-coin-converter .tab-link.inactive {
+color: var(--muted);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-coin-converter .tab-link.inactive:hover {
+background: rgba(29, 22, 41, 0.98);
+            color: var(--text);
+}
+
+html.page-dnd-coin-converter .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-coin-converter h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-coin-converter .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-coin-converter .grid {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+}
+
+html.page-dnd-coin-converter .input-group {
+margin-bottom: 12px;
+}
+
+html.page-dnd-coin-converter label {
+display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-coin-converter input,
+html.page-dnd-coin-converter select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-coin-converter input:focus,
+html.page-dnd-coin-converter select:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-coin-converter .convert-btn {
+border: none;
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #e3efff;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-dnd-coin-converter .convert-btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-coin-converter .convert-btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-coin-converter textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+            color: #f6f1e7;
+            width: 100%;
+            height: 120px;
+            resize: none;
+            margin-top: 14px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 15px;
+            border-radius: 10px;
+}
+
+html.page-dnd-coin-converter .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-coin-converter .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-dnd-coin-converter .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-dnd-coin-converter .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-dnd-coin-converter .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-coin-converter .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-dnd-coin-converter .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-dnd-coin-converter .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 600px) {
+html.page-dnd-coin-converter .panel {
+padding: 16px;
+}
+
+html.page-dnd-coin-converter .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-coin-converter .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-dnd-coin-converter .grid {
+grid-template-columns: 1fr;
+                gap: 0;
+}
+
+html.page-dnd-coin-converter .theme-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* DndDiceRoller.html */
+html.page-dnd-dice-roller {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #7b2d2d;
+            --button-hover: #993c3c;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-dice-roller * {
+box-sizing: border-box;
+}
+
+html.page-dnd-dice-roller body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-dice-roller .app {
+width: min(740px, 100%);
+}
+
+html.page-dnd-dice-roller .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-dice-roller .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-dice-roller .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-dnd-dice-roller .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-dnd-dice-roller .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-dnd-dice-roller .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-dnd-dice-roller .tab-link.inactive {
+color: var(--muted);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-dice-roller .tab-link.inactive:hover {
+background: rgba(29, 22, 41, 0.98);
+            color: var(--text);
+}
+
+html.page-dnd-dice-roller .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-dice-roller h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-dice-roller .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-dice-roller label {
+display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-dice-roller input[type="text"] {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-dice-roller input[type="text"]:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-dice-roller .quick-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 14px;
+}
+
+html.page-dnd-dice-roller .mode-row {
+display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-dice-roller .settings-grid {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 8px;
+}
+
+html.page-dnd-dice-roller .settings-grid label {
+margin-bottom: 6px;
+}
+
+html.page-dnd-dice-roller .color-select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-dice-roller .color-select:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-dice-roller .dc-input {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-dice-roller .dc-input:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-dice-roller .dc-input::placeholder {
+color: #a99874;
+}
+
+html.page-dnd-dice-roller .dc-outcome {
+margin-top: 10px;
+            min-height: 30px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.55);
+}
+
+html.page-dnd-dice-roller .dc-outcome.show {
+animation: dc-flicker 2.25s linear 3;
+}
+
+html.page-dnd-dice-roller .dc-outcome.success {
+color: #65f39a;
+            text-shadow: 0 0 14px rgba(60, 190, 106, 0.65);
+}
+
+html.page-dnd-dice-roller .dc-outcome.failure {
+color: #ff7d7d;
+            text-shadow: 0 0 14px rgba(201, 66, 66, 0.65);
+}
+
+html.page-dnd-dice-roller .dc-outcome.impossible {
+color: #a855f7;
+            text-shadow: 0 0 14px rgba(97, 28, 161, 0.8);
+}
+
+@keyframes dc-flicker {
+0%, 14%, 32%, 50%, 68%, 86%, 100% { opacity: 1; }
+            8%, 24%, 42%, 60%, 78%, 94% { opacity: 0.15; }
+}
+
+html.page-dnd-dice-roller .custom-color-wrap {
+margin-top: 8px;
+            display: none;
+}
+
+html.page-dnd-dice-roller .custom-color-wrap.show {
+display: block;
+}
+
+html.page-dnd-dice-roller .custom-color-wrap label {
+margin-bottom: 4px;
+            font-size: 11px;
+}
+
+html.page-dnd-dice-roller .custom-color-wrap input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-dnd-dice-roller .mode-option input[type="radio"] {
+position: absolute;
+            opacity: 0;
+            pointer-events: none;
+}
+
+html.page-dnd-dice-roller .mode-label {
+display: block;
+            text-align: center;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+html.page-dnd-dice-roller .mode-option input[type="radio"]:checked + .mode-label {
+background: rgba(240, 184, 75, 0.2);
+            color: var(--accent-2);
+            border-color: var(--ui-border);
+}
+
+html.page-dnd-dice-roller .mode-option input[value="advantage"]:checked + .mode-label {
+background: rgba(74, 222, 128, 0.2);
+            color: #b9ffcf;
+            border-color: rgba(74, 222, 128, 0.8);
+            box-shadow: 0 0 14px rgba(74, 222, 128, 0.45);
+}
+
+html.page-dnd-dice-roller .mode-option input[value="disadvantage"]:checked + .mode-label {
+background: rgba(248, 113, 113, 0.2);
+            color: #ffc4c4;
+            border-color: rgba(248, 113, 113, 0.8);
+            box-shadow: 0 0 14px rgba(248, 113, 113, 0.45);
+}
+
+html.page-dnd-dice-roller .quick-btn {
+color: var(--text);
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.08s ease, background 0.15s ease;
+}
+
+html.page-dnd-dice-roller .quick-btn:hover {
+background: rgba(34, 24, 49, 0.95);
+}
+
+html.page-dnd-dice-roller .quick-btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-dice-roller textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+            color: #ffffff;
+            width: 100%;
+            height: 220px;
+            resize: none;
+            margin-top: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 10px;
+}
+
+html.page-dnd-dice-roller .roll-btn {
+border: none;
+            width: 100%;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #ffe7c4;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-dnd-dice-roller .roll-btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-dice-roller .roll-btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-dice-roller .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-dice-roller .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-dnd-dice-roller .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-dnd-dice-roller .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-dnd-dice-roller .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-dice-roller .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-dnd-dice-roller .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-dnd-dice-roller .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-dnd-dice-roller .preset-box {
+margin-top: 12px;
+            border-top: 1px solid rgba(255, 223, 149, 0.2);
+            padding-top: 10px;
+}
+
+html.page-dnd-dice-roller .preset-title {
+margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-dice-roller .preset-row {
+display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 8px;
+}
+
+html.page-dnd-dice-roller .preset-name {
+margin-top: 8px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            outline: none;
+}
+
+html.page-dnd-dice-roller .preset-select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            outline: none;
+}
+
+html.page-dnd-dice-roller .preset-status {
+margin: 8px 0 0;
+            min-height: 16px;
+            font-size: 11px;
+            color: var(--muted);
+}
+
+html.page-dnd-dice-roller .preset-status.error {
+color: #ffb1b1;
+}
+
+@media (max-width: 600px) {
+html.page-dnd-dice-roller .panel {
+padding: 16px;
+}
+
+html.page-dnd-dice-roller .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-dice-roller .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-dnd-dice-roller .settings-grid {
+grid-template-columns: 1fr;
+                gap: 6px;
+}
+
+html.page-dnd-dice-roller .theme-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-dice-roller .preset-row {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-dice-roller textarea {
+height: 180px;
+}
+}
+
+/* DndIndex.html */
+html.page-dnd-index body {
+font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+}
+
+html.page-dnd-index .container {
+width: 500px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px 20px 20px 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+}
+
+html.page-dnd-index h1 {
+font-size: 24px;
+            margin-bottom: 20px;
+}
+
+html.page-dnd-index .mode-switcher {
+display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+}
+
+html.page-dnd-index .mode-label {
+font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: bold;
+}
+
+html.page-dnd-index .mode-select {
+padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #c8c8c8;
+            background: white;
+}
+
+html.page-dnd-index .tool-list {
+display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 30px;
+}
+
+html.page-dnd-index .tool-link {
+display: block;
+            padding: 16px;
+            background: #f4f4f4;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+}
+
+html.page-dnd-index .tool-link:hover {
+background: #e0eaff;
+}
+
+/* DndInitiativeTracker.html */
+html.page-dnd-initiative-tracker {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #7b2d2d;
+            --button-hover: #993c3c;
+            --button-secondary: #5c506f;
+            --button-secondary-hover: #72648a;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-initiative-tracker * {
+box-sizing: border-box;
+}
+
+html.page-dnd-initiative-tracker body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-initiative-tracker .app {
+width: min(980px, 100%);
+}
+
+html.page-dnd-initiative-tracker .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-dnd-initiative-tracker .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-initiative-tracker .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-initiative-tracker .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-dnd-initiative-tracker .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 12px 8px;
+            font-size: 13px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-dnd-initiative-tracker .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-dnd-initiative-tracker .tab-link.inactive {
+color: var(--muted);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-initiative-tracker .tab-link.inactive:hover {
+background: rgba(29, 22, 41, 0.98);
+            color: var(--text);
+}
+
+html.page-dnd-initiative-tracker .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-initiative-tracker h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-initiative-tracker .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-initiative-tracker .grid-add {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: end;
+}
+
+html.page-dnd-initiative-tracker .input-group {
+margin-bottom: 10px;
+}
+
+html.page-dnd-initiative-tracker label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-initiative-tracker input {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-initiative-tracker input:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-initiative-tracker .btn {
+border: none;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-dnd-initiative-tracker .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-initiative-tracker .btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-initiative-tracker .btn-primary {
+background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-dnd-initiative-tracker .btn-secondary {
+background: linear-gradient(180deg, var(--button-secondary-hover), var(--button-secondary));
+}
+
+html.page-dnd-initiative-tracker .actions {
+display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+}
+
+html.page-dnd-initiative-tracker .turn-banner {
+border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.6);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            color: var(--accent-2);
+            font-weight: 700;
+}
+
+html.page-dnd-initiative-tracker .initiative-list {
+display: grid;
+            gap: 8px;
+}
+
+html.page-dnd-initiative-tracker .entry {
+display: grid;
+            grid-template-columns: 58px 2fr 120px 180px 90px;
+            gap: 8px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            border-radius: 10px;
+            padding: 8px;
+            align-items: center;
+}
+
+html.page-dnd-initiative-tracker .entry.active {
+border-color: rgba(74, 222, 128, 0.9);
+            box-shadow: 0 0 12px rgba(74, 222, 128, 0.35);
+            background: rgba(30, 63, 47, 0.3);
+}
+
+html.page-dnd-initiative-tracker .init-pill {
+text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--accent-2);
+}
+
+html.page-dnd-initiative-tracker .name-col {
+font-size: 14px;
+            font-weight: 700;
+}
+
+html.page-dnd-initiative-tracker .hp-col {
+font-size: 13px;
+            color: var(--muted);
+}
+
+html.page-dnd-initiative-tracker .hp-text {
+margin-bottom: 6px;
+}
+
+html.page-dnd-initiative-tracker .hp-bar {
+width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            border: 1px solid var(--ui-border);
+            background: rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+}
+
+html.page-dnd-initiative-tracker .hp-fill {
+height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #49d17b, #92f0b5);
+            transition: width 0.2s ease, filter 0.2s ease;
+}
+
+html.page-dnd-initiative-tracker .hp-fill.bloodied {
+background: linear-gradient(90deg, #d18f49, #f2bd75);
+            filter: saturate(1.1);
+}
+
+html.page-dnd-initiative-tracker .hp-fill.dead {
+background: linear-gradient(90deg, #8a3232, #b44949);
+            filter: saturate(0.9);
+}
+
+html.page-dnd-initiative-tracker .hp-actions {
+display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 6px;
+            align-items: center;
+}
+
+html.page-dnd-initiative-tracker .hp-actions input {
+padding: 7px 8px;
+            font-size: 13px;
+}
+
+html.page-dnd-initiative-tracker .small-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.85);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-dnd-initiative-tracker .remove-btn {
+border: 1px solid rgba(248, 113, 113, 0.7);
+            background: rgba(248, 113, 113, 0.2);
+            color: #ffd2d2;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-dnd-initiative-tracker .empty {
+color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+            padding: 16px;
+            border: 1px dashed var(--ui-border);
+            border-radius: 10px;
+}
+
+html.page-dnd-initiative-tracker .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-initiative-tracker .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-dnd-initiative-tracker .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-dnd-initiative-tracker .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-dnd-initiative-tracker .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-initiative-tracker .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-dnd-initiative-tracker .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-dnd-initiative-tracker .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 900px) {
+html.page-dnd-initiative-tracker .entry {
+grid-template-columns: 52px 1fr;
+                gap: 8px;
+}
+
+html.page-dnd-initiative-tracker .hp-col,
+html.page-dnd-initiative-tracker .hp-actions,
+html.page-dnd-initiative-tracker .remove-wrap {
+grid-column: 1 / -1;
+}
+
+html.page-dnd-initiative-tracker .grid-add {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-initiative-tracker .grid-add .add-submit {
+grid-column: 1 / -1;
+}
+}
+
+@media (max-width: 640px) {
+html.page-dnd-initiative-tracker .panel {
+padding: 16px;
+}
+
+html.page-dnd-initiative-tracker .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-initiative-tracker .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-dnd-initiative-tracker .grid-add {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-initiative-tracker .theme-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* DndMonsterDatabase.html */
+html.page-dnd-monster-database {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2d6a54;
+            --button-hover: #3c8a6e;
+            --button-secondary: #5c506f;
+            --button-secondary-hover: #72648a;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-monster-database * {
+box-sizing: border-box;
+}
+
+html.page-dnd-monster-database body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-monster-database .app {
+width: min(1120px, 100%);
+}
+
+html.page-dnd-monster-database .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-monster-database .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-monster-database .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-dnd-monster-database .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-dnd-monster-database .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-dnd-monster-database .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-dnd-monster-database .tab-link.inactive {
+color: var(--muted);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-monster-database .tab-link.inactive:hover {
+background: rgba(29, 22, 41, 0.98);
+            color: var(--text);
+}
+
+html.page-dnd-monster-database .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-monster-database h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-monster-database .subhead {
+margin: 0 0 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-monster-database .controls {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 16px;
+}
+
+html.page-dnd-monster-database label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-monster-database input,
+html.page-dnd-monster-database select,
+html.page-dnd-monster-database textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-monster-database input:focus,
+html.page-dnd-monster-database select:focus,
+html.page-dnd-monster-database textarea:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-monster-database textarea {
+min-height: 92px;
+            resize: vertical;
+}
+
+html.page-dnd-monster-database .btn {
+align-self: end;
+            border: none;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-dnd-monster-database .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-monster-database .btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-monster-database .db-layout {
+display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 16px;
+}
+
+html.page-dnd-monster-database .monster-list,
+html.page-dnd-monster-database .monster-detail {
+border: 1px solid var(--ui-border);
+            border-radius: 14px;
+            background: rgba(14, 10, 20, 0.72);
+            padding: 14px;
+}
+
+html.page-dnd-monster-database .results-meta {
+margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 13px;
+}
+
+html.page-dnd-monster-database .monster-cards {
+display: grid;
+            gap: 10px;
+            max-height: 620px;
+            overflow-y: auto;
+            padding-right: 4px;
+}
+
+html.page-dnd-monster-database .monster-card {
+border: 1px solid rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            transition: border-color 0.15s ease, transform 0.12s ease, background 0.15s ease;
+}
+
+html.page-dnd-monster-database .monster-card:hover {
+transform: translateY(-1px);
+            border-color: rgba(255, 223, 149, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+}
+
+html.page-dnd-monster-database .monster-card.active {
+border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(240, 184, 75, 0.16);
+            background: rgba(240, 184, 75, 0.08);
+}
+
+html.page-dnd-monster-database .monster-card-top,
+html.page-dnd-monster-database .detail-top {
+display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: baseline;
+}
+
+html.page-dnd-monster-database .monster-name,
+html.page-dnd-monster-database .detail-name {
+margin: 0;
+            font-size: 20px;
+            color: var(--accent-2);
+            font-family: Georgia, "Times New Roman", serif;
+}
+
+html.page-dnd-monster-database .monster-meta,
+html.page-dnd-monster-database .detail-meta {
+margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            font-style: italic;
+}
+
+html.page-dnd-monster-database .pill-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+}
+
+html.page-dnd-monster-database .pill {
+padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 223, 149, 0.08);
+            border: 1px solid rgba(255, 223, 149, 0.18);
+            color: var(--text);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-monster-database .detail-grid {
+display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+}
+
+html.page-dnd-monster-database .stat-box {
+border: 1px solid rgba(255, 223, 149, 0.18);
+            border-radius: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+}
+
+html.page-dnd-monster-database .stat-label {
+display: block;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-monster-database .stat-value {
+font-size: 15px;
+            font-weight: 700;
+}
+
+html.page-dnd-monster-database .section-title {
+margin: 16px 0 8px;
+            color: var(--accent);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-monster-database .detail-text {
+margin: 0;
+            line-height: 1.5;
+            color: var(--text);
+}
+
+html.page-dnd-monster-database .empty-state {
+padding: 24px 16px;
+            text-align: center;
+            color: var(--muted);
+            border: 1px dashed rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
+}
+
+html.page-dnd-monster-database .database-status {
+margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+}
+
+html.page-dnd-monster-database .database-status.error {
+color: #ffb0a6;
+}
+
+@media (max-width: 900px) {
+html.page-dnd-monster-database .controls,
+html.page-dnd-monster-database .db-layout {
+grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 640px) {
+html.page-dnd-monster-database .panel {
+padding: 16px;
+}
+
+html.page-dnd-monster-database .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-monster-database .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-dnd-monster-database .detail-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* PathfinderCharacterSheetCreator.html */
+html.page-pathfinder-character-sheet-creator {
+--bg-1: #10233d;
+            --bg-2: #09111f;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2d6a54;
+            --button-hover: #3c8a6e;
+            --button-secondary: #2c4f73;
+            --button-secondary-hover: #3c6a99;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-pathfinder-character-sheet-creator * {
+box-sizing: border-box;
+}
+
+html.page-pathfinder-character-sheet-creator body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-pathfinder-character-sheet-creator .app {
+width: min(920px, 100%);
+}
+
+html.page-pathfinder-character-sheet-creator .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-character-sheet-creator .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-pathfinder-character-sheet-creator .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-pathfinder-character-sheet-creator .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-pathfinder-character-sheet-creator .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-pathfinder-character-sheet-creator .tab-link.inactive {
+color: var(--muted);
+            background: rgba(10, 24, 40, 0.95);
+}
+
+html.page-pathfinder-character-sheet-creator .tab-link.inactive:hover {
+background: rgba(18, 42, 68, 0.98);
+            color: var(--text);
+}
+
+html.page-pathfinder-character-sheet-creator .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-pathfinder-character-sheet-creator h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-character-sheet-creator .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-character-sheet-creator .grid-two {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+}
+
+html.page-pathfinder-character-sheet-creator .grid-six {
+display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+}
+
+html.page-pathfinder-character-sheet-creator .input-group {
+margin-bottom: 12px;
+}
+
+html.page-pathfinder-character-sheet-creator label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-character-sheet-creator input,
+html.page-pathfinder-character-sheet-creator textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-character-sheet-creator input:focus,
+html.page-pathfinder-character-sheet-creator textarea:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-character-sheet-creator textarea {
+resize: vertical;
+            min-height: 92px;
+}
+
+html.page-pathfinder-character-sheet-creator .sheet-output {
+min-height: 210px;
+            font-family: monospace;
+            white-space: pre;
+}
+
+html.page-pathfinder-character-sheet-creator .button-row {
+display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .creator-mode-tabs {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+}
+
+html.page-pathfinder-character-sheet-creator .creator-mode-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--muted);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+}
+
+html.page-pathfinder-character-sheet-creator .creator-mode-btn.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+            border-color: var(--ui-border);
+}
+
+html.page-pathfinder-character-sheet-creator .creator-panel {
+display: none;
+}
+
+html.page-pathfinder-character-sheet-creator .creator-panel.active {
+display: block;
+}
+
+html.page-pathfinder-character-sheet-creator .btn {
+border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-pathfinder-character-sheet-creator .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-pathfinder-character-sheet-creator .btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-character-sheet-creator .btn-primary {
+background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-pathfinder-character-sheet-creator .btn-secondary {
+background: linear-gradient(180deg, var(--button-secondary-hover), var(--button-secondary));
+}
+
+html.page-pathfinder-character-sheet-creator .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-actions {
+display: flex;
+            gap: 8px;
+            margin-top: 8px;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-card {
+border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(7, 7, 12, 0.55);
+            overflow: hidden;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-card img {
+display: block;
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            background: rgba(0, 0, 0, 0.35);
+}
+
+html.page-pathfinder-character-sheet-creator .upload-meta {
+padding: 8px;
+            font-size: 11px;
+            color: var(--muted);
+            word-break: break-word;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-remove {
+width: 100%;
+            border: none;
+            border-top: 1px solid var(--ui-border);
+            background: rgba(248, 113, 113, 0.2);
+            color: #ffd2d2;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-empty {
+margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox {
+position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 24px;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox.open {
+display: flex;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox-content {
+max-width: min(95vw, 1200px);
+            max-height: 90vh;
+            display: grid;
+            gap: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox-stage {
+display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox img {
+max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+}
+
+html.page-pathfinder-character-sheet-creator .image-nav-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 999px;
+            width: 38px;
+            height: 38px;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+}
+
+html.page-pathfinder-character-sheet-creator .image-nav-btn:disabled {
+opacity: 0.35;
+            cursor: not-allowed;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox-meta {
+color: #e8ddb9;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-pathfinder-character-sheet-creator .image-lightbox-close {
+justify-self: center;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-pathfinder-character-sheet-creator .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 860px) {
+html.page-pathfinder-character-sheet-creator .grid-six {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+@media (max-width: 640px) {
+html.page-pathfinder-character-sheet-creator .panel {
+padding: 16px;
+}
+
+html.page-pathfinder-character-sheet-creator .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-character-sheet-creator .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-pathfinder-character-sheet-creator .grid-two,
+html.page-pathfinder-character-sheet-creator .button-row {
+grid-template-columns: 1fr;
+}
+
+html.page-pathfinder-character-sheet-creator .grid-six {
+grid-template-columns: repeat(2, 1fr);
+}
+
+html.page-pathfinder-character-sheet-creator .theme-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-pathfinder-character-sheet-creator .upload-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* PathfinderCoinConverter.html */
+html.page-pathfinder-coin-converter {
+--bg-1: #10233d;
+            --bg-2: #09111f;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2f4f7b;
+            --button-hover: #3e689f;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-pathfinder-coin-converter * {
+box-sizing: border-box;
+}
+
+html.page-pathfinder-coin-converter body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-pathfinder-coin-converter .app {
+width: min(740px, 100%);
+}
+
+html.page-pathfinder-coin-converter .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-coin-converter .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-coin-converter .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-pathfinder-coin-converter .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-pathfinder-coin-converter .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-pathfinder-coin-converter .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-pathfinder-coin-converter .tab-link.inactive {
+color: var(--muted);
+            background: rgba(10, 24, 40, 0.95);
+}
+
+html.page-pathfinder-coin-converter .tab-link.inactive:hover {
+background: rgba(18, 42, 68, 0.98);
+            color: var(--text);
+}
+
+html.page-pathfinder-coin-converter .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-pathfinder-coin-converter h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-coin-converter .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-coin-converter .grid {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+}
+
+html.page-pathfinder-coin-converter .input-group {
+margin-bottom: 12px;
+}
+
+html.page-pathfinder-coin-converter label {
+display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-coin-converter input,
+html.page-pathfinder-coin-converter select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-coin-converter input:focus,
+html.page-pathfinder-coin-converter select:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-coin-converter .convert-btn {
+border: none;
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #e3efff;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-pathfinder-coin-converter .convert-btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-pathfinder-coin-converter .convert-btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-coin-converter textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+            color: #f6f1e7;
+            width: 100%;
+            height: 120px;
+            resize: none;
+            margin-top: 14px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 15px;
+            border-radius: 10px;
+}
+
+html.page-pathfinder-coin-converter .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-pathfinder-coin-converter .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-pathfinder-coin-converter .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-pathfinder-coin-converter .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-pathfinder-coin-converter .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-pathfinder-coin-converter .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-pathfinder-coin-converter .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-pathfinder-coin-converter .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 600px) {
+html.page-pathfinder-coin-converter .panel {
+padding: 16px;
+}
+
+html.page-pathfinder-coin-converter .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-coin-converter .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-pathfinder-coin-converter .grid {
+grid-template-columns: 1fr;
+                gap: 0;
+}
+
+html.page-pathfinder-coin-converter .theme-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* PathfinderDiceRoller.html */
+html.page-pathfinder-dice-roller {
+--bg-1: #10233d;
+            --bg-2: #09111f;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #7b2d2d;
+            --button-hover: #993c3c;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-pathfinder-dice-roller * {
+box-sizing: border-box;
+}
+
+html.page-pathfinder-dice-roller body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-pathfinder-dice-roller .app {
+width: min(740px, 100%);
+}
+
+html.page-pathfinder-dice-roller .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-dice-roller .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-dice-roller .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-pathfinder-dice-roller .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-pathfinder-dice-roller .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-pathfinder-dice-roller .tab-link.inactive {
+color: var(--muted);
+            background: rgba(10, 24, 40, 0.95);
+}
+
+html.page-pathfinder-dice-roller .tab-link.inactive:hover {
+background: rgba(18, 42, 68, 0.98);
+            color: var(--text);
+}
+
+html.page-pathfinder-dice-roller .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-pathfinder-dice-roller h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-dice-roller .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-dice-roller label {
+display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-dice-roller input[type="text"] {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller input[type="text"]:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-dice-roller .quick-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 14px;
+}
+
+html.page-pathfinder-dice-roller .mode-row {
+display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-dice-roller .settings-grid {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 8px;
+}
+
+html.page-pathfinder-dice-roller .settings-grid label {
+margin-bottom: 6px;
+}
+
+html.page-pathfinder-dice-roller .color-select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .color-select:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-dice-roller .dc-input {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .dc-input:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-dice-roller .dc-input::placeholder {
+color: #a99874;
+}
+
+html.page-pathfinder-dice-roller .dc-outcome {
+margin-top: 10px;
+            min-height: 30px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.55);
+}
+
+html.page-pathfinder-dice-roller .dc-outcome.show {
+animation: dc-flicker 2.25s linear 3;
+}
+
+html.page-pathfinder-dice-roller .dc-outcome.success {
+color: #65f39a;
+            text-shadow: 0 0 14px rgba(60, 190, 106, 0.65);
+}
+
+html.page-pathfinder-dice-roller .dc-outcome.failure {
+color: #ff7d7d;
+            text-shadow: 0 0 14px rgba(201, 66, 66, 0.65);
+}
+
+html.page-pathfinder-dice-roller .dc-outcome.impossible {
+color: #a855f7;
+            text-shadow: 0 0 14px rgba(97, 28, 161, 0.8);
+}
+
+@keyframes dc-flicker {
+0%, 14%, 32%, 50%, 68%, 86%, 100% { opacity: 1; }
+            8%, 24%, 42%, 60%, 78%, 94% { opacity: 0.15; }
+}
+
+html.page-pathfinder-dice-roller .custom-color-wrap {
+margin-top: 8px;
+            display: none;
+}
+
+html.page-pathfinder-dice-roller .custom-color-wrap.show {
+display: block;
+}
+
+html.page-pathfinder-dice-roller .custom-color-wrap label {
+margin-bottom: 4px;
+            font-size: 11px;
+}
+
+html.page-pathfinder-dice-roller .custom-color-wrap input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-pathfinder-dice-roller .mode-option input[type="radio"] {
+position: absolute;
+            opacity: 0;
+            pointer-events: none;
+}
+
+html.page-pathfinder-dice-roller .mode-label {
+display: block;
+            text-align: center;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .mode-option input[type="radio"]:checked + .mode-label {
+background: rgba(240, 184, 75, 0.2);
+            color: var(--accent-2);
+            border-color: var(--ui-border);
+}
+
+html.page-pathfinder-dice-roller .mode-option input[value="advantage"]:checked + .mode-label {
+background: rgba(74, 222, 128, 0.2);
+            color: #b9ffcf;
+            border-color: rgba(74, 222, 128, 0.8);
+            box-shadow: 0 0 14px rgba(74, 222, 128, 0.45);
+}
+
+html.page-pathfinder-dice-roller .mode-option input[value="disadvantage"]:checked + .mode-label {
+background: rgba(248, 113, 113, 0.2);
+            color: #ffc4c4;
+            border-color: rgba(248, 113, 113, 0.8);
+            box-shadow: 0 0 14px rgba(248, 113, 113, 0.45);
+}
+
+html.page-pathfinder-dice-roller .quick-btn {
+color: var(--text);
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.08s ease, background 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .quick-btn:hover {
+background: rgba(34, 24, 49, 0.95);
+}
+
+html.page-pathfinder-dice-roller .quick-btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-dice-roller textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.7);
+            color: #ffffff;
+            width: 100%;
+            height: 220px;
+            resize: none;
+            margin-top: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 10px;
+}
+
+html.page-pathfinder-dice-roller .roll-btn {
+border: none;
+            width: 100%;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #ffe7c4;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-pathfinder-dice-roller .roll-btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-pathfinder-dice-roller .roll-btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-dice-roller .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-pathfinder-dice-roller .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-pathfinder-dice-roller .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-pathfinder-dice-roller .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-pathfinder-dice-roller .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-pathfinder-dice-roller .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-pathfinder-dice-roller .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-pathfinder-dice-roller .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-pathfinder-dice-roller .preset-box {
+margin-top: 12px;
+            border-top: 1px solid rgba(255, 223, 149, 0.2);
+            padding-top: 10px;
+}
+
+html.page-pathfinder-dice-roller .preset-title {
+margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-dice-roller .preset-row {
+display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 8px;
+}
+
+html.page-pathfinder-dice-roller .preset-name {
+margin-top: 8px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            outline: none;
+}
+
+html.page-pathfinder-dice-roller .preset-select {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            outline: none;
+}
+
+html.page-pathfinder-dice-roller .preset-status {
+margin: 8px 0 0;
+            min-height: 16px;
+            font-size: 11px;
+            color: var(--muted);
+}
+
+html.page-pathfinder-dice-roller .preset-status.error {
+color: #ffb1b1;
+}
+
+@media (max-width: 600px) {
+html.page-pathfinder-dice-roller .panel {
+padding: 16px;
+}
+
+html.page-pathfinder-dice-roller .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-dice-roller .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-pathfinder-dice-roller .settings-grid {
+grid-template-columns: 1fr;
+                gap: 6px;
+}
+
+html.page-pathfinder-dice-roller .theme-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-pathfinder-dice-roller .preset-row {
+grid-template-columns: 1fr;
+}
+
+html.page-pathfinder-dice-roller textarea {
+height: 180px;
+}
+}
+
+/* PathfinderIndex.html */
+html.page-pathfinder-index body {
+font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #10233d, #09111f);
+}
+
+html.page-pathfinder-index .container {
+width: 500px;
+            margin: 60px auto;
+            background: rgba(12, 22, 38, 0.92);
+            padding: 30px 20px 20px 20px;
+            border-radius: 6px;
+            border: 1px solid #7fa8d6;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+            text-align: center;
+}
+
+html.page-pathfinder-index h1 {
+font-size: 24px;
+            margin-bottom: 20px;
+            color: #e8f2ff;
+}
+
+html.page-pathfinder-index .mode-switcher {
+display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+}
+
+html.page-pathfinder-index .mode-label {
+font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #aac5e6;
+            font-weight: bold;
+}
+
+html.page-pathfinder-index .mode-select {
+padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #7fa8d6;
+            background: #dfeeff;
+            color: #10233d;
+}
+
+html.page-pathfinder-index .tool-list {
+display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 30px;
+}
+
+html.page-pathfinder-index .tool-link {
+display: block;
+            padding: 16px;
+            background: #d6e8ff;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #10233d;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+}
+
+html.page-pathfinder-index .tool-link:hover {
+background: #bcd8ff;
+}
+
+/* PathfinderInitiativeTracker.html */
+html.page-pathfinder-initiative-tracker {
+--bg-1: #10233d;
+            --bg-2: #09111f;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #7b2d2d;
+            --button-hover: #993c3c;
+            --button-secondary: #2c4f73;
+            --button-secondary-hover: #3c6a99;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-pathfinder-initiative-tracker * {
+box-sizing: border-box;
+}
+
+html.page-pathfinder-initiative-tracker body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-pathfinder-initiative-tracker .app {
+width: min(980px, 100%);
+}
+
+html.page-pathfinder-initiative-tracker .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-pathfinder-initiative-tracker .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-initiative-tracker .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-initiative-tracker .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-pathfinder-initiative-tracker .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 12px 8px;
+            font-size: 13px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-pathfinder-initiative-tracker .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-pathfinder-initiative-tracker .tab-link.inactive {
+color: var(--muted);
+            background: rgba(10, 24, 40, 0.95);
+}
+
+html.page-pathfinder-initiative-tracker .tab-link.inactive:hover {
+background: rgba(18, 42, 68, 0.98);
+            color: var(--text);
+}
+
+html.page-pathfinder-initiative-tracker .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-pathfinder-initiative-tracker h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-initiative-tracker .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-initiative-tracker .grid-add {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: end;
+}
+
+html.page-pathfinder-initiative-tracker .input-group {
+margin-bottom: 10px;
+}
+
+html.page-pathfinder-initiative-tracker label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-initiative-tracker input {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-initiative-tracker input:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-initiative-tracker .btn {
+border: none;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-pathfinder-initiative-tracker .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-pathfinder-initiative-tracker .btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-initiative-tracker .btn-primary {
+background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-pathfinder-initiative-tracker .btn-secondary {
+background: linear-gradient(180deg, var(--button-secondary-hover), var(--button-secondary));
+}
+
+html.page-pathfinder-initiative-tracker .actions {
+display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+}
+
+html.page-pathfinder-initiative-tracker .turn-banner {
+border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.6);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            color: var(--accent-2);
+            font-weight: 700;
+}
+
+html.page-pathfinder-initiative-tracker .initiative-list {
+display: grid;
+            gap: 8px;
+}
+
+html.page-pathfinder-initiative-tracker .entry {
+display: grid;
+            grid-template-columns: 58px 2fr 120px 180px 90px;
+            gap: 8px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            border-radius: 10px;
+            padding: 8px;
+            align-items: center;
+}
+
+html.page-pathfinder-initiative-tracker .entry.active {
+border-color: rgba(74, 222, 128, 0.9);
+            box-shadow: 0 0 12px rgba(74, 222, 128, 0.35);
+            background: rgba(30, 63, 47, 0.3);
+}
+
+html.page-pathfinder-initiative-tracker .init-pill {
+text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-initiative-tracker .name-col {
+font-size: 14px;
+            font-weight: 700;
+}
+
+html.page-pathfinder-initiative-tracker .hp-col {
+font-size: 13px;
+            color: var(--muted);
+}
+
+html.page-pathfinder-initiative-tracker .hp-text {
+margin-bottom: 6px;
+}
+
+html.page-pathfinder-initiative-tracker .hp-bar {
+width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            border: 1px solid var(--ui-border);
+            background: rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+}
+
+html.page-pathfinder-initiative-tracker .hp-fill {
+height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #49d17b, #92f0b5);
+            transition: width 0.2s ease, filter 0.2s ease;
+}
+
+html.page-pathfinder-initiative-tracker .hp-fill.bloodied {
+background: linear-gradient(90deg, #d18f49, #f2bd75);
+            filter: saturate(1.1);
+}
+
+html.page-pathfinder-initiative-tracker .hp-fill.dead {
+background: linear-gradient(90deg, #8a3232, #b44949);
+            filter: saturate(0.9);
+}
+
+html.page-pathfinder-initiative-tracker .hp-actions {
+display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 6px;
+            align-items: center;
+}
+
+html.page-pathfinder-initiative-tracker .hp-actions input {
+padding: 7px 8px;
+            font-size: 13px;
+}
+
+html.page-pathfinder-initiative-tracker .small-btn {
+border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.85);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-pathfinder-initiative-tracker .remove-btn {
+border: 1px solid rgba(248, 113, 113, 0.7);
+            background: rgba(248, 113, 113, 0.2);
+            color: #ffd2d2;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+html.page-pathfinder-initiative-tracker .empty {
+color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+            padding: 16px;
+            border: 1px dashed var(--ui-border);
+            border-radius: 10px;
+}
+
+html.page-pathfinder-initiative-tracker .hint {
+margin-top: 10px;
+            color: #c4b68f;
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-pathfinder-initiative-tracker .theme-box {
+margin-top: 10px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(16, 12, 24, 0.45);
+            padding: 10px;
+}
+
+html.page-pathfinder-initiative-tracker .theme-box summary {
+cursor: pointer;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 12px;
+            user-select: none;
+}
+
+html.page-pathfinder-initiative-tracker .theme-grid {
+margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 12px;
+}
+
+html.page-pathfinder-initiative-tracker .theme-item label {
+font-size: 11px;
+            margin-bottom: 4px;
+}
+
+html.page-pathfinder-initiative-tracker .theme-item input[type="color"] {
+width: 100%;
+            height: 34px;
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            background: rgba(7, 7, 12, 0.6);
+            padding: 2px;
+            cursor: pointer;
+}
+
+html.page-pathfinder-initiative-tracker .theme-actions {
+margin-top: 10px;
+            display: flex;
+            gap: 8px;
+}
+
+html.page-pathfinder-initiative-tracker .theme-btn {
+flex: 1;
+            border: 1px solid var(--ui-border);
+            background: rgba(16, 12, 24, 0.9);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+}
+
+@media (max-width: 900px) {
+html.page-pathfinder-initiative-tracker .entry {
+grid-template-columns: 52px 1fr;
+                gap: 8px;
+}
+
+html.page-pathfinder-initiative-tracker .hp-col,
+html.page-pathfinder-initiative-tracker .hp-actions,
+html.page-pathfinder-initiative-tracker .remove-wrap {
+grid-column: 1 / -1;
+}
+
+html.page-pathfinder-initiative-tracker .grid-add {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-initiative-tracker .grid-add .add-submit {
+grid-column: 1 / -1;
+}
+}
+
+@media (max-width: 640px) {
+html.page-pathfinder-initiative-tracker .panel {
+padding: 16px;
+}
+
+html.page-pathfinder-initiative-tracker .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-initiative-tracker .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-pathfinder-initiative-tracker .grid-add {
+grid-template-columns: 1fr;
+}
+
+html.page-pathfinder-initiative-tracker .theme-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* PathfinderMonsterDatabase.html */
+html.page-pathfinder-monster-database {
+--bg-1: #10233d;
+            --bg-2: #09111f;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #2d6a54;
+            --button-hover: #3c8a6e;
+            --button-secondary: #2c4f73;
+            --button-secondary-hover: #3c6a99;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-pathfinder-monster-database * {
+box-sizing: border-box;
+}
+
+html.page-pathfinder-monster-database body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-pathfinder-monster-database .app {
+width: min(1120px, 100%);
+}
+
+html.page-pathfinder-monster-database .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-pathfinder-monster-database .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-monster-database .mode-select {
+width: auto;
+            min-width: 180px;
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+}
+
+html.page-pathfinder-monster-database .tabs {
+display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+}
+
+html.page-pathfinder-monster-database .tab-link {
+text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 10px;
+            transition: background 0.15s ease, color 0.15s ease;
+}
+
+html.page-pathfinder-monster-database .tab-link.active {
+color: #20150d;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+html.page-pathfinder-monster-database .tab-link.inactive {
+color: var(--muted);
+            background: rgba(10, 24, 40, 0.95);
+}
+
+html.page-pathfinder-monster-database .tab-link.inactive:hover {
+background: rgba(18, 42, 68, 0.98);
+            color: var(--text);
+}
+
+html.page-pathfinder-monster-database .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-pathfinder-monster-database h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-pathfinder-monster-database .subhead {
+margin: 0 0 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-monster-database .controls {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 16px;
+}
+
+html.page-pathfinder-monster-database label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-pathfinder-monster-database input,
+html.page-pathfinder-monster-database select,
+html.page-pathfinder-monster-database textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-pathfinder-monster-database input:focus,
+html.page-pathfinder-monster-database select:focus,
+html.page-pathfinder-monster-database textarea:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-pathfinder-monster-database textarea {
+min-height: 92px;
+            resize: vertical;
+}
+
+html.page-pathfinder-monster-database .btn {
+align-self: end;
+            border: none;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #f8f4e8;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+}
+
+html.page-pathfinder-monster-database .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-pathfinder-monster-database .btn:active {
+transform: translateY(1px);
+}
+
+html.page-pathfinder-monster-database .db-layout {
+display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 16px;
+}
+
+html.page-pathfinder-monster-database .monster-list,
+html.page-pathfinder-monster-database .monster-detail {
+border: 1px solid var(--ui-border);
+            border-radius: 14px;
+            background: rgba(14, 10, 20, 0.72);
+            padding: 14px;
+}
+
+html.page-pathfinder-monster-database .results-meta {
+margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 13px;
+}
+
+html.page-pathfinder-monster-database .monster-cards {
+display: grid;
+            gap: 10px;
+            max-height: 620px;
+            overflow-y: auto;
+            padding-right: 4px;
+}
+
+html.page-pathfinder-monster-database .monster-card {
+border: 1px solid rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            transition: border-color 0.15s ease, transform 0.12s ease, background 0.15s ease;
+}
+
+html.page-pathfinder-monster-database .monster-card:hover {
+transform: translateY(-1px);
+            border-color: rgba(255, 223, 149, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+}
+
+html.page-pathfinder-monster-database .monster-card.active {
+border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(240, 184, 75, 0.16);
+            background: rgba(240, 184, 75, 0.08);
+}
+
+html.page-pathfinder-monster-database .monster-card-top,
+html.page-pathfinder-monster-database .detail-top {
+display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: baseline;
+}
+
+html.page-pathfinder-monster-database .monster-name,
+html.page-pathfinder-monster-database .detail-name {
+margin: 0;
+            font-size: 20px;
+            color: var(--accent-2);
+            font-family: Georgia, "Times New Roman", serif;
+}
+
+html.page-pathfinder-monster-database .monster-meta,
+html.page-pathfinder-monster-database .detail-meta {
+margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            font-style: italic;
+}
+
+html.page-pathfinder-monster-database .pill-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+}
+
+html.page-pathfinder-monster-database .pill {
+padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 223, 149, 0.08);
+            border: 1px solid rgba(255, 223, 149, 0.18);
+            color: var(--text);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-monster-database .detail-grid {
+display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+}
+
+html.page-pathfinder-monster-database .stat-box {
+border: 1px solid rgba(255, 223, 149, 0.18);
+            border-radius: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+}
+
+html.page-pathfinder-monster-database .stat-label {
+display: block;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+}
+
+html.page-pathfinder-monster-database .stat-value {
+font-size: 15px;
+            font-weight: 700;
+}
+
+html.page-pathfinder-monster-database .section-title {
+margin: 16px 0 8px;
+            color: var(--accent);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-pathfinder-monster-database .detail-text {
+margin: 0;
+            line-height: 1.5;
+            color: var(--text);
+}
+
+html.page-pathfinder-monster-database .empty-state {
+padding: 24px 16px;
+            text-align: center;
+            color: var(--muted);
+            border: 1px dashed rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
+}
+
+html.page-pathfinder-monster-database .database-status {
+margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+}
+
+html.page-pathfinder-monster-database .database-status.error {
+color: #ffb0a6;
+}
+
+@media (max-width: 900px) {
+html.page-pathfinder-monster-database .controls,
+html.page-pathfinder-monster-database .db-layout {
+grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 640px) {
+html.page-pathfinder-monster-database .panel {
+padding: 16px;
+}
+
+html.page-pathfinder-monster-database .tabs {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-pathfinder-monster-database .tab-link {
+font-size: 12px;
+                padding: 10px 6px;
+}
+
+html.page-pathfinder-monster-database .detail-grid {
+grid-template-columns: 1fr;
+}
+}
+
+/* index.html */
+html.page-index body {
+font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+}
+
+html.page-index .container {
+width: min(560px, 100%);
+            background: white;
+            padding: 32px 24px;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+            text-align: center;
+}
+
+html.page-index h1 {
+margin: 0 0 10px;
+}
+
+html.page-index p {
+color: #555;
+            margin: 0 0 24px;
+}
+
+html.page-index .tool-list {
+display: grid;
+            gap: 14px;
+}
+
+html.page-index .tool-link {
+display: block;
+            padding: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+            background: #f4f4f4;
+            transition: background-color 0.2s ease;
+}
+
+html.page-index .tool-link:hover {
+background: #e7eefc;
+}
