@@ -1,194 +1,355 @@
 [
   {
-    "id": "goblin",
-    "name": "Goblin",
-    "size": "Small",
-    "type": "Humanoid",
-    "alignment": "Neutral Evil",
-    "armorClass": 15,
-    "hitPoints": 7,
-    "speed": "30 ft",
-    "abilities": {
-      "strength": 8,
-      "dexterity": 14,
-      "constitution": 10,
-      "intelligence": 10,
-      "wisdom": 8,
-      "charisma": 8
-    },
-    "challengeRating": "1/4",
-    "traits": [
-      "Nimble Escape lets the goblin Disengage or Hide as a bonus action."
-    ],
-    "actions": [
-      "Scimitar: +4 to hit, 1d6 + 2 slashing damage.",
-      "Shortbow: +4 to hit, range 80/320 ft, 1d6 + 2 piercing damage."
-    ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "orc",
-    "name": "Orc",
+    "id": "aarakocra",
+    "name": "Aarakocra",
     "size": "Medium",
     "type": "Humanoid",
-    "alignment": "Chaotic Evil",
-    "armorClass": 13,
-    "hitPoints": 15,
-    "speed": "30 ft",
-    "abilities": {
-      "strength": 16,
-      "dexterity": 12,
-      "constitution": 16,
-      "intelligence": 7,
-      "wisdom": 11,
-      "charisma": 10
-    },
-    "challengeRating": "1/2",
-    "traits": [
-      "Aggressive lets the orc move up to its speed toward an enemy as a bonus action."
-    ],
-    "actions": [
-      "Greataxe: +5 to hit, 1d12 + 3 slashing damage.",
-      "Javelin: +5 to hit, range 30/120 ft, 1d6 + 3 piercing damage."
-    ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "skeleton",
-    "name": "Skeleton",
-    "size": "Medium",
-    "type": "Undead",
-    "alignment": "Lawful Evil",
-    "armorClass": 13,
+    "alignment": "Neutral Good",
+    "armorClass": 12,
     "hitPoints": 13,
-    "speed": "30 ft",
+    "hitDie": "3d8",
+    "speed": "20 ft., fly 50 ft.",
     "abilities": {
       "strength": 10,
       "dexterity": 14,
-      "constitution": 15,
-      "intelligence": 6,
-      "wisdom": 8,
-      "charisma": 5
-    },
-    "challengeRating": "1/4",
-    "traits": [
-      "Vulnerable to bludgeoning damage."
-    ],
-    "actions": [
-      "Shortsword: +4 to hit, 1d6 + 2 piercing damage.",
-      "Shortbow: +4 to hit, range 80/320 ft, 1d6 + 2 piercing damage."
-    ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "zombie",
-    "name": "Zombie",
-    "size": "Medium",
-    "type": "Undead",
-    "alignment": "Neutral Evil",
-    "armorClass": 8,
-    "hitPoints": 22,
-    "speed": "20 ft",
-    "abilities": {
-      "strength": 13,
-      "dexterity": 6,
-      "constitution": 16,
-      "intelligence": 3,
-      "wisdom": 6,
-      "charisma": 5
-    },
-    "challengeRating": "1/4",
-    "traits": [
-      "Undead Fortitude can keep the zombie standing after being reduced to 0 hit points."
-    ],
-    "actions": [
-      "Slam: +3 to hit, 1d6 + 1 bludgeoning damage."
-    ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "owlbear",
-    "name": "Owlbear",
-    "size": "Large",
-    "type": "Monstrosity",
-    "alignment": "Unaligned",
-    "armorClass": 13,
-    "hitPoints": 59,
-    "speed": "40 ft",
-    "abilities": {
-      "strength": 20,
-      "dexterity": 12,
-      "constitution": 17,
-      "intelligence": 3,
+      "constitution": 10,
+      "intelligence": 11,
       "wisdom": 12,
-      "charisma": 7
+      "charisma": 11
     },
-    "challengeRating": "3",
+    "challengeRating": "1/4",
     "traits": [
-      "Keen Sight and Smell gives advantage on Perception checks that rely on sight or smell."
-    ],
+      "Dive Attack. If the aarakocra is flying and dives at least 30 ft. straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 3 (1d6) damage to the target."
+      ],
     "actions": [
-      "Multiattack: one beak attack and one claws attack.",
-      "Beak: +7 to hit, 1d10 + 5 piercing damage.",
-      "Claws: +7 to hit, 2d8 + 5 slashing damage."
+      "Talon. Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 - 2) slashing damage.",
+      "Javelin. Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft., or range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
     ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "12"
   },
   {
-    "id": "gelatinous-cube",
-    "name": "Gelatinous Cube",
+    "id": "aboleth",
+    "name": "Aboleth",
     "size": "Large",
-    "type": "Ooze",
+    "type": "Aberration",
+    "alignment": "Lawful Evil",
+    "armorClass": 17,
+    "hitPoints": 135,
+    "hitDie": "18d10 + 36",
+    "speed": "10 ft., swim 40 ft.",
+    "abilities": {
+      "strength": 21,
+      "dexterity": 9,
+      "constitution": 15,
+      "intelligence": 18,
+      "wisdom": 15,
+      "charisma": 18
+    },
+    "challengeRating": "10",
+    "traits": [
+      "Amphibious. The aboleth can breathe air and water.",
+      "Mucous Cloud: While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or hits it with a melee attack while within 5 ft. of it must succeed on a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.",
+      "Probing Telepathy. If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature."
+    ],
+    "actions": [
+      "Multiattack. The aboleth makes three tentacle attacks.",
+      "Tentacle. Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 CON saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by Heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+      "Tail. Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+      "Enslave (3x/Day). The aboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance. Whenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+      "The aboleth can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The aboleth regains spent legendary actions at the start of its turn.",
+      "L1: Detect. The aboleth makes a Wisdom (Perception) check.",
+      "L2: Tail Swipe. The aboleth makes one tail attack.",
+      "L3: Psychic Drain (Costs 2 Actions). One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes."
+
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "13"
+  },
+  {
+    "id": "deva",
+    "name": "Deva",
+    "size": "Medium",
+    "type": "Celestial",
+    "alignment": "Lawful Good",
+    "armorClass": 17,
+    "hitPoints": 136,
+    "hitDie": "16d8 + 64",
+    "speed": "30 ft., fly 90 ft.",
+    "abilities": {
+      "strength": 18,
+      "dexterity": 18,
+      "constitution": 18,
+      "intelligence": 17,
+      "wisdom": 20,
+      "charisma": 20
+    },
+    "challengeRating": "10",
+    "traits": [
+      "Angelic Weapons. The deva's weapon attacks are magical. When the deva hits with any weapon, the weapon deals an extra 4d8 radiant damage (included in the attack).",
+      "Innate Spellcasting. The deva's spellcasting ability is Charisma (spell save DC 17). The deva can innately cast the following spells, requiring no material components: At will: detect evil and good; 1/day each: commune, raise dead.",
+      "Magic Resistance. The deva has advantage on saving throws against spells and other magical effects."
+    ],
+    "actions": [
+      "Multiattack. The deva makes two melee attacks.",
+      "Mace. Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) bludgeoning damage plus 18 (4d8) radiant damage.",
+      "Healing Touch (3/Day). The deva touches another creature. The target magically regains 20 (4d8 + 2) hit points and is freed from any curse, disease, poison, blindness, or deafness.",
+      "Change Shape. The deva magically polymorphs into a humanoid or beast that has a challenge rating equal to or less than its own, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the deva's choice). In a new form, the deva retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and special senses are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "16"
+  },
+  {
+    "id": "planetar",
+    "name": "Planetar",
+    "size": "Large",
+    "type": "Celestial",
+    "alignment": "Lawful Good",
+    "armorClass": 19,
+    "hitPoints": 200,
+    "hitDie": "16d10 + 112",
+    "speed": "40 ft., fly 120 ft.",
+    "abilities": {
+      "strength": 24,
+      "dexterity": 20,
+      "constitution": 24,
+      "intelligence": 19,
+      "wisdom": 22,
+      "charisma": 25
+    },
+    "challengeRating": "16",
+    "traits": [
+      "Angelic Weapons. The planetar's weapon attacks are magical. When the planetar hits with any weapon, the weapon deals an extra 5d8 radiant damage (included in the attack).",
+      "Divine Awareness. The planetar knows if it hears a lie.",
+      "Innate Spellcasting. The planetar's spellcasting ability is Charisma (spell save DC 20). The planetar can innately cast the following spells, requiring no material components: At will: detect evil and good, invisibility (self only); 3/day each: blade barrier, dispel evil and good, flame strike, raise dead. 1/day each: commune, control weather, insect plague.",
+      "Magic Resistance. The planetar has advantage on saving throws against spells and other magical effects."
+    ],
+    "actions": [
+      "Multiattack. The planetar makes two melee attacks.",
+      "Greatsword. Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 21 (4d6 + 7) slashing damage plus 22 (5d8) radiant damage.",
+      "Healing Touch (4/Day). The planetar touches another creature. The target magically regains 30 (6d8 + 3) hit points and is freed from any curse, disease, poison, blindness, or deafness."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "17"
+  },
+  {
+    "id": "solar",
+    "name": "Solar",
+    "size": "Large",
+    "type": "Celestial",
+    "alignment": "Lawful Good",
+    "armorClass": 21,
+    "hitPoints": 243,
+    "hitDie": "18d10 + 144",
+    "speed": "30 ft",
+    "abilities": {
+      "strength": 26,
+      "dexterity": 22,
+      "constitution": 26,
+      "intelligence": 25,
+      "wisdom": 25,
+      "charisma": 30
+    },
+    "challengeRating": "21",
+    "traits": [
+      "Angelic Weapons. The solar's weapon attacks are magical. When the solar hits with any weapon, the weapon deals an extra 6d8 radiant damage (included in the attack).",
+      "Divine Awareness. The solar knows if it hears a lie.",
+      "Innate Spellcasting. The solar's spellcasting ability is Charisma (spell save DC 25). The solar can innately cast the following spells, requiring no material components: At will: detect evil and good, invisibility (self only); 3/day each: blade barrier, dispel evil and good, resurrection. 1/day each: commune, control weather.",
+      "Magic Resistance. The solar has advantage on saving throws against spells and other magical effects."
+
+    ],
+    "actions": [
+      "Multiattack. The solar makes two melee attacks.",
+      "Greatsword. Melee Weapon Attack: +15 to hit, reach 5 ft., one target. Hit: 22 (4d6 + 8) slashing damage plus 27 (6d8) radiant damage.",
+      "Slaying Longbow. Ranged Weapon Attack: +13 to hit, range 150/600 ft., one target. Hit: 15 (2d8 + 6) piercing damage plus 27 (6d8) radiant damage. If the target is a creature that has 100 hit points or fewer, it must succeed on a DC 15 saving throw or die.",
+      "Flying Sword. The solar releases its greatsword to hover magically in an unoccupied space within 5 feet of it. If the solar can see the sword, the solar can mentally command it as a bonus action to fly up to 50 feet and either make one attack against a target or return to the solar's hands. If the hovering sword is targeted by any effect, the solar is considered to be holding it. The hovering sword falls if the solar dies.",
+      "Healing Touch (4/Day). The solar touches another creature. The target magically regains 40 (8d8 + 4) hit points and is freed from any curse, disease, poison, blindness, or deafness.",
+      "The solar can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The solar regains spent legendary actions at the start of its turn.",
+      "L1: Teleport. The solar magically teleports, along with any equipment it is wearing or carrying, up to 120 feet to an unoccupied space it can see.",
+      "L2: Searing Burst (Costs 2 Actions). The solar emits magical, divine energy. Each creature of its choice in a 10-foot radius must make a DC 23 Dexterity saving throw, taking 14 (4d6) fire damage plus 14 (4d6) radiant damage on a failed save, or half as much damage on a successful one.",
+      "L3: Blinding Gaze (Costs 3 Actions). The solar targets one creature it can see within 30 feet of it. If the target can see it, the target must succeed on a DC 15 Constitution saving throw or be blinded until magic such as the lesser restoration spell removes the blindness."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "18"
+  },
+  {
+    "id": "animated-armor",
+    "name": "Animated Armor",
+    "size": "Medium",
+    "type": "Construct",
     "alignment": "Unaligned",
-    "armorClass": 6,
-    "hitPoints": 84,
-    "speed": "15 ft",
+    "armorClass": 18,
+    "hitPoints": 33,
+    "hitDie": "6d8 + 6",
+    "speed": "25 ft",
     "abilities": {
       "strength": 14,
-      "dexterity": 3,
-      "constitution": 20,
+      "dexterity": 11,
+      "constitution": 13,
       "intelligence": 1,
-      "wisdom": 6,
+      "wisdom": 3,
+      "charisma": 1
+    },
+    "challengeRating": "1",
+    "traits": [
+      "Antimagic Susceptibility. The armor is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the armor must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+      "False Appearance. While the armor remains motionless, it is indistinguishable from a normal suit of armor."
+    ],
+    "actions": [
+      "Multiattack. The armor makes two melee attacks.",
+      "Slam. Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "19"
+  },
+  {
+    "id": "flying-sword",
+    "name": "Flying Sword",
+    "size": "Small",
+    "type": "Construct",
+    "alignment": "Unaligned",
+    "armorClass": 17,
+    "hitPoints": 17,
+    "hitDie": "5d6",
+    "speed": "0 ft., fly 50 ft.",
+    "abilities": {
+      "strength": 12,
+      "dexterity": 15,
+      "constitution": 11,
+      "intelligence": 1,
+      "wisdom": 5,
+      "charisma": 1
+    },
+    "challengeRating": "1/4",
+    "traits": [
+      "Antimagic Susceptibility. The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+      "False Appearance. While the sword remains motionless and isn't flying, it is indistinguishable from a normal sword."
+    ],
+    "actions": [
+      "Longsword. Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "20"
+  },
+  {
+    "id": "rug-of-smothering",
+    "name": "Rug of Smothering",
+    "size": "Large",
+    "type": "Construct",
+    "alignment": "Unaligned",
+    "armorClass": 12,
+    "hitPoints": 33,
+    "hitDie": "6d10",
+    "speed": "30 ft",
+    "abilities": {
+      "strength": 17,
+      "dexterity": 14,
+      "constitution": 10,
+      "intelligence": 1,
+      "wisdom": 3,
       "charisma": 1
     },
     "challengeRating": "2",
     "traits": [
-      "Transparent makes the cube hard to spot.",
-      "Ooze Cube lets it move through spaces while engulfing creatures."
+      "Antimagic Susceptibility. The rug is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the rug must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+      "Damage Transfer. While it is grappling a creature, the rug takes only half the damage dealt to it, and the creature grappled by the rug takes the other half.",
+      "False Appearance. While the rug remains motionless, it is indistinguishable from a normal rug."
     ],
     "actions": [
-      "Pseudopod: +3 to hit, 3d6 acid damage.",
-      "Engulf: can move into creatures' spaces and restrain targets inside the cube."
+      "Smother. Melee Weapon Attack: +5 to hit, reach 5 ft., one Medium or smaller creature. Hit: The creature is grappled (escape DC 13). Until this grapple ends, the target is restrained, blinded, and at risk of suffocating, and the rug can't smother another target. In addition, at the start of each of the target's turns, the target takes 10 (2d6 + 3) bludgeoning damage."
     ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "20"
   },
   {
-    "id": "mimic",
-    "name": "Mimic",
-    "size": "Medium",
+    "id": "ankheg",
+    "name": "Ankheg",
+    "size": "Large",
     "type": "Monstrosity",
-    "alignment": "Neutral",
-    "armorClass": 12,
-    "hitPoints": 58,
-    "speed": "15 ft",
+    "alignment": "Unaligned",
+    "armorClass": 14,
+    "hitPoints": 39,
+    "hitDie": "6d10 + 6",
+    "speed": "30 ft., burrow 10 ft.",
+    "abilities": {
+      "strength": 17,
+      "dexterity": 11,
+      "constitution": 13,
+      "intelligence": 1,
+      "wisdom": 13,
+      "charisma": 6
+    },
+    "challengeRating": "2",
+    "traits": [
+      "None."
+    ],
+    "actions": [
+      "Bite. Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage plus 3 (1d6) acid damage. If the target is a Large or smaller creature, it is grappled (escape DC 13). Until this grapple ends, the ankheg can bite only the grappled creature and has advantage on attack rolls to do so.",
+      "Acid Spray (Recharge 6). The ankheg spits acid in a line that is 30 feet long and 5 feet wide, provided that it has no creature grappled. Each creature in that line must make a DC 13 Dexterity saving throw, taking 10 (3d6) acid damage on a failed save, or half as much on a successful one."
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "21"
+  },
+  {
+    "id": "azer",
+    "name": "Azer",
+    "size": "Medium",
+    "type": "Elemental",
+    "alignment": "Lawful Neutral",
+    "armorClass": 17,
+    "hitPoints": 39,
+    "hitDie": "6d8 + 12",
+    "speed": "30 ft.",
     "abilities": {
       "strength": 17,
       "dexterity": 12,
       "constitution": 15,
-      "intelligence": 5,
+      "intelligence": 12,
       "wisdom": 13,
-      "charisma": 8
+      "charisma": 10
     },
     "challengeRating": "2",
     "traits": [
-      "Shapechanger lets the mimic alter its form.",
-      "Adhesive causes creatures and objects touching it to stick."
+      "Heated Body. A creature that touches the azer or hits it with a melee attack while within 5 feet of it takes 5 (1d10) fire damage.",
+      "Heated Weapons. When the azer hits with a metal melee weapon, it deals an extra 3 (1d6) fire damage (included in the attack).",
+      "Illumination. The azer sheds bright light in a 10-foot radius and dim light for an additional 10 feet."
     ],
     "actions": [
-      "Pseudopod: +5 to hit, 1d8 + 3 bludgeoning damage plus grapple via Adhesive.",
-      "Bite: +5 to hit, 1d8 + 3 piercing damage."
+      "Warhammer. Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage, or 8 (1d10 + 3) bludgeoning damage if used with two hands to make a melee attack, plus 3 (1d6) fire damage."
     ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "22"
+  },
+  {
+    "id": "banshee",
+    "name": "Banshee",
+    "size": "Medium",
+    "type": "Undead",
+    "alignment": "Chaotic Evil",
+    "armorClass": 12,
+    "hitPoints": 58,
+    "hitDie": "13d8",
+    "speed": "0 ft., fly 40 ft. (hover)",
+    "abilities": {
+      "strength": 1,
+      "dexterity": 14,
+      "constitution": 10,
+      "intelligence": 12,
+      "wisdom": 11,
+      "charisma": 17
+    },
+    "challengeRating": "4",
+    "traits": [
+      "Detect Life. The banshee can magically sense the presence of living creatures up to 5 miles away that aren't undead or constructs. She knows the direction they're in but not their exact locations.",
+      "Incorporeal Movement. The banshee can move through other creatures and objects as if they were difficult terrain. She takes 5 (1d10) force damage if she ends her turn inside an object."
+    ],
+    "actions": [
+      "Corrupting Touch. Melee Spell Attack: +4 to hit, reach 5 ft., one target. Hit: 12 (3d6 + 2) necrotic damage.",
+      "Horrifying Visage. Each non-undead creature within 60 feet of the banshee that can see her must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, with disadvantage if the banshee is within line of sight, ending the effect itself on a success. If a target's saving throw is successful or the effect ends for it, the target is immune to the banshee's Horrifying Visage for the next 24 hours.",
+      "Wail (1/Day). The banshee releases a mournful wail, provided that she isn't in sunlight. This wail has no effect on constructs and undead. All other creatures within 30 feet of her that can hear her must make a DC 13 Constitution saving throw. On a failure, a creature drops to 0 hit points. On a success, a creature takes 10 (3d6) psychic damage. "
+    ],
+    "source": "Monster Manual",
+    "sourcePage": "23"
   },
   {
     "id": "basilisk",
@@ -198,7 +359,8 @@
     "alignment": "Unaligned",
     "armorClass": 15,
     "hitPoints": 52,
-    "speed": "20 ft",
+    "hitDie": "8d8 + 16",
+    "speed": "20 ft.",
     "abilities": {
       "strength": 16,
       "dexterity": 8,
@@ -209,78 +371,56 @@
     },
     "challengeRating": "3",
     "traits": [
-      "Petrifying Gaze can restrain creatures and eventually turn them to stone."
+      "Petrifying Gaze. If a creature starts its turn within 30 feet of the basilisk and the two of them can see each other, the basilisk can force the creature to make a DC 12 Constitution saving throw if the basilisk isn't incapacitated. On a failed save, the creature magically begins to turn to stone and is restrained. It must repeat the saving throw at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic. A creature that isn't surprised can avert its eyes to avoid the saving throw at the start of its turn. If it does so, it can't see the basilisk until the start of its next turn, when it can avert its eyes again. If it looks at the basilisk in the meantime, it must immediately make the save. If the basilisk sees its reflection within 30 feet of it in bright light, it mistakes itself for a rival and targets itself with its gaze."
     ],
     "actions": [
-      "Bite: +5 to hit, 2d6 + 3 piercing damage plus 2d6 poison damage."
+      "Bite. Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage plus 7 (2d6) poison damage."
     ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "24"
   },
   {
-    "id": "troll",
-    "name": "Troll",
-    "size": "Large",
-    "type": "Giant",
-    "alignment": "Chaotic Evil",
-    "armorClass": 15,
-    "hitPoints": 84,
-    "speed": "30 ft",
-    "abilities": {
-      "strength": 18,
-      "dexterity": 13,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 9,
-      "charisma": 7
-    },
-    "challengeRating": "5",
-    "traits": [
-      "Regeneration restores hit points unless the troll took acid or fire damage since its last turn."
-    ],
-    "actions": [
-      "Multiattack: one bite attack and two claws attacks.",
-      "Bite: +7 to hit, 1d6 + 4 piercing damage.",
-      "Claw: +7 to hit, 2d6 + 4 slashing damage."
-    ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "young-red-dragon",
-    "name": "Young Red Dragon",
-    "size": "Large",
-    "type": "Dragon",
-    "alignment": "Chaotic Evil",
-    "armorClass": 18,
-    "hitPoints": 178,
-    "speed": "40 ft, climb 40 ft, fly 80 ft",
+    "id": "Behir",
+    "name": "Behir",
+    "size": "Huge",
+    "type": "Monstrosity",
+    "alignment": "Neutral Evil",
+    "armorClass": 17,
+    "hitPoints": 168,
+    "hitDie": "16d12 + 64",
+    "speed": "50 ft., climb 40 ft.",
     "abilities": {
       "strength": 23,
-      "dexterity": 10,
-      "constitution": 21,
-      "intelligence": 14,
-      "wisdom": 11,
-      "charisma": 19
+      "dexterity": 16,
+      "constitution": 18,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 12
     },
-    "challengeRating": "10",
+    "challengeRating": "11",
     "traits": [
-      "Fire Breath recharges on a 5-6 and deals 16d6 fire damage in a 30-foot cone."
+      "None."
     ],
     "actions": [
-      "Multiattack: one bite attack and two claw attacks.",
-      "Bite: +10 to hit, 2d10 + 6 piercing damage plus 1d6 fire damage.",
-      "Claw: +10 to hit, 2d6 + 6 slashing damage."
+      "Multiattack. The behir makes two attacks: one with its bite and one to constrict.",
+      "Bite. Melee Weapon Attack: + 10 to hit, reach 5 ft., one target. Hit: 22 (3d10 + 6) piercing damage.",
+      "Constrict. Melee Weapon Attack: + 10 to hit, reach 5 ft., one Large or smaller creature. Hit: 17 (2d10 + 6) bludgeoning damage plus 17 (2d10 + 6) slashing damage. The target is grappled (escape DC 16) if the behir isn't already constricting a creature, and the target is restrained until this grapple ends.",
+      "Lightning Breath (Recharge 5-6). The behir exhales a line of lightning that is 20 feet long and 5 feet wide. Each creature in that line must make a DC 16 Dexterity saving throw, taking 66 (12d10) lightning damage on a failed save, or half as much damage on a successful one.",
+      "Swallow. The behir makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is blinded and restrained, it has total cover against attacks and other effects outside the behir, and it takes 21 (6d6) acid damage at the start of each of the behir's turns. A behir can have only one creature swallowed at a time. If the behir takes 30 damage or more on a single turn fom the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls prone in a space within 10 feet of the behir. If the behir dies, a swallowed creature is no longer restrained by it and can escape from the corpse by using 15 feet of movement, exiting prone."
     ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "25"
   },
   {
-    "id": "beholder",
+    "id": "Beholder",
     "name": "Beholder",
     "size": "Large",
     "type": "Aberration",
     "alignment": "Lawful Evil",
     "armorClass": 18,
     "hitPoints": 180,
-    "speed": "0 ft, fly 20 ft",
+    "hitDie": "19d10 + 76",
+    "speed": "0 ft., fly 20 ft (hover)",
     "abilities": {
       "strength": 10,
       "dexterity": 14,
@@ -291,40 +431,13 @@
     },
     "challengeRating": "13",
     "traits": [
-      "Antimagic Cone suppresses magic in a 150-foot cone from its central eye."
+      "Antimagic Cone. The beholder's central eye creates an area of antimagic, as in the antimagic field spell, in a 150-foot cone. At the start of each of its turns, the beholder decides which way the cone faces and whether the cone is active. The area works against the beholder's own eye rays."
     ],
     "actions": [
-      "Bite: +5 to hit, 4d6 piercing damage.",
-      "Eye Rays: fires three magical rays each turn from a rotating list of effects."
+      "First action."
     ],
-    "source": "Monster Manual"
-  },
-  {
-    "id": "lich",
-    "name": "Lich",
-    "size": "Medium",
-    "type": "Undead",
-    "alignment": "Any Evil Alignment",
-    "armorClass": 17,
-    "hitPoints": 135,
-    "speed": "30 ft",
-    "abilities": {
-      "strength": 11,
-      "dexterity": 16,
-      "constitution": 16,
-      "intelligence": 20,
-      "wisdom": 14,
-      "charisma": 16
-    },
-    "challengeRating": "21",
-    "traits": [
-      "Legendary Resistance helps the lich shrug off failed saves.",
-      "Rejuvenation allows the lich to return if its phylactery remains intact."
-    ],
-    "actions": [
-      "Paralyzing Touch: +12 to hit, 3d6 cold damage and can paralyze the target.",
-      "Spellcasting: the lich is a 9th-level spellcaster with a full suite of high-level magic."
-    ],
-    "source": "Monster Manual"
+    "source": "Monster Manual",
+    "sourcePage": "28"
   }
 ]
+  

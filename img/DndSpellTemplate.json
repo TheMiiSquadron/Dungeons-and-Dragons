@@ -1,0 +1,16 @@
+{
+  "name": "Cure Wounds",
+  "level": 1,
+  "school": "Evocation",
+  "castingTime": "1 action",
+  "range": "Touch",
+  "components": ["V", "S"],
+  "duration": "Instantaneous",
+  "description": "A creature you touch regains hit points...",
+  "classes": ["Cleric", "Druid", "Bard"],
+  "ritual": false,
+  "concentration": false,
+  "higherLevels": "",
+  "source": "Custom",
+  "sourcePage": ""
+}

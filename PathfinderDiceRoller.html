@@ -16,11 +16,14 @@
         </select>
     </div>
     <div class="tabs">
-        <a href="PathfinderDiceRoller.html" class="tab-link active">Dice Roller</a>
-        <a href="PathfinderCoinConverter.html" class="tab-link inactive">Coin Converter</a>
-        <a href="PathfinderCharacterSheetCreator.html" class="tab-link inactive">Character Sheet</a>
-        <a href="PathfinderInitiativeTracker.html" class="tab-link inactive">Initiative</a>
-        <a href="PathfinderMonsterDatabase.html" class="tab-link inactive">Monster Database</a>
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="PathfinderDiceRoller.html" selected>Dice Roller</option>
+            <option value="PathfinderCoinConverter.html">Coin Converter</option>
+            <option value="PathfinderCharacterSheetCreator.html">Character Sheet</option>
+            <option value="PathfinderInitiativeTracker.html">Initiative</option>
+            <option value="PathfinderMonsterDatabase.html">Monster Database</option>
+            <option value="PathfinderSpellbook.html">Spellbook</option>
+        </select>
     </div>
 
     <section class="panel">
@@ -517,6 +520,21 @@ document.getElementById("customDiceColor").addEventListener("input", function ()
     }
 });
 
+function loadRollFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const expr = (params.get("expr") || "").trim();
+    const shouldAutoroll = params.get("autoroll") === "1";
+    if (!expr) {
+        return;
+    }
+
+    document.getElementById("diceInput").value = expr;
+    if (shouldAutoroll) {
+        rollDice();
+    }
+}
+
+loadRollFromQuery();
 document.getElementById("diceColor").dispatchEvent(new Event("change"));
 </script>
 

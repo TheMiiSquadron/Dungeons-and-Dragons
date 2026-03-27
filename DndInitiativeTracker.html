@@ -16,11 +16,14 @@
         </select>
     </div>
     <div class="tabs">
-        <a href="DndDiceRoller.html" class="tab-link inactive">Dice Roller</a>
-        <a href="DndCoinConverter.html" class="tab-link inactive">Coin Converter</a>
-        <a href="DndCharacterSheetCreator.html" class="tab-link inactive">Character Sheet</a>
-        <a href="DndInitiativeTracker.html" class="tab-link active">Initiative</a>
-        <a href="DndMonsterDatabase.html" class="tab-link inactive">Monster Database</a>
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndDiceRoller.html">Dice Roller</option>
+            <option value="DndCoinConverter.html">Coin Converter</option>
+            <option value="DndCharacterSheetCreator.html">Character Sheet</option>
+            <option value="DndInitiativeTracker.html" selected>Initiative</option>
+            <option value="DndMonsterDatabase.html">Monster Database (WIP)</option>
+            <option value="DndSpellbook.html">Spellbook (WIP)</option>
+        </select>
     </div>
 
     <section class="panel">

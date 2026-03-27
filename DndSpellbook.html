@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" class="page-dnd-spellbook">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Man's D&D Toolbox (v1.1)</title>
+    <link rel="stylesheet" href="img/stylesheet.css">
+</head>
+<body>
+<main class="app">
+    <div class="mode-switcher">
+        <label class="mode-label" for="rulesetSwitch">Mode</label>
+        <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndSpellbook.html" selected>D&amp;D 5E</option>
+            <option value="PathfinderSpellbook.html">Pathfinder</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndDiceRoller.html">Dice Roller</option>
+            <option value="DndCoinConverter.html">Coin Converter</option>
+            <option value="DndCharacterSheetCreator.html">Character Sheet</option>
+            <option value="DndInitiativeTracker.html">Initiative</option>
+            <option value="DndMonsterDatabase.html">Monster Database (WIP)</option>
+            <option value="DndSpellbook.html" selected>Spellbook (WIP)</option>
+        </select>
+    </div>
+
+    <section class="panel">
+        <h1>Mii Man's D&D Toolbox</h1>
+        <p class="subhead">Spellbook Database v1.0</p>
+        <p class="wip-notice">Work in progress: the Spellbook is unfinished and may change.</p>
+        <p id="databaseStatus" class="database-status">Loading spells from JSON...</p>
+
+        <div class="controls">
+            <div>
+                <label for="searchInput">Search Spells</label>
+                <input id="searchInput" type="text" placeholder="Cure wounds, evocation, cleric, touch...">
+            </div>
+            <div>
+                <label for="levelFilter">Level</label>
+                <select id="levelFilter">
+                    <option value="all">All Levels</option>
+                </select>
+            </div>
+            <div>
+                <label for="schoolFilter">School</label>
+                <select id="schoolFilter">
+                    <option value="all">All Schools</option>
+                </select>
+            </div>
+            <div>
+                <label for="classFilter">Class</label>
+                <select id="classFilter">
+                    <option value="all">All Classes</option>
+                </select>
+            </div>
+            <div>
+                <label for="sourceFilter">Source</label>
+                <select id="sourceFilter">
+                    <option value="all">All Sources</option>
+                </select>
+            </div>
+            <div>
+                <label for="sortField">Sort By</label>
+                <select id="sortField">
+                    <option value="name">Name</option>
+                    <option value="level">Level</option>
+                    <option value="school">School</option>
+                    <option value="castingTime">Casting Time</option>
+                    <option value="range">Range</option>
+                    <option value="source">Source</option>
+                </select>
+            </div>
+            <div>
+                <label for="sortDirection">Order</label>
+                <select id="sortDirection">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+            <button id="resetFiltersBtn" class="btn" type="button">Reset</button>
+        </div>
+
+        <div class="db-layout">
+            <div class="monster-list">
+                <div id="resultsMeta" class="results-meta"></div>
+                <div id="spellCards" class="monster-cards"></div>
+            </div>
+
+            <div class="monster-detail">
+                <div id="spellDetail"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+const SPELL_DATA_PATH = "img/DndSpells5e.json";
+
+const searchInput = document.getElementById("searchInput");
+const levelFilter = document.getElementById("levelFilter");
+const schoolFilter = document.getElementById("schoolFilter");
+const classFilter = document.getElementById("classFilter");
+const sourceFilter = document.getElementById("sourceFilter");
+const sortField = document.getElementById("sortField");
+const sortDirection = document.getElementById("sortDirection");
+const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+const resultsMeta = document.getElementById("resultsMeta");
+const spellCards = document.getElementById("spellCards");
+const spellDetail = document.getElementById("spellDetail");
+const databaseStatus = document.getElementById("databaseStatus");
+
+let baseSpells = [];
+let spells = [];
+let filteredSpells = [];
+let selectedSpellId = "";
+
+function slugify(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || `spell-${Date.now()}`;
+}
+
+function escapeHtml(value) {
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function normalizeList(value) {
+    if (Array.isArray(value)) {
+        return value.map(function (item) {
+            return String(item || "").trim();
+        }).filter(Boolean);
+    }
+
+    return String(value || "")
+        .split(",")
+        .map(function (item) {
+            return item.trim();
+        })
+        .filter(Boolean);
+}
+
+function formatLevel(level) {
+    return Number(level) === 0 ? "Cantrip (0)" : `Level ${level}`;
+}
+
+function formatComponents(components) {
+    const list = normalizeList(components);
+    return list.length ? list.join(", ") : "-";
+}
+
+function normalizeSpell(spell) {
+    return {
+        id: String(spell.id || slugify(spell.name || "spell")),
+        name: spell.name || "Unnamed Spell",
+        level: Number(spell.level || 0),
+        school: String(spell.school || "-").trim() || "-",
+        castingTime: String(spell.castingTime || spell.casting_time || "-").trim() || "-",
+        range: String(spell.range || "-").trim() || "-",
+        components: normalizeList(spell.components),
+        duration: String(spell.duration || "-").trim() || "-",
+        description: String(spell.description || "").trim(),
+        classes: normalizeList(spell.classes),
+        ritual: Boolean(spell.ritual),
+        concentration: Boolean(spell.concentration),
+        higherLevels: String(spell.higherLevels || spell.higher_levels || "").trim(),
+        source: String(spell.source || "Custom").trim() || "Custom",
+        sourcePage: String(spell.sourcePage || spell.page || "").trim()
+    };
+}
+
+function compareText(left, right) {
+    return String(left || "").localeCompare(String(right || ""), undefined, { numeric: true, sensitivity: "base" });
+}
+
+function compareSpells(a, b) {
+    let result = 0;
+
+    switch (sortField.value) {
+        case "level":
+            result = a.level - b.level;
+            break;
+        case "school":
+            result = compareText(a.school, b.school);
+            break;
+        case "castingTime":
+            result = compareText(a.castingTime, b.castingTime);
+            break;
+        case "range":
+            result = compareText(a.range, b.range);
+            break;
+        case "source":
+            result = compareText(a.source, b.source);
+            break;
+        case "name":
+        default:
+            result = compareText(a.name, b.name);
+            break;
+    }
+
+    if (result === 0) {
+        result = compareText(a.name, b.name);
+    }
+
+    return sortDirection.value === "desc" ? -result : result;
+}
+
+function syncSpellList() {
+    spells = [...baseSpells].sort(compareSpells);
+}
+
+function uniqueValues(values) {
+    return [...new Set(values.filter(Boolean))].sort(function (a, b) {
+        return compareText(a, b);
+    });
+}
+
+function populateFilter(selectNode, values, label) {
+    uniqueValues(values).forEach(function (value) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = `${label}: ${value}`;
+        selectNode.appendChild(option);
+    });
+}
+
+function rebuildFilters() {
+    levelFilter.innerHTML = '<option value="all">All Levels</option>';
+    schoolFilter.innerHTML = '<option value="all">All Schools</option>';
+    classFilter.innerHTML = '<option value="all">All Classes</option>';
+    sourceFilter.innerHTML = '<option value="all">All Sources</option>';
+
+    uniqueValues(spells.map(function (spell) {
+        return String(spell.level);
+    })).forEach(function (value) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = formatLevel(Number(value));
+        levelFilter.appendChild(option);
+    });
+
+    populateFilter(schoolFilter, spells.map(function (spell) {
+        return spell.school;
+    }), "School");
+
+    populateFilter(classFilter, spells.reduce(function (allClasses, spell) {
+        return allClasses.concat(spell.classes);
+    }, []), "Class");
+
+    populateFilter(sourceFilter, spells.map(function (spell) {
+        return spell.source;
+    }), "Source");
+}
+
+function matchesFilters(spell) {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const searchHaystack = [
+        spell.id,
+        spell.name,
+        spell.school,
+        spell.castingTime,
+        spell.range,
+        spell.duration,
+        spell.description,
+        spell.higherLevels,
+        spell.source,
+        spell.sourcePage,
+        spell.components.join(" "),
+        spell.classes.join(" "),
+        spell.ritual ? "ritual" : "",
+        spell.concentration ? "concentration" : ""
+    ].join(" ").toLowerCase();
+
+    const matchesSearch = !searchTerm || searchHaystack.includes(searchTerm);
+    const matchesLevel = levelFilter.value === "all" || String(spell.level) === levelFilter.value;
+    const matchesSchool = schoolFilter.value === "all" || spell.school === schoolFilter.value;
+    const matchesClass = classFilter.value === "all" || spell.classes.some(function (className) {
+        return className === classFilter.value;
+    });
+    const matchesSource = sourceFilter.value === "all" || spell.source === sourceFilter.value;
+
+    return matchesSearch && matchesLevel && matchesSchool && matchesClass && matchesSource;
+}
+
+function renderSpellCards() {
+    spellCards.innerHTML = "";
+
+    if (!filteredSpells.length) {
+        spellCards.innerHTML = '<div class="empty-state">No spells match those filters yet.</div>';
+        spellDetail.innerHTML = '<div class="empty-state">Try broadening the search to see spell details.</div>';
+        resultsMeta.textContent = "0 spells found";
+        return;
+    }
+
+    resultsMeta.textContent = `${filteredSpells.length} spell${filteredSpells.length === 1 ? "" : "s"} found`;
+
+    filteredSpells.forEach(function (spell) {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = `monster-card${spell.id === selectedSpellId ? " active" : ""}`;
+        card.innerHTML = `
+            <div class="monster-card-top">
+                <h2 class="monster-name">${escapeHtml(spell.name)}</h2>
+                <span class="pill">${escapeHtml(formatLevel(spell.level))}</span>
+            </div>
+            <p class="monster-meta">${escapeHtml(spell.school)} spell • ${escapeHtml(spell.classes.join(", ") || "No classes listed")}</p>
+            <div class="pill-row">
+                <span class="pill">${escapeHtml(spell.source)}</span>
+                <span class="pill">${escapeHtml(spell.castingTime)}</span>
+                <span class="pill">${escapeHtml(spell.range)}</span>
+                ${spell.ritual ? '<span class="pill">Ritual</span>' : ""}
+                ${spell.concentration ? '<span class="pill">Concentration</span>' : ""}
+            </div>
+        `;
+        card.addEventListener("click", function () {
+            selectedSpellId = spell.id;
+            renderSpellCards();
+            renderSpellDetail();
+        });
+        spellCards.appendChild(card);
+    });
+}
+
+function renderSpellDetail() {
+    const selectedSpell = filteredSpells.find(function (spell) {
+        return spell.id === selectedSpellId;
+    }) || filteredSpells[0];
+
+    if (!selectedSpell) {
+        spellDetail.innerHTML = '<div class="empty-state">No spell selected.</div>';
+        return;
+    }
+
+    selectedSpellId = selectedSpell.id;
+
+    spellDetail.innerHTML = `
+        <div class="detail-top">
+            <div>
+                <h2 class="detail-name">${escapeHtml(selectedSpell.name)}</h2>
+                <p class="detail-meta">${escapeHtml(selectedSpell.school)} spell • ${escapeHtml(selectedSpell.classes.join(", ") || "No classes listed")}</p>
+            </div>
+            <span class="pill">${escapeHtml(formatLevel(selectedSpell.level))}</span>
+        </div>
+
+        <div class="pill-row">
+            <span class="pill">${escapeHtml(selectedSpell.source)}</span>
+            ${selectedSpell.sourcePage ? `<span class="pill">Page ${escapeHtml(selectedSpell.sourcePage)}</span>` : ""}
+            <span class="pill">ID ${escapeHtml(selectedSpell.id)}</span>
+            ${selectedSpell.ritual ? '<span class="pill">Ritual</span>' : ""}
+            ${selectedSpell.concentration ? '<span class="pill">Concentration</span>' : ""}
+        </div>
+
+        <div class="detail-grid">
+            <div class="stat-box"><span class="stat-label">Casting Time</span><div class="stat-value">${escapeHtml(selectedSpell.castingTime)}</div></div>
+            <div class="stat-box"><span class="stat-label">Duration</span><div class="stat-value">${escapeHtml(selectedSpell.duration)}</div></div>
+            <div class="stat-box"><span class="stat-label">Range</span><div class="stat-value">${escapeHtml(selectedSpell.range)}</div></div>
+            <div class="stat-box"><span class="stat-label">Level</span><div class="stat-value">${escapeHtml(formatLevel(selectedSpell.level))}</div></div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="stat-box"><span class="stat-label">School</span><div class="stat-value">${escapeHtml(selectedSpell.school)}</div></div>
+            <div class="stat-box"><span class="stat-label">Components</span><div class="stat-value">${escapeHtml(formatComponents(selectedSpell.components))}</div></div>
+            <div class="stat-box"><span class="stat-label">Classes</span><div class="stat-value">${escapeHtml(selectedSpell.classes.join(", ") || "-")}</div></div>
+            <div class="stat-box"><span class="stat-label">Flags</span><div class="stat-value">${escapeHtml([
+                selectedSpell.ritual ? "Ritual" : "",
+                selectedSpell.concentration ? "Concentration" : ""
+            ].filter(Boolean).join(", ") || "-")}</div></div>
+        </div>
+
+        <h3 class="section-title">Description</h3>
+        <p class="detail-text">${selectedSpell.description ? escapeHtml(selectedSpell.description).replace(/\n/g, "<br><br>") : "-"}</p>
+
+        <h3 class="section-title">At Higher Levels</h3>
+        <p class="detail-text">${selectedSpell.higherLevels ? escapeHtml(selectedSpell.higherLevels).replace(/\n/g, "<br><br>") : "-"}</p>
+    `;
+}
+
+function applyFilters() {
+    syncSpellList();
+    filteredSpells = spells.filter(matchesFilters);
+    if (!filteredSpells.some(function (spell) { return spell.id === selectedSpellId; })) {
+        selectedSpellId = filteredSpells[0] ? filteredSpells[0].id : "";
+    }
+    renderSpellCards();
+    renderSpellDetail();
+}
+
+function resetFilters() {
+    searchInput.value = "";
+    levelFilter.value = "all";
+    schoolFilter.value = "all";
+    classFilter.value = "all";
+    sourceFilter.value = "all";
+    sortField.value = "name";
+    sortDirection.value = "asc";
+    applyFilters();
+}
+
+async function loadSpellData() {
+    try {
+        const response = await fetch(SPELL_DATA_PATH);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        baseSpells = Array.isArray(data) ? data.map(normalizeSpell) : [];
+        syncSpellList();
+        rebuildFilters();
+        selectedSpellId = spells[0] ? spells[0].id : "";
+        databaseStatus.textContent = `Loaded ${baseSpells.length} 5E spell${baseSpells.length === 1 ? "" : "s"} from ${SPELL_DATA_PATH}. Duplicate an entry in img/DndSpellTemplate.json to add more in code.`;
+        databaseStatus.classList.remove("error");
+        applyFilters();
+    } catch (error) {
+        baseSpells = [];
+        syncSpellList();
+        rebuildFilters();
+        selectedSpellId = "";
+        databaseStatus.textContent = "Could not load img/DndSpells5e.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
+        databaseStatus.classList.add("error");
+        applyFilters();
+    }
+}
+
+searchInput.addEventListener("input", applyFilters);
+levelFilter.addEventListener("change", applyFilters);
+schoolFilter.addEventListener("change", applyFilters);
+classFilter.addEventListener("change", applyFilters);
+sourceFilter.addEventListener("change", applyFilters);
+sortField.addEventListener("change", applyFilters);
+sortDirection.addEventListener("change", applyFilters);
+resetFiltersBtn.addEventListener("click", resetFilters);
+
+loadSpellData();
+</script>
+</body>
+</html>

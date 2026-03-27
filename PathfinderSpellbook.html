@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" class="page-pathfinder-spellbook">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Man's Pathfinder Toolbox (v1.1)</title>
+    <link rel="stylesheet" href="img/stylesheet.css">
+</head>
+<body>
+<main class="app">
+    <div class="mode-switcher">
+        <label class="mode-label" for="rulesetSwitch">Mode</label>
+        <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndSpellbook.html">D&amp;D 5E</option>
+            <option value="PathfinderSpellbook.html" selected>Pathfinder</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="PathfinderDiceRoller.html">Dice Roller</option>
+            <option value="PathfinderCoinConverter.html">Coin Converter</option>
+            <option value="PathfinderCharacterSheetCreator.html">Character Sheet</option>
+            <option value="PathfinderInitiativeTracker.html">Initiative</option>
+            <option value="PathfinderMonsterDatabase.html">Monster Database</option>
+            <option value="PathfinderSpellbook.html" selected>Spellbook</option>
+        </select>
+    </div>
+
+    <section class="panel">
+        <h1>Mii Man's Pathfinder Toolbox</h1>
+        <p class="subhead">Spellbook</p>
+        <p id="spellbookStatus" class="database-status">Spellbook stores entries in this browser using local storage.</p>
+
+        <div class="spellbook-layout">
+            <section class="spell-panel">
+                <h2>Spell Entry</h2>
+                <div class="spell-form-grid">
+                    <div>
+                        <label for="spellName">Spell Name</label>
+                        <input id="spellName" type="text" maxlength="80" placeholder="Magic Missile">
+                    </div>
+                    <div>
+                        <label for="spellLevel">Level</label>
+                        <select id="spellLevel">
+                            <option value="0">Cantrip (0)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="spellClasses">Spell Used By Class</label>
+                        <input id="spellClasses" type="text" maxlength="120" placeholder="Wizard, Cleric">
+                    </div>
+                    <div>
+                        <label for="spellSchool">School</label>
+                        <input id="spellSchool" type="text" maxlength="60" placeholder="Evocation">
+                    </div>
+                    <div>
+                        <label for="spellCastingTime">Casting Time</label>
+                        <input id="spellCastingTime" type="text" maxlength="60" placeholder="1 standard action">
+                    </div>
+                    <div>
+                        <label for="spellRange">Range</label>
+                        <input id="spellRange" type="text" maxlength="60" placeholder="Medium">
+                    </div>
+                    <div>
+                        <label for="spellDuration">Duration</label>
+                        <input id="spellDuration" type="text" maxlength="80" placeholder="1 round/level">
+                    </div>
+                    <div>
+                        <label for="spellComponents">Components</label>
+                        <input id="spellComponents" type="text" maxlength="80" placeholder="V, S, F">
+                    </div>
+                    <label class="toggle-field">
+                        <input id="spellConcentration" type="checkbox">
+                        <span>Concentration</span>
+                    </label>
+                    <label class="toggle-field">
+                        <input id="spellRitual" type="checkbox">
+                        <span>Ritual</span>
+                    </label>
+                </div>
+
+                <div class="spell-stack">
+                    <div>
+                        <label for="spellDescription">Description</label>
+                        <textarea id="spellDescription" placeholder="Core spell effect, save, damage, and special rules."></textarea>
+                    </div>
+                    <div>
+                        <label for="spellHigherLevels">Scaling / Notes</label>
+                        <textarea id="spellHigherLevels" placeholder="Optional scaling or class-specific notes."></textarea>
+                    </div>
+                    <div>
+                        <label for="spellSource">Source / Notes</label>
+                        <input id="spellSource" type="text" maxlength="80" placeholder="Core Rulebook p. 312">
+                    </div>
+                </div>
+
+                <div class="spell-actions">
+                    <button id="saveSpellBtn" class="btn" type="button">Save Spell</button>
+                    <button id="clearSpellBtn" class="btn secondary-btn" type="button">Clear Form</button>
+                    <button id="deleteSpellBtn" class="btn danger-btn" type="button" disabled>Delete Selected</button>
+                </div>
+            </section>
+
+            <section class="spell-panel">
+                <h2>Spellbook</h2>
+                <div class="controls spell-controls">
+                    <div>
+                        <label for="searchInput">Search Spells</label>
+                        <input id="searchInput" type="text" placeholder="Magic missile, ritual, wizard...">
+                    </div>
+                    <div>
+                        <label for="levelFilter">Level</label>
+                        <select id="levelFilter">
+                            <option value="all">All Levels</option>
+                            <option value="0">Cantrip (0)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="classFilter">Class</label>
+                        <input id="classFilter" type="text" placeholder="Cleric">
+                    </div>
+                    <button id="resetFiltersBtn" class="btn" type="button">Reset</button>
+                </div>
+
+                <div id="resultsMeta" class="results-meta"></div>
+                <div id="spellCards" class="monster-cards"></div>
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+const SPELLBOOK_KEY = "pathfinderSpellbookEntries";
+const RULESET_NAME = "Pathfinder";
+
+const spellName = document.getElementById("spellName");
+const spellLevel = document.getElementById("spellLevel");
+const spellClasses = document.getElementById("spellClasses");
+const spellSchool = document.getElementById("spellSchool");
+const spellCastingTime = document.getElementById("spellCastingTime");
+const spellRange = document.getElementById("spellRange");
+const spellDuration = document.getElementById("spellDuration");
+const spellComponents = document.getElementById("spellComponents");
+const spellConcentration = document.getElementById("spellConcentration");
+const spellRitual = document.getElementById("spellRitual");
+const spellDescription = document.getElementById("spellDescription");
+const spellHigherLevels = document.getElementById("spellHigherLevels");
+const spellSource = document.getElementById("spellSource");
+const saveSpellBtn = document.getElementById("saveSpellBtn");
+const clearSpellBtn = document.getElementById("clearSpellBtn");
+const deleteSpellBtn = document.getElementById("deleteSpellBtn");
+const searchInput = document.getElementById("searchInput");
+const levelFilter = document.getElementById("levelFilter");
+const classFilter = document.getElementById("classFilter");
+const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+const resultsMeta = document.getElementById("resultsMeta");
+const spellCards = document.getElementById("spellCards");
+const spellbookStatus = document.getElementById("spellbookStatus");
+
+let spells = [];
+let filteredSpells = [];
+let selectedSpellId = "";
+
+function slugify(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || `spell-${Date.now()}`;
+}
+
+function escapeHtml(value) {
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function normalizeClasses(value) {
+    return String(value || "")
+        .split(",")
+        .map(function (item) {
+            return item.trim();
+        })
+        .filter(Boolean);
+}
+
+function formatLevel(level) {
+    return Number(level) === 0 ? "Cantrip (0)" : `Level ${level}`;
+}
+
+function createSpellFromForm() {
+    return {
+        id: selectedSpellId || slugify(spellName.value),
+        name: spellName.value.trim(),
+        level: Number(spellLevel.value),
+        classes: normalizeClasses(spellClasses.value),
+        school: spellSchool.value.trim(),
+        castingTime: spellCastingTime.value.trim(),
+        range: spellRange.value.trim(),
+        duration: spellDuration.value.trim(),
+        components: spellComponents.value.trim(),
+        concentration: spellConcentration.checked,
+        ritual: spellRitual.checked,
+        description: spellDescription.value.trim(),
+        higherLevels: spellHigherLevels.value.trim(),
+        source: spellSource.value.trim()
+    };
+}
+
+function validateSpell(spell) {
+    if (!spell.name) {
+        spellbookStatus.textContent = "Spell name is required.";
+        spellbookStatus.classList.add("error");
+        return false;
+    }
+    return true;
+}
+
+function persistSpells() {
+    localStorage.setItem(SPELLBOOK_KEY, JSON.stringify(spells));
+}
+
+function clearStatusError() {
+    spellbookStatus.classList.remove("error");
+}
+
+function resetForm() {
+    spellName.value = "";
+    spellLevel.value = "0";
+    spellClasses.value = "";
+    spellSchool.value = "";
+    spellCastingTime.value = "";
+    spellRange.value = "";
+    spellDuration.value = "";
+    spellComponents.value = "";
+    spellConcentration.checked = false;
+    spellRitual.checked = false;
+    spellDescription.value = "";
+    spellHigherLevels.value = "";
+    spellSource.value = "";
+    selectedSpellId = "";
+    deleteSpellBtn.disabled = true;
+}
+
+function fillForm(spell) {
+    spellName.value = spell.name;
+    spellLevel.value = String(spell.level);
+    spellClasses.value = spell.classes.join(", ");
+    spellSchool.value = spell.school;
+    spellCastingTime.value = spell.castingTime;
+    spellRange.value = spell.range;
+    spellDuration.value = spell.duration;
+    spellComponents.value = spell.components;
+    spellConcentration.checked = spell.concentration;
+    spellRitual.checked = spell.ritual;
+    spellDescription.value = spell.description;
+    spellHigherLevels.value = spell.higherLevels;
+    spellSource.value = spell.source;
+    selectedSpellId = spell.id;
+    deleteSpellBtn.disabled = false;
+}
+
+function compareSpells(a, b) {
+    const levelDiff = a.level - b.level;
+    if (levelDiff !== 0) {
+        return levelDiff;
+    }
+    return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" });
+}
+
+function renderSpells() {
+    if (!filteredSpells.length) {
+        spellCards.innerHTML = '<div class="empty-state">No spells match the current filters yet.</div>';
+        resultsMeta.textContent = "0 spells shown";
+        return;
+    }
+
+    spellCards.innerHTML = filteredSpells.map(function (spell) {
+        const badges = [
+            spell.school || "School Unset",
+            spell.concentration ? "Concentration" : "",
+            spell.ritual ? "Ritual" : "",
+            spell.source || ""
+        ].filter(Boolean);
+
+        return `
+            <button class="monster-card${spell.id === selectedSpellId ? " active" : ""}" type="button" data-spell-id="${escapeHtml(spell.id)}">
+                <div class="monster-card-top">
+                    <div>
+                        <div class="monster-name">${escapeHtml(spell.name)}</div>
+                        <div class="monster-meta">${escapeHtml(formatLevel(spell.level))}</div>
+                    </div>
+                </div>
+                <div class="pill-row">
+                    ${badges.map(function (badge) {
+                        return `<span class="pill">${escapeHtml(badge)}</span>`;
+                    }).join("")}
+                </div>
+                <div class="detail-text">${escapeHtml(spell.classes.join(", ") || "No classes listed")}</div>
+            </button>
+        `;
+    }).join("");
+
+    resultsMeta.textContent = `${filteredSpells.length} spell${filteredSpells.length === 1 ? "" : "s"} shown`;
+}
+
+function applyFilters() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const selectedLevel = levelFilter.value;
+    const classTerm = classFilter.value.trim().toLowerCase();
+
+    filteredSpells = spells.filter(function (spell) {
+        const matchesSearch = !searchTerm || [
+            spell.name,
+            spell.school,
+            spell.description,
+            spell.higherLevels,
+            spell.source,
+            spell.classes.join(", ")
+        ].join(" ").toLowerCase().includes(searchTerm);
+
+        const matchesLevel = selectedLevel === "all" || String(spell.level) === selectedLevel;
+        const matchesClass = !classTerm || spell.classes.some(function (className) {
+            return className.toLowerCase().includes(classTerm);
+        });
+
+        return matchesSearch && matchesLevel && matchesClass;
+    }).sort(compareSpells);
+
+    renderSpells();
+}
+
+function loadSpells() {
+    try {
+        const savedSpells = JSON.parse(localStorage.getItem(SPELLBOOK_KEY) || "[]");
+        spells = Array.isArray(savedSpells) ? savedSpells : [];
+    } catch (error) {
+        spells = [];
+    }
+
+    clearStatusError();
+    spellbookStatus.textContent = `${RULESET_NAME} spellbook ready. ${spells.length} saved spell${spells.length === 1 ? "" : "s"} loaded from this browser.`;
+    applyFilters();
+}
+
+saveSpellBtn.addEventListener("click", function () {
+    const spell = createSpellFromForm();
+    if (!validateSpell(spell)) {
+        return;
+    }
+
+    const existingIndex = spells.findIndex(function (item) {
+        return item.id === spell.id;
+    });
+
+    if (existingIndex >= 0) {
+        spells[existingIndex] = spell;
+    } else {
+        spells.push(spell);
+    }
+
+    persistSpells();
+    clearStatusError();
+    spellbookStatus.textContent = `${spell.name} saved to the ${RULESET_NAME} spellbook.`;
+    selectedSpellId = spell.id;
+    deleteSpellBtn.disabled = false;
+    applyFilters();
+});
+
+clearSpellBtn.addEventListener("click", function () {
+    resetForm();
+    clearStatusError();
+    spellbookStatus.textContent = `${RULESET_NAME} spell form cleared.`;
+    applyFilters();
+});
+
+deleteSpellBtn.addEventListener("click", function () {
+    if (!selectedSpellId) {
+        return;
+    }
+
+    spells = spells.filter(function (spell) {
+        return spell.id !== selectedSpellId;
+    });
+    persistSpells();
+    resetForm();
+    clearStatusError();
+    spellbookStatus.textContent = `Selected spell removed from the ${RULESET_NAME} spellbook.`;
+    applyFilters();
+});
+
+spellCards.addEventListener("click", function (event) {
+    const card = event.target.closest("[data-spell-id]");
+    if (!card) {
+        return;
+    }
+    const spell = spells.find(function (item) {
+        return item.id === card.dataset.spellId;
+    });
+    if (!spell) {
+        return;
+    }
+    clearStatusError();
+    spellbookStatus.textContent = `${spell.name} loaded into the form for editing.`;
+    fillForm(spell);
+    applyFilters();
+});
+
+[searchInput, levelFilter, classFilter].forEach(function (node) {
+    node.addEventListener("input", applyFilters);
+    node.addEventListener("change", applyFilters);
+});
+
+resetFiltersBtn.addEventListener("click", function () {
+    searchInput.value = "";
+    levelFilter.value = "all";
+    classFilter.value = "";
+    applyFilters();
+});
+
+loadSpells();
+</script>
+</body>
+</html>

@@ -16,16 +16,20 @@
         </select>
     </div>
     <div class="tabs">
-        <a href="DndDiceRoller.html" class="tab-link inactive">Dice Roller</a>
-        <a href="DndCoinConverter.html" class="tab-link inactive">Coin Converter</a>
-        <a href="DndCharacterSheetCreator.html" class="tab-link inactive">Character Sheet</a>
-        <a href="DndInitiativeTracker.html" class="tab-link inactive">Initiative</a>
-        <a href="DndMonsterDatabase.html" class="tab-link active">Monster Database</a>
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndDiceRoller.html">Dice Roller</option>
+            <option value="DndCoinConverter.html">Coin Converter</option>
+            <option value="DndCharacterSheetCreator.html">Character Sheet</option>
+            <option value="DndInitiativeTracker.html">Initiative</option>
+            <option value="DndMonsterDatabase.html" selected>Monster Database (WIP)</option>
+            <option value="DndSpellbook.html">Spellbook (WIP)</option>
+        </select>
     </div>
 
     <section class="panel">
         <h1>Mii Man's D&D Toolbox</h1>
-        <p class="subhead">Monster Database</p>
+        <p class="subhead">Monster Database v1.0</p>
+        <p class="wip-notice">Work in progress: the Monster Database is unfinished and may change.</p>
         <p id="databaseStatus" class="database-status">Loading monsters from JSON...</p>
 
         <div class="controls">
@@ -51,6 +55,24 @@
                     <option value="all">All Sources</option>
                 </select>
             </div>
+            <div>
+                <label for="sortField">Sort By</label>
+                <select id="sortField">
+                    <option value="name">Name</option>
+                    <option value="challengeRating">Challenge Rating</option>
+                    <option value="armorClass">Armor Class</option>
+                    <option value="hitPoints">Hit Points</option>
+                    <option value="type">Type</option>
+                    <option value="source">Source</option>
+                </select>
+            </div>
+            <div>
+                <label for="sortDirection">Order</label>
+                <select id="sortDirection">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
             <button id="resetFiltersBtn" class="btn" type="button">Reset</button>
         </div>
 
@@ -69,11 +91,14 @@
 
 <script>
 const MONSTER_DATA_PATH = "img/DndMonsters5e.json";
+const DICE_ROLLER_PATH = "DndDiceRoller.html";
 
 const searchInput = document.getElementById("searchInput");
 const typeFilter = document.getElementById("typeFilter");
 const crFilter = document.getElementById("crFilter");
 const sourceFilter = document.getElementById("sourceFilter");
+const sortField = document.getElementById("sortField");
+const sortDirection = document.getElementById("sortDirection");
 const resetFiltersBtn = document.getElementById("resetFiltersBtn");
 const resultsMeta = document.getElementById("resultsMeta");
 const monsterCards = document.getElementById("monsterCards");
@@ -84,6 +109,42 @@ let baseMonsters = [];
 let monsters = [];
 let filteredMonsters = [];
 let selectedMonsterId = "";
+const CHALLENGE_XP = {
+    "0": "0-10 XP",
+    "1/8": "25 XP",
+    "1/4": "50 XP",
+    "1/2": "100 XP",
+    "1": "200 XP",
+    "2": "450 XP",
+    "3": "700 XP",
+    "4": "1,100 XP",
+    "5": "1,800 XP",
+    "6": "2,300 XP",
+    "7": "2,900 XP",
+    "8": "3,900 XP",
+    "9": "5,000 XP",
+    "10": "5,900 XP",
+    "11": "7,200 XP",
+    "12": "8,400 XP",
+    "13": "10,000 XP",
+    "14": "11,500 XP",
+    "15": "13,000 XP",
+    "16": "15,000 XP",
+    "17": "18,000 XP",
+    "18": "20,000 XP",
+    "19": "22,000 XP",
+    "20": "25,000 XP",
+    "21": "33,000 XP",
+    "22": "41,000 XP",
+    "23": "50,000 XP",
+    "24": "62,000 XP",
+    "25": "75,000 XP",
+    "26": "90,000 XP",
+    "27": "105,000 XP",
+    "28": "120,000 XP",
+    "29": "135,000 XP",
+    "30": "155,000 XP"
+};
 
 function getFieldValue(id) {
     const node = document.getElementById(id);
@@ -121,6 +182,7 @@ function normalizeMonster(monster) {
         alignment: monster.alignment || "-",
         armorClass: Number(monster.armorClass || 0),
         hitPoints: Number(monster.hitPoints || 0),
+        hitDie: String(monster.hitDie || "").trim(),
         speed: monster.speed || "-",
         abilities: {
             strength: Number(abilities.strength || 0),
@@ -133,14 +195,105 @@ function normalizeMonster(monster) {
         challengeRating: String(monster.challengeRating || "0"),
         traits: Array.isArray(monster.traits) ? monster.traits : splitLines(String(monster.traits || "")),
         actions: Array.isArray(monster.actions) ? monster.actions : splitLines(String(monster.actions || "")),
-        source: monster.source || "Unknown"
+        source: monster.source || "Unknown",
+        sourcePage: String(monster.sourcePage || monster.page || "").trim()
     };
 }
 
+function formatHitPoints(monster) {
+    return monster.hitDie ? `${monster.hitPoints} (${escapeHtml(monster.hitDie)})` : String(monster.hitPoints);
+}
+
+function formatAbilityScore(score) {
+    const modifier = Math.floor((Number(score || 0) - 10) / 2);
+    const modifierText = modifier >= 0 ? `+${modifier}` : `${modifier}`;
+    return `${score} (${modifierText})`;
+}
+
+function parseHitDieExpression(hitDie) {
+    const normalized = String(hitDie || "").replace(/\s+/g, "");
+    const match = normalized.match(/^(\d+)d(\d+)([+-]\d+)?$/i);
+    if (!match) {
+        return null;
+    }
+    return {
+        count: Number(match[1]),
+        sides: Number(match[2]),
+        modifier: Number(match[3] || 0),
+        formula: normalized.toLowerCase()
+    };
+}
+
+function quickRollMarkup(monster) {
+    const parsed = parseHitDieExpression(monster.hitDie);
+    if (!parsed) {
+        return "";
+    }
+    return `
+        <button class="hp-roll-btn" type="button" data-hit-die="${escapeHtml(parsed.formula)}">
+            Quick Roll
+        </button>
+    `;
+}
+
+function parseChallengeRating(value) {
+    const text = String(value || "0").trim();
+    if (text.includes("/")) {
+        const parts = text.split("/");
+        const numerator = Number(parts[0]);
+        const denominator = Number(parts[1]);
+        if (denominator) {
+            return numerator / denominator;
+        }
+    }
+    const numericValue = Number(text);
+    return Number.isFinite(numericValue) ? numericValue : 0;
+}
+
+function formatChallengeRating(monster) {
+    const challengeRating = String(monster.challengeRating || "0").trim();
+    const xp = CHALLENGE_XP[challengeRating];
+    return xp ? `CR ${challengeRating} (${xp})` : `CR ${challengeRating}`;
+}
+
+function compareText(left, right) {
+    return String(left || "").localeCompare(String(right || ""), undefined, { numeric: true });
+}
+
+function compareMonsters(a, b) {
+    let result = 0;
+
+    switch (sortField.value) {
+        case "challengeRating":
+            result = parseChallengeRating(a.challengeRating) - parseChallengeRating(b.challengeRating);
+            break;
+        case "armorClass":
+            result = a.armorClass - b.armorClass;
+            break;
+        case "hitPoints":
+            result = a.hitPoints - b.hitPoints;
+            break;
+        case "type":
+            result = compareText(a.type, b.type);
+            break;
+        case "source":
+            result = compareText(a.source, b.source);
+            break;
+        case "name":
+        default:
+            result = compareText(a.name, b.name);
+            break;
+    }
+
+    if (result === 0) {
+        result = compareText(a.name, b.name);
+    }
+
+    return sortDirection.value === "desc" ? -result : result;
+}
+
 function syncMonsterList() {
-    monsters = [...baseMonsters].sort(function (a, b) {
-        return a.name.localeCompare(b.name, undefined, { numeric: true });
-    });
+    monsters = [...baseMonsters].sort(compareMonsters);
 }
 
 function uniqueValues(key) {
@@ -177,7 +330,9 @@ function matchesFilters(monster) {
         monster.type,
         monster.alignment,
         monster.challengeRating,
+        monster.hitDie,
         monster.source,
+        monster.sourcePage,
         monster.traits.join(" "),
         monster.actions.join(" ")
     ].join(" ").toLowerCase();
@@ -209,13 +364,13 @@ function renderMonsterCards() {
         card.innerHTML = `
             <div class="monster-card-top">
                 <h2 class="monster-name">${escapeHtml(monster.name)}</h2>
-                <span class="pill">CR ${escapeHtml(monster.challengeRating)}</span>
+                <span class="pill">${escapeHtml(formatChallengeRating(monster))}</span>
             </div>
             <p class="monster-meta">${escapeHtml(monster.size)} ${escapeHtml(monster.type)}, ${escapeHtml(monster.alignment)}</p>
             <div class="pill-row">
                 <span class="pill">${escapeHtml(monster.source)}</span>
                 <span class="pill">AC ${monster.armorClass}</span>
-                <span class="pill">HP ${monster.hitPoints}</span>
+                <span class="pill">HP ${formatHitPoints(monster)}</span>
             </div>
         `;
         card.addEventListener("click", function () {
@@ -245,28 +400,33 @@ function renderMonsterDetail() {
                 <h2 class="detail-name">${escapeHtml(selectedMonster.name)}</h2>
                 <p class="detail-meta">${escapeHtml(selectedMonster.size)} ${escapeHtml(selectedMonster.type)}, ${escapeHtml(selectedMonster.alignment)}</p>
             </div>
-            <span class="pill">CR ${escapeHtml(selectedMonster.challengeRating)}</span>
+            <span class="pill">${escapeHtml(formatChallengeRating(selectedMonster))}</span>
         </div>
 
         <div class="pill-row">
             <span class="pill">${escapeHtml(selectedMonster.source)}</span>
+            ${selectedMonster.sourcePage ? `<span class="pill">Page ${escapeHtml(selectedMonster.sourcePage)}</span>` : ""}
             <span class="pill">ID ${escapeHtml(selectedMonster.id)}</span>
         </div>
 
         <div class="detail-grid">
             <div class="stat-box"><span class="stat-label">Armor Class</span><div class="stat-value">${selectedMonster.armorClass}</div></div>
-            <div class="stat-box"><span class="stat-label">Hit Points</span><div class="stat-value">${selectedMonster.hitPoints}</div></div>
+            <div class="stat-box">
+                <span class="stat-label">Hit Points</span>
+                <div class="stat-value">${formatHitPoints(selectedMonster)}</div>
+                ${quickRollMarkup(selectedMonster)}
+            </div>
             <div class="stat-box"><span class="stat-label">Speed</span><div class="stat-value">${escapeHtml(selectedMonster.speed)}</div></div>
-            <div class="stat-box"><span class="stat-label">Challenge Rating</span><div class="stat-value">${escapeHtml(selectedMonster.challengeRating)}</div></div>
+            <div class="stat-box"><span class="stat-label">Challenge Rating</span><div class="stat-value">${escapeHtml(`${selectedMonster.challengeRating} (${CHALLENGE_XP[selectedMonster.challengeRating] || "XP unknown"})`)}</div></div>
         </div>
 
         <div class="detail-grid">
-            <div class="stat-box"><span class="stat-label">STR</span><div class="stat-value">${selectedMonster.abilities.strength}</div></div>
-            <div class="stat-box"><span class="stat-label">DEX</span><div class="stat-value">${selectedMonster.abilities.dexterity}</div></div>
-            <div class="stat-box"><span class="stat-label">CON</span><div class="stat-value">${selectedMonster.abilities.constitution}</div></div>
-            <div class="stat-box"><span class="stat-label">INT</span><div class="stat-value">${selectedMonster.abilities.intelligence}</div></div>
-            <div class="stat-box"><span class="stat-label">WIS</span><div class="stat-value">${selectedMonster.abilities.wisdom}</div></div>
-            <div class="stat-box"><span class="stat-label">CHA</span><div class="stat-value">${selectedMonster.abilities.charisma}</div></div>
+            <div class="stat-box"><span class="stat-label">STR</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.strength)}</div></div>
+            <div class="stat-box"><span class="stat-label">DEX</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.dexterity)}</div></div>
+            <div class="stat-box"><span class="stat-label">CON</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.constitution)}</div></div>
+            <div class="stat-box"><span class="stat-label">INT</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.intelligence)}</div></div>
+            <div class="stat-box"><span class="stat-label">WIS</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.wisdom)}</div></div>
+            <div class="stat-box"><span class="stat-label">CHA</span><div class="stat-value">${formatAbilityScore(selectedMonster.abilities.charisma)}</div></div>
         </div>
 
         <h3 class="section-title">Traits</h3>
@@ -278,6 +438,7 @@ function renderMonsterDetail() {
 }
 
 function applyFilters() {
+    syncMonsterList();
     filteredMonsters = monsters.filter(matchesFilters);
     if (!filteredMonsters.some(function (monster) { return monster.id === selectedMonsterId; })) {
         selectedMonsterId = filteredMonsters[0] ? filteredMonsters[0].id : "";
@@ -291,6 +452,8 @@ function resetFilters() {
     typeFilter.value = "all";
     crFilter.value = "all";
     sourceFilter.value = "all";
+    sortField.value = "name";
+    sortDirection.value = "asc";
     applyFilters();
 }
 
@@ -323,7 +486,20 @@ searchInput.addEventListener("input", applyFilters);
 typeFilter.addEventListener("change", applyFilters);
 crFilter.addEventListener("change", applyFilters);
 sourceFilter.addEventListener("change", applyFilters);
+sortField.addEventListener("change", applyFilters);
+sortDirection.addEventListener("change", applyFilters);
 resetFiltersBtn.addEventListener("click", resetFilters);
+monsterDetail.addEventListener("click", function (event) {
+    const rollButton = event.target.closest(".hp-roll-btn");
+    if (!rollButton) {
+        return;
+    }
+    const params = new URLSearchParams({
+        expr: rollButton.dataset.hitDie || "",
+        autoroll: "1"
+    });
+    window.location.href = `${DICE_ROLLER_PATH}?${params.toString()}`;
+});
 
 loadMonsterData();
 </script>

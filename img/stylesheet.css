@@ -2132,6 +2132,24 @@ font-size: 15px;
             font-weight: 700;
 }
 
+html.page-dnd-monster-database .hp-roll-btn {
+margin-top: 10px;
+            border: 1px solid rgba(255, 223, 149, 0.28);
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: rgba(255, 223, 149, 0.08);
+            color: var(--accent-2);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+}
+
+html.page-dnd-monster-database .hp-roll-btn:hover {
+background: rgba(255, 223, 149, 0.16);
+}
+
 html.page-dnd-monster-database .section-title {
 margin: 16px 0 8px;
             color: var(--accent);
@@ -2163,6 +2181,17 @@ margin: 0 0 14px;
 
 html.page-dnd-monster-database .database-status.error {
 color: #ffb0a6;
+}
+
+html.page-dnd-monster-database .wip-notice {
+margin: 0 0 14px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 176, 166, 0.35);
+            border-radius: 12px;
+            background: rgba(143, 47, 69, 0.18);
+            color: #ffd6d0;
+            text-align: center;
+            font-size: 13px;
 }
 
 @media (max-width: 900px) {
@@ -4326,6 +4355,24 @@ font-size: 15px;
             font-weight: 700;
 }
 
+html.page-pathfinder-monster-database .hp-roll-btn {
+margin-top: 10px;
+            border: 1px solid rgba(255, 223, 149, 0.28);
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: rgba(255, 223, 149, 0.08);
+            color: var(--accent-2);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+}
+
+html.page-pathfinder-monster-database .hp-roll-btn:hover {
+background: rgba(255, 223, 149, 0.16);
+}
+
 html.page-pathfinder-monster-database .section-title {
 margin: 16px 0 8px;
             color: var(--accent);
@@ -4385,6 +4432,88 @@ grid-template-columns: 1fr;
 }
 }
 
+html.page-dnd-character-sheet-creator .tabs,
+html.page-dnd-coin-converter .tabs,
+html.page-dnd-dice-roller .tabs,
+html.page-dnd-initiative-tracker .tabs,
+html.page-dnd-monster-database .tabs,
+html.page-pathfinder-character-sheet-creator .tabs,
+html.page-pathfinder-coin-converter .tabs,
+html.page-pathfinder-dice-roller .tabs,
+html.page-pathfinder-initiative-tracker .tabs,
+html.page-pathfinder-monster-database .tabs {
+display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px 12px 0 0;
+            overflow: visible;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-character-sheet-creator .tabs .mode-label,
+html.page-dnd-coin-converter .tabs .mode-label,
+html.page-dnd-dice-roller .tabs .mode-label,
+html.page-dnd-initiative-tracker .tabs .mode-label,
+html.page-dnd-monster-database .tabs .mode-label,
+html.page-pathfinder-character-sheet-creator .tabs .mode-label,
+html.page-pathfinder-coin-converter .tabs .mode-label,
+html.page-pathfinder-dice-roller .tabs .mode-label,
+html.page-pathfinder-initiative-tracker .tabs .mode-label,
+html.page-pathfinder-monster-database .tabs .mode-label {
+margin: 0;
+}
+
+html.page-dnd-character-sheet-creator .tabs .mode-select,
+html.page-dnd-coin-converter .tabs .mode-select,
+html.page-dnd-dice-roller .tabs .mode-select,
+html.page-dnd-initiative-tracker .tabs .mode-select,
+html.page-dnd-monster-database .tabs .mode-select,
+html.page-pathfinder-character-sheet-creator .tabs .mode-select,
+html.page-pathfinder-coin-converter .tabs .mode-select,
+html.page-pathfinder-dice-roller .tabs .mode-select,
+html.page-pathfinder-initiative-tracker .tabs .mode-select,
+html.page-pathfinder-monster-database .tabs .mode-select {
+min-width: 220px;
+            text-align: center;
+            text-align-last: center;
+}
+
+@media (max-width: 640px) {
+html.page-dnd-character-sheet-creator .tabs,
+html.page-dnd-coin-converter .tabs,
+html.page-dnd-dice-roller .tabs,
+html.page-dnd-initiative-tracker .tabs,
+html.page-dnd-monster-database .tabs,
+html.page-pathfinder-character-sheet-creator .tabs,
+html.page-pathfinder-coin-converter .tabs,
+html.page-pathfinder-dice-roller .tabs,
+html.page-pathfinder-initiative-tracker .tabs,
+html.page-pathfinder-monster-database .tabs {
+justify-content: flex-start;
+                align-items: stretch;
+                flex-direction: column;
+}
+
+html.page-dnd-character-sheet-creator .tabs .mode-select,
+html.page-dnd-coin-converter .tabs .mode-select,
+html.page-dnd-dice-roller .tabs .mode-select,
+html.page-dnd-initiative-tracker .tabs .mode-select,
+html.page-dnd-monster-database .tabs .mode-select,
+html.page-pathfinder-character-sheet-creator .tabs .mode-select,
+html.page-pathfinder-coin-converter .tabs .mode-select,
+html.page-pathfinder-dice-roller .tabs .mode-select,
+html.page-pathfinder-initiative-tracker .tabs .mode-select,
+html.page-pathfinder-monster-database .tabs .mode-select {
+width: 100%;
+                min-width: 0;
+}
+}
+
 /* index.html */
 html.page-index body {
 font-family: Arial, sans-serif;
@@ -4433,4 +4562,551 @@ display: block;
 
 html.page-index .tool-link:hover {
 background: #e7eefc;
+}
+
+/* DndSpellbook.html + PathfinderSpellbook.html */
+html.page-dnd-spellbook,
+html.page-pathfinder-spellbook {
+--bg-1: #1a1224;
+            --bg-2: #0f0b16;
+            --panel: rgba(24, 18, 34, 0.9);
+            --panel-border: rgba(255, 214, 140, 0.35);
+            --ui-border: rgba(255, 223, 149, 0.35);
+            --text: #f4efe3;
+            --muted: #c9b98e;
+            --accent: #f0b84b;
+            --accent-2: #ffdf95;
+            --button: #7b2d2d;
+            --button-hover: #993c3c;
+            --button-secondary: #5c506f;
+            --button-secondary-hover: #72648a;
+            --shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.page-dnd-spellbook *,
+html.page-pathfinder-spellbook * {
+box-sizing: border-box;
+}
+
+html.page-dnd-spellbook body,
+html.page-pathfinder-spellbook body {
+margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 22px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 500px at 50% -120px, rgba(240, 184, 75, 0.16), transparent 60%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+html.page-dnd-spellbook .app,
+html.page-pathfinder-spellbook .app {
+width: min(1180px, 100%);
+}
+
+html.page-dnd-spellbook .mode-switcher,
+html.page-pathfinder-spellbook .mode-switcher {
+display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+}
+
+html.page-dnd-spellbook .mode-label,
+html.page-pathfinder-spellbook .mode-label {
+margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-spellbook .mode-select,
+html.page-pathfinder-spellbook .mode-select,
+html.page-dnd-spellbook input,
+html.page-pathfinder-spellbook input,
+html.page-dnd-spellbook select,
+html.page-pathfinder-spellbook select,
+html.page-dnd-spellbook textarea,
+html.page-pathfinder-spellbook textarea {
+border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html.page-dnd-spellbook .mode-select,
+html.page-pathfinder-spellbook .mode-select {
+width: auto;
+            min-width: 220px;
+            text-align: center;
+            text-align-last: center;
+}
+
+html.page-dnd-spellbook input:focus,
+html.page-pathfinder-spellbook input:focus,
+html.page-dnd-spellbook select:focus,
+html.page-pathfinder-spellbook select:focus,
+html.page-dnd-spellbook textarea:focus,
+html.page-pathfinder-spellbook textarea:focus {
+border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+}
+
+html.page-dnd-spellbook .tabs,
+html.page-pathfinder-spellbook .tabs {
+display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid var(--panel-border);
+            border-bottom: none;
+            box-shadow: var(--shadow);
+            background: rgba(16, 12, 24, 0.95);
+}
+
+html.page-dnd-spellbook .panel,
+html.page-pathfinder-spellbook .panel {
+background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+                var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+}
+
+html.page-dnd-spellbook h1,
+html.page-pathfinder-spellbook h1 {
+margin: 0 0 6px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 30px);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.03em;
+            color: var(--accent-2);
+}
+
+html.page-dnd-spellbook h2,
+html.page-pathfinder-spellbook h2 {
+margin: 0 0 16px;
+            font-size: 20px;
+            color: var(--accent-2);
+}
+
+html.page-dnd-spellbook .subhead,
+html.page-pathfinder-spellbook .subhead {
+margin: 0 0 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-spellbook label,
+html.page-pathfinder-spellbook label {
+display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 700;
+}
+
+html.page-dnd-spellbook textarea,
+html.page-pathfinder-spellbook textarea {
+min-height: 120px;
+            resize: vertical;
+}
+
+html.page-dnd-spellbook .spellbook-layout,
+html.page-pathfinder-spellbook .spellbook-layout {
+display: grid;
+            grid-template-columns: minmax(360px, 460px) minmax(0, 1fr);
+            gap: 18px;
+}
+
+html.page-dnd-spellbook .spell-panel,
+html.page-pathfinder-spellbook .spell-panel {
+padding: 18px;
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            background: rgba(12, 9, 18, 0.82);
+}
+
+html.page-dnd-spellbook .spell-form-grid,
+html.page-pathfinder-spellbook .spell-form-grid {
+display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+}
+
+html.page-dnd-spellbook .spell-stack,
+html.page-pathfinder-spellbook .spell-stack {
+display: grid;
+            gap: 12px;
+            margin-top: 12px;
+}
+
+html.page-dnd-spellbook .toggle-field,
+html.page-pathfinder-spellbook .toggle-field {
+display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 22px 0 0;
+            padding: 10px 12px;
+            border: 1px solid var(--ui-border);
+            border-radius: 10px;
+            background: rgba(7, 7, 12, 0.45);
+}
+
+html.page-dnd-spellbook .toggle-field input,
+html.page-pathfinder-spellbook .toggle-field input {
+width: auto;
+            margin: 0;
+}
+
+html.page-dnd-spellbook .toggle-field span,
+html.page-pathfinder-spellbook .toggle-field span {
+color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-spellbook .spell-actions,
+html.page-pathfinder-spellbook .spell-actions {
+display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 16px;
+}
+
+html.page-dnd-spellbook .controls,
+html.page-pathfinder-spellbook .controls {
+display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 16px;
+}
+
+html.page-dnd-spellbook .btn,
+html.page-pathfinder-spellbook .btn {
+align-self: end;
+            border: none;
+            background: linear-gradient(180deg, var(--button-hover), var(--button));
+            color: var(--text);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+html.page-dnd-spellbook .btn:hover,
+html.page-pathfinder-spellbook .btn:hover {
+filter: brightness(1.08);
+}
+
+html.page-dnd-spellbook .btn:active,
+html.page-pathfinder-spellbook .btn:active {
+transform: translateY(1px);
+}
+
+html.page-dnd-spellbook .secondary-btn,
+html.page-pathfinder-spellbook .secondary-btn {
+background: linear-gradient(180deg, var(--button-secondary-hover), var(--button-secondary));
+}
+
+html.page-dnd-spellbook .danger-btn,
+html.page-pathfinder-spellbook .danger-btn {
+background: linear-gradient(180deg, #8f2f45, #6d1f31);
+}
+
+html.page-dnd-spellbook .btn:disabled,
+html.page-pathfinder-spellbook .btn:disabled {
+cursor: not-allowed;
+            opacity: 0.5;
+}
+
+html.page-dnd-spellbook .spell-controls,
+html.page-pathfinder-spellbook .spell-controls {
+grid-template-columns: minmax(0, 2fr) minmax(150px, 180px) minmax(0, 1.2fr) auto;
+            align-items: end;
+            margin-bottom: 16px;
+}
+
+html.page-dnd-spellbook .results-meta,
+html.page-pathfinder-spellbook .results-meta {
+margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 13px;
+}
+
+html.page-dnd-spellbook .database-status,
+html.page-pathfinder-spellbook .database-status {
+margin: 0 0 14px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+}
+
+html.page-dnd-spellbook .database-status.error,
+html.page-pathfinder-spellbook .database-status.error {
+color: #ff9ea8;
+}
+
+html.page-dnd-spellbook .wip-notice,
+html.page-pathfinder-spellbook .wip-notice {
+margin: 0 0 14px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 176, 166, 0.35);
+            border-radius: 12px;
+            background: rgba(143, 47, 69, 0.18);
+            color: #ffd6d0;
+            text-align: center;
+            font-size: 13px;
+}
+
+html.page-dnd-spellbook .db-layout,
+html.page-pathfinder-spellbook .db-layout {
+display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 16px;
+}
+
+html.page-dnd-spellbook .monster-list,
+html.page-pathfinder-spellbook .monster-list,
+html.page-dnd-spellbook .monster-detail,
+html.page-pathfinder-spellbook .monster-detail {
+border: 1px solid var(--ui-border);
+            border-radius: 14px;
+            background: rgba(14, 10, 20, 0.72);
+            padding: 14px;
+}
+
+html.page-dnd-spellbook .monster-cards,
+html.page-pathfinder-spellbook .monster-cards {
+display: grid;
+            gap: 10px;
+            max-height: 620px;
+            overflow-y: auto;
+            padding-right: 4px;
+}
+
+html.page-dnd-spellbook .monster-card,
+html.page-pathfinder-spellbook .monster-card {
+width: 100%;
+            border: 1px solid rgba(255, 223, 149, 0.24);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+            transition: border-color 0.15s ease, transform 0.12s ease, background 0.15s ease;
+}
+
+html.page-dnd-spellbook .monster-card:hover,
+html.page-pathfinder-spellbook .monster-card:hover {
+transform: translateY(-1px);
+            border-color: rgba(255, 223, 149, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+}
+
+html.page-dnd-spellbook .monster-card.active,
+html.page-pathfinder-spellbook .monster-card.active {
+border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(240, 184, 75, 0.16);
+            background: rgba(240, 184, 75, 0.08);
+}
+
+html.page-dnd-spellbook .monster-card-top,
+html.page-pathfinder-spellbook .monster-card-top {
+display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: baseline;
+}
+
+html.page-dnd-spellbook .pill-row,
+html.page-pathfinder-spellbook .pill-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+}
+
+html.page-dnd-spellbook .monster-name,
+html.page-pathfinder-spellbook .monster-name,
+html.page-dnd-spellbook .detail-name,
+html.page-pathfinder-spellbook .detail-name {
+margin: 0;
+            font-size: 20px;
+            color: var(--accent-2);
+            font-family: Georgia, "Times New Roman", serif;
+}
+
+html.page-dnd-spellbook .monster-meta,
+html.page-pathfinder-spellbook .monster-meta,
+html.page-dnd-spellbook .detail-meta,
+html.page-pathfinder-spellbook .detail-meta {
+margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            font-style: italic;
+}
+
+html.page-dnd-spellbook .detail-text,
+html.page-pathfinder-spellbook .detail-text {
+margin: 0;
+            line-height: 1.5;
+            color: var(--text);
+}
+
+html.page-dnd-spellbook .detail-top,
+html.page-pathfinder-spellbook .detail-top {
+display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: baseline;
+}
+
+html.page-dnd-spellbook .detail-grid,
+html.page-pathfinder-spellbook .detail-grid {
+display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+}
+
+html.page-dnd-spellbook .stat-box,
+html.page-pathfinder-spellbook .stat-box {
+border: 1px solid rgba(255, 223, 149, 0.18);
+            border-radius: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+}
+
+html.page-dnd-spellbook .stat-label,
+html.page-pathfinder-spellbook .stat-label {
+display: block;
+            margin-bottom: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+}
+
+html.page-dnd-spellbook .stat-value,
+html.page-pathfinder-spellbook .stat-value {
+font-size: 15px;
+            font-weight: 700;
+}
+
+html.page-dnd-spellbook .section-title,
+html.page-pathfinder-spellbook .section-title {
+margin: 16px 0 8px;
+            color: var(--accent);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-spellbook .pill,
+html.page-pathfinder-spellbook .pill {
+padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 223, 149, 0.08);
+            border: 1px solid rgba(255, 223, 149, 0.18);
+            color: var(--text);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-spellbook .empty-state,
+html.page-pathfinder-spellbook .empty-state {
+padding: 24px 16px;
+            text-align: center;
+            color: var(--muted);
+            border: 1px dashed rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+html.page-dnd-spellbook .spellbook-layout,
+html.page-pathfinder-spellbook .spellbook-layout {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-spellbook .db-layout,
+html.page-pathfinder-spellbook .db-layout {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-spellbook .spell-controls,
+html.page-pathfinder-spellbook .spell-controls {
+grid-template-columns: 1fr 1fr;
+}
+
+html.page-dnd-spellbook .detail-grid,
+html.page-pathfinder-spellbook .detail-grid {
+grid-template-columns: 1fr 1fr;
+}
+}
+
+@media (max-width: 640px) {
+html.page-dnd-spellbook .panel,
+html.page-pathfinder-spellbook .panel {
+padding: 16px;
+}
+
+html.page-dnd-spellbook .tabs,
+html.page-pathfinder-spellbook .tabs {
+justify-content: flex-start;
+                align-items: stretch;
+                flex-direction: column;
+}
+
+html.page-dnd-spellbook .mode-select,
+html.page-pathfinder-spellbook .mode-select {
+width: 100%;
+                min-width: 0;
+}
+
+html.page-dnd-spellbook .spell-form-grid,
+html.page-pathfinder-spellbook .spell-form-grid,
+html.page-dnd-spellbook .spell-actions,
+html.page-pathfinder-spellbook .spell-actions,
+html.page-dnd-spellbook .spell-controls,
+html.page-pathfinder-spellbook .spell-controls {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-spellbook .detail-grid,
+html.page-pathfinder-spellbook .detail-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-spellbook .detail-top,
+html.page-pathfinder-spellbook .detail-top {
+flex-direction: column;
+}
 }
