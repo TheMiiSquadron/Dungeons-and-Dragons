@@ -28,7 +28,7 @@
 
     <section class="panel">
         <h1>Mii Man's D&D Toolbox</h1>
-        <p class="subhead">Character Sheet Creator v1.0</p>
+        <p class="subhead">Character Sheet Creator v1.1</p>
 
         <div class="creator-mode-tabs">
             <button id="modeGenerateBtn" class="creator-mode-btn active" type="button">Generate</button>
@@ -78,13 +78,17 @@
             </div>
 
             <div class="input-group">
-                <label for="sheetOutput">Generated Character Sheet</label>
-                <textarea id="sheetOutput" class="sheet-output" readonly></textarea>
+                <label for="sheetCard">Generated Player Card</label>
+                <div id="sheetCard" class="sheet-card-shell" aria-live="polite">
+                    <div class="empty-state">Fill out the form and generate a player card.</div>
+                </div>
             </div>
+
+            <p id="sheetStatus" class="sheet-status" aria-live="polite"></p>
 
             <div class="button-row">
                 <button id="generateBtn" class="btn btn-primary" type="button">Generate Sheet</button>
-                <button id="copyBtn" class="btn btn-secondary" type="button">Copy Output</button>
+                <button id="copyBtn" class="btn btn-secondary" type="button">Copy Summary</button>
                 <button id="clearBtn" class="btn btn-secondary" type="button">Clear Form</button>
             </div>
         </div>
@@ -386,12 +390,47 @@ function val(id) {
     return node ? node.value.trim() : "";
 }
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
 function line(label, value) {
     return `${label}: ${value || "-"}`;
 }
 
-function generateSheet() {
-    const sheet = [
+function splitParagraphs(value) {
+    return String(value || "")
+        .split(/\n+/)
+        .map(function (item) {
+            return item.trim();
+        })
+        .filter(Boolean);
+}
+
+function formatModifier(scoreText) {
+    const score = Number(scoreText);
+    if (!Number.isFinite(score)) {
+        return "-";
+    }
+    const modifier = Math.floor((score - 10) / 2);
+    return modifier >= 0 ? `+${modifier}` : String(modifier);
+}
+
+function formatAbilityScore(scoreText) {
+    if (!scoreText) {
+        return "-";
+    }
+    const modifier = formatModifier(scoreText);
+    return modifier === "-" ? escapeHtml(scoreText) : `${escapeHtml(scoreText)} (${modifier})`;
+}
+
+function buildCharacterSummary() {
+    return [
         "=== CHARACTER SHEET ===",
         line("Character", val("charName")),
         line("Player", val("playerName")),
@@ -425,8 +464,62 @@ function generateSheet() {
         "=== NOTES ===",
         val("notes") || "-"
     ].join("\n");
+}
 
-    document.getElementById("sheetOutput").value = sheet;
+function renderListSection(title, value) {
+    const items = splitParagraphs(value);
+    return `
+        <h3 class="section-title">${title}</h3>
+        <p class="detail-text">${items.length ? items.map(escapeHtml).join("<br><br>") : "-"}</p>
+    `;
+}
+
+function renderCharacterCard() {
+    const card = document.getElementById("sheetCard");
+    const characterName = val("charName") || "Unnamed Hero";
+    const classAndLevel = [val("charClass"), val("charLevel") ? `Level ${val("charLevel")}` : ""].filter(Boolean).join(" ");
+    const raceAndBackground = [val("charRace"), val("charBackground")].filter(Boolean).join(" ");
+    const metaLine = [classAndLevel, raceAndBackground, val("charAlignment")].filter(Boolean).join(" | ");
+
+    card.innerHTML = `
+        <article class="sheet-card">
+            <div class="detail-top">
+                <div>
+                    <h2 class="detail-name">${escapeHtml(characterName)}</h2>
+                    <p class="detail-meta">${escapeHtml(metaLine || "Adventurer profile")}</p>
+                </div>
+                <span class="pill">${escapeHtml(val("playerName") || "Player Unset")}</span>
+            </div>
+
+            <div class="pill-row">
+                <span class="pill">AC ${escapeHtml(val("armorClass") || "-")}</span>
+                <span class="pill">HP ${escapeHtml(val("hitPoints") || "-")}</span>
+                <span class="pill">Speed ${escapeHtml(val("speed") || "-")}</span>
+                <span class="pill">Initiative ${escapeHtml(val("initiative") || "-")}</span>
+                <span class="pill">Prof ${escapeHtml(val("profBonus") || "-")}</span>
+            </div>
+
+            <div class="detail-grid">
+                <div class="stat-box"><span class="stat-label">Strength</span><div class="stat-value">${formatAbilityScore(val("str"))}</div></div>
+                <div class="stat-box"><span class="stat-label">Dexterity</span><div class="stat-value">${formatAbilityScore(val("dex"))}</div></div>
+                <div class="stat-box"><span class="stat-label">Constitution</span><div class="stat-value">${formatAbilityScore(val("con"))}</div></div>
+                <div class="stat-box"><span class="stat-label">Intelligence</span><div class="stat-value">${formatAbilityScore(val("int"))}</div></div>
+                <div class="stat-box"><span class="stat-label">Wisdom</span><div class="stat-value">${formatAbilityScore(val("wis"))}</div></div>
+                <div class="stat-box"><span class="stat-label">Charisma</span><div class="stat-value">${formatAbilityScore(val("cha"))}</div></div>
+            </div>
+
+            ${renderListSection("Features & Traits", val("features"))}
+            ${renderListSection("Equipment", val("equipment"))}
+            ${renderListSection("Notes", val("notes"))}
+        </article>
+    `;
+
+    document.getElementById("sheetStatus").textContent = "Player card generated.";
+    return buildCharacterSummary();
+}
+
+function generateSheet() {
+    return renderCharacterCard();
 }
 
 function clearForm() {
@@ -434,28 +527,26 @@ function clearForm() {
         "charName", "playerName", "charClass", "charLevel", "charRace", "charBackground", "charAlignment",
         "profBonus", "armorClass", "hitPoints", "speed", "initiative",
         "str", "dex", "con", "int", "wis", "cha",
-        "features", "equipment", "notes", "sheetOutput"
+        "features", "equipment", "notes"
     ].forEach(function (id) {
         const node = document.getElementById(id);
         if (node) {
             node.value = "";
         }
     });
+
+    document.getElementById("sheetCard").innerHTML = '<div class="empty-state">Fill out the form and generate a player card.</div>';
+    document.getElementById("sheetStatus").textContent = "";
 }
 
 async function copyOutput() {
-    const output = document.getElementById("sheetOutput");
-    if (!output.value.trim()) {
-        generateSheet();
-    }
+    const output = generateSheet();
 
     try {
-        await navigator.clipboard.writeText(output.value);
-        alert("Character sheet copied.");
+        await navigator.clipboard.writeText(output);
+        document.getElementById("sheetStatus").textContent = "Character summary copied to clipboard.";
     } catch (_) {
-        output.select();
-        document.execCommand("copy");
-        alert("Character sheet copied.");
+        alert("Could not copy the character summary.");
     }
 }
 
@@ -558,4 +649,3 @@ document.addEventListener("keydown", function (event) {
 </script>
 </body>
 </html>
-

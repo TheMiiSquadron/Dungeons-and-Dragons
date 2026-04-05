@@ -181,10 +181,114 @@ resize: vertical;
             min-height: 92px;
 }
 
-html.page-dnd-character-sheet-creator .sheet-output {
+html.page-dnd-character-sheet-creator .sheet-card-shell {
 min-height: 210px;
-            font-family: monospace;
-            white-space: pre;
+            border: 1px solid var(--ui-border);
+            border-radius: 14px;
+            background: rgba(14, 10, 20, 0.72);
+            padding: 14px;
+}
+
+html.page-dnd-character-sheet-creator .sheet-card {
+display: grid;
+            gap: 4px;
+}
+
+html.page-dnd-character-sheet-creator .detail-top {
+display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: baseline;
+}
+
+html.page-dnd-character-sheet-creator .detail-name {
+margin: 0;
+            font-size: 20px;
+            color: var(--accent-2);
+            font-family: Georgia, "Times New Roman", serif;
+}
+
+html.page-dnd-character-sheet-creator .detail-meta {
+margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            font-style: italic;
+}
+
+html.page-dnd-character-sheet-creator .pill-row {
+display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+}
+
+html.page-dnd-character-sheet-creator .pill {
+padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 223, 149, 0.08);
+            border: 1px solid rgba(255, 223, 149, 0.18);
+            color: var(--text);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-character-sheet-creator .detail-grid {
+display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+}
+
+html.page-dnd-character-sheet-creator .stat-box {
+border: 1px solid rgba(255, 223, 149, 0.18);
+            border-radius: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+}
+
+html.page-dnd-character-sheet-creator .stat-label {
+display: block;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+}
+
+html.page-dnd-character-sheet-creator .stat-value {
+font-size: 15px;
+            font-weight: 700;
+}
+
+html.page-dnd-character-sheet-creator .section-title {
+margin: 16px 0 8px;
+            color: var(--accent);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+}
+
+html.page-dnd-character-sheet-creator .detail-text {
+margin: 0;
+            line-height: 1.5;
+            color: var(--text);
+}
+
+html.page-dnd-character-sheet-creator .sheet-status {
+margin: 10px 0 0;
+            min-height: 18px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+}
+
+html.page-dnd-character-sheet-creator .empty-state {
+padding: 24px 16px;
+            text-align: center;
+            color: var(--muted);
+            border: 1px dashed rgba(255, 223, 149, 0.24);
+            border-radius: 12px;
 }
 
 html.page-dnd-character-sheet-creator .button-row {
@@ -482,6 +586,14 @@ grid-template-columns: 1fr;
 
 html.page-dnd-character-sheet-creator .grid-six {
 grid-template-columns: repeat(2, 1fr);
+}
+
+html.page-dnd-character-sheet-creator .detail-grid {
+grid-template-columns: 1fr;
+}
+
+html.page-dnd-character-sheet-creator .detail-top {
+flex-direction: column;
 }
 
 html.page-dnd-character-sheet-creator .theme-grid {
