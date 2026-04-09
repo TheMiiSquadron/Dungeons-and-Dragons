@@ -272,9 +272,9 @@ function renderSheetImages() {
         card.className = "upload-card";
 
         const img = document.createElement("img");
+        img.className = "upload-preview-image";
         img.src = imageItem.dataUrl;
         img.alt = imageItem.name || `Sheet image ${index + 1}`;
-        img.style.cursor = "zoom-in";
         img.addEventListener("click", function () {
             openImageLightbox(index);
         });

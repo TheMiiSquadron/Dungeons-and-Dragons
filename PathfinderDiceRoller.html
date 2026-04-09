@@ -159,7 +159,8 @@ const defaultTheme = {
     "--button": "#7b2d2d",
     "--button-hover": "#993c3c",
     "--button-secondary": "#5c506f",
-    "--button-secondary-hover": "#72648a"
+    "--button-secondary-hover": "#72648a",
+    "--roll-result-color": "#ffffff"
 };
 
 function applyThemeMap(themeMap) {
@@ -167,6 +168,10 @@ function applyThemeMap(themeMap) {
     Object.keys(themeMap).forEach(function (cssVar) {
         root.style.setProperty(cssVar, themeMap[cssVar]);
     });
+}
+
+function applyRollResultColor(color) {
+    document.documentElement.style.setProperty("--roll-result-color", color || "#ffffff");
 }
 
 function loadSavedTheme() {
@@ -395,7 +400,7 @@ function rollDice() {
         result += `Highest Possible Roll: ${(numberOfDice * numberOfSides) + modifier}`;
 
         resultArea.value = result;
-        resultArea.style.color = diceColors[colorValue] || "#ffffff";
+        applyRollResultColor(diceColors[colorValue] || "#ffffff");
 
     } catch (e) {
         dcOutcome.textContent = "";
@@ -511,12 +516,12 @@ document.getElementById("diceColor").addEventListener("change", function () {
         white: "#ffffff",
         custom: customColor
     };
-    document.getElementById("resultArea").style.color = diceColors[colorValue] || "#ffffff";
+    applyRollResultColor(diceColors[colorValue] || "#ffffff");
 });
 
 document.getElementById("customDiceColor").addEventListener("input", function () {
     if (document.getElementById("diceColor").value === "custom") {
-        document.getElementById("resultArea").style.color = this.value;
+        applyRollResultColor(this.value);
     }
 });
 

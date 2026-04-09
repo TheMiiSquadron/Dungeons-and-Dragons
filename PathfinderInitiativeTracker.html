@@ -256,8 +256,7 @@ function render() {
             hpBar.className = "hp-bar";
 
             const hpFill = document.createElement("div");
-            hpFill.className = "hp-fill";
-            hpFill.style.width = hpPercent + "%";
+            hpFill.className = "hp-fill hp-fill-width-" + Math.round(hpPercent);
 
             if (entry.hp <= 0) {
                 hpFill.classList.add("dead");
