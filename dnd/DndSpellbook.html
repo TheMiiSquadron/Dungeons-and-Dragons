@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mii Man's D&D Toolbox (v1.1)</title>
-    <link rel="stylesheet" href="img/stylesheet.css">
+    <link rel="stylesheet" href="../assets/stylesheet.css">
 </head>
 <body>
 <main class="app">
@@ -12,7 +12,7 @@
         <label class="mode-label" for="rulesetSwitch">Mode</label>
         <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
             <option value="DndSpellbook.html" selected>D&amp;D 5E</option>
-            <option value="PathfinderSpellbook.html">Pathfinder</option>
+            <option value="../pathfinder/PathfinderSpellbook.html">Pathfinder</option>
         </select>
     </div>
     <div class="tabs">
@@ -96,7 +96,7 @@
 </main>
 
 <script>
-const SPELL_DATA_PATH = "img/DndSpells5e.json";
+const SPELL_DATA_PATH = "../data/dnd/DndSpells5e.json";
 
 const searchInput = document.getElementById("searchInput");
 const levelFilter = document.getElementById("levelFilter");
@@ -414,7 +414,7 @@ async function loadSpellData() {
         syncSpellList();
         rebuildFilters();
         selectedSpellId = spells[0] ? spells[0].id : "";
-        databaseStatus.textContent = `Loaded ${baseSpells.length} 5E spell${baseSpells.length === 1 ? "" : "s"} from ${SPELL_DATA_PATH}. Duplicate an entry in img/DndSpellTemplate.json to add more in code.`;
+        databaseStatus.textContent = `Loaded ${baseSpells.length} 5E spell${baseSpells.length === 1 ? "" : "s"} from ${SPELL_DATA_PATH}. Duplicate an entry in ../data/dnd/DndSpellTemplate.json to add more in code.`;
         databaseStatus.classList.remove("error");
         applyFilters();
     } catch (error) {
@@ -422,7 +422,7 @@ async function loadSpellData() {
         syncSpellList();
         rebuildFilters();
         selectedSpellId = "";
-        databaseStatus.textContent = "Could not load img/DndSpells5e.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
+        databaseStatus.textContent = "Could not load ../data/dnd/DndSpells5e.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
         databaseStatus.classList.add("error");
         applyFilters();
     }

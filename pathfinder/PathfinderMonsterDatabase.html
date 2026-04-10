@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mii Man's Pathfinder Toolbox (v1.1)</title>
-        <link rel="stylesheet" href="img/stylesheet.css">
+        <link rel="stylesheet" href="../assets/stylesheet.css">
 </head>
 <body>
 <main class="app">
     <div class="mode-switcher">
         <label class="mode-label" for="rulesetSwitch">Mode</label>
         <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
-            <option value="DndMonsterDatabase.html">D&amp;D 5E</option>
+            <option value="../dnd/DndMonsterDatabase.html">D&amp;D 5E</option>
             <option value="PathfinderMonsterDatabase.html" selected>Pathfinder</option>
         </select>
     </div>
@@ -89,7 +89,7 @@
 </main>
 
 <script>
-const MONSTER_DATA_PATH = "img/PathfinderMonsters.json";
+const MONSTER_DATA_PATH = "../data/pathfinder/PathfinderMonsters.json";
 const DICE_ROLLER_PATH = "PathfinderDiceRoller.html";
 
 const searchInput = document.getElementById("searchInput");
@@ -422,7 +422,7 @@ async function loadMonsterData() {
         syncMonsterList();
         rebuildFilters();
         selectedMonsterId = monsters[0] ? monsters[0].id : "";
-        databaseStatus.textContent = `Loaded ${baseMonsters.length} Pathfinder monsters from ${MONSTER_DATA_PATH}. Duplicate an entry in img/PathfinderMonsterTemplate.json to add more in code.`;
+        databaseStatus.textContent = `Loaded ${baseMonsters.length} Pathfinder monsters from ${MONSTER_DATA_PATH}. Duplicate an entry in ../data/pathfinder/PathfinderMonsterTemplate.json to add more in code.`;
         databaseStatus.classList.remove("error");
         applyFilters();
     } catch (error) {
@@ -430,7 +430,7 @@ async function loadMonsterData() {
         syncMonsterList();
         rebuildFilters();
         selectedMonsterId = monsters[0] ? monsters[0].id : "";
-        databaseStatus.textContent = "Could not load img/PathfinderMonsters.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
+        databaseStatus.textContent = "Could not load ../data/pathfinder/PathfinderMonsters.json automatically. If you're opening the page directly from disk, run it through a local server so fetch() can read the JSON file.";
         databaseStatus.classList.add("error");
         applyFilters();
     }

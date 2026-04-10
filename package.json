@@ -1,0 +1,13 @@
+{
+  "name": "dungeons-and-dragons",
+  "private": true,
+  "description": "Static tabletop tools for D&D 5E and Pathfinder.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build:monsters": "node scripts/build-monsters.mjs",
+    "build:spells": "node scripts/build-spells.mjs",
+    "build:data": "npm run build:monsters && npm run build:spells"
+  }
+}
