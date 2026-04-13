@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" class="page-dnd-action-log page-dnd-initiative-tracker">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Man's D&D Toolbox (v1.1)</title>
+    <link rel="stylesheet" href="../assets/stylesheet.css">
+    <style>
+        html.page-dnd-action-log .tabs {
+            grid-template-columns: 1fr;
+        }
+
+        html.page-dnd-action-log textarea,
+        html.page-dnd-action-log select {
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            color: var(--text);
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        html.page-dnd-action-log textarea:focus,
+        html.page-dnd-action-log select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(240, 184, 75, 0.18);
+        }
+
+        html.page-dnd-action-log textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        html.page-dnd-action-log .grid-add {
+            grid-template-columns: 1.2fr 1fr 1fr auto;
+        }
+
+        html.page-dnd-action-log .log-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        html.page-dnd-action-log .log-entry {
+            border: 1px solid var(--ui-border);
+            background: rgba(7, 7, 12, 0.6);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        html.page-dnd-action-log .log-entry-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        html.page-dnd-action-log .log-entry-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--accent-2);
+        }
+
+        html.page-dnd-action-log .log-entry-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        html.page-dnd-action-log .log-pill {
+            border: 1px solid var(--ui-border);
+            border-radius: 999px;
+            padding: 4px 10px;
+            background: rgba(240, 184, 75, 0.12);
+            color: var(--accent-2);
+            font-weight: 700;
+        }
+
+        html.page-dnd-action-log .log-entry-body {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        html.page-dnd-action-log .empty-log {
+            border: 1px dashed var(--ui-border);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            color: var(--muted);
+            background: rgba(7, 7, 12, 0.35);
+        }
+
+        @media (max-width: 720px) {
+            html.page-dnd-action-log .grid-add {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="app">
+    <div class="mode-switcher">
+        <label class="mode-label" for="rulesetSwitch">Mode</label>
+        <select id="rulesetSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndActionLog.html" selected>D&amp;D 5E</option>
+            <option value="DndActionLog.html" disabled>Pathfinder</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <select id="toolSwitch" class="mode-select" onchange="window.location.href=this.value">
+            <option value="DndDiceRoller.html">Dice Roller</option>
+            <option value="DndCoinConverter.html">Coin Converter</option>
+            <option value="DndCharacterSheetCreator.html">Character Sheet</option>
+            <option value="DndInitiativeTracker.html">Initiative</option>
+            <option value="DndMonsterDatabase.html">Monster Database</option>
+            <option value="DndSpellbook.html">Spellbook</option>
+            <option value="DndActionLog.html" selected>Action Log</option>
+        </select>
+    </div>
+
+    <section class="panel">
+        <h1>Mii Man's D&D Toolbox</h1>
+        <p class="subhead">Action Log v1.0</p>
+
+        <div id="logStatus" class="turn-banner">Ready to record actions, rulings, and combat notes.</div>
+
+        <div class="grid-add">
+            <div class="input-group">
+                <label for="entryTitle">Action</label>
+                <input id="entryTitle" type="text" placeholder="Goblin archer fired at Elandra">
+            </div>
+            <div class="input-group">
+                <label for="entryActor">Actor</label>
+                <input id="entryActor" type="text" placeholder="Goblin Archer">
+            </div>
+            <div class="input-group">
+                <label for="entryType">Type</label>
+                <select id="entryType">
+                    <option value="Combat">Combat</option>
+                    <option value="Spell">Spell</option>
+                    <option value="Loot">Loot</option>
+                    <option value="Story">Story</option>
+                    <option value="Rule">Rule</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <button id="addEntryBtn" class="btn btn-primary add-submit" type="button">Add Entry</button>
+        </div>
+
+        <div class="input-group">
+            <label for="entryDetails">Details</label>
+            <textarea id="entryDetails" placeholder="Attack roll 18 hit AC 15. Dealt 7 piercing damage. Ranger dropped to 12 HP."></textarea>
+        </div>
+
+        <div class="actions">
+            <button id="exportBtn" class="btn btn-secondary" type="button">Copy Log</button>
+            <button id="clearBtn" class="btn btn-secondary" type="button">Clear Log</button>
+        </div>
+
+        <div id="logList" class="log-list"></div>
+
+        <details class="theme-box">
+            <summary>Theme Colors (Site-Wide)</summary>
+            <div class="theme-grid">
+                <div class="theme-item"><label for="themeBg1">Background Top</label><input id="themeBg1" type="color" value="#1a1224"></div>
+                <div class="theme-item"><label for="themeBg2">Background Bottom</label><input id="themeBg2" type="color" value="#0f0b16"></div>
+                <div class="theme-item"><label for="themePanel">Panel</label><input id="themePanel" type="color" value="#181222"></div>
+                <div class="theme-item"><label for="themePanelBorder">Panel Border</label><input id="themePanelBorder" type="color" value="#ffd68c"></div>
+                <div class="theme-item"><label for="themeUiBorder">UI Border</label><input id="themeUiBorder" type="color" value="#ffdf95"></div>
+                <div class="theme-item"><label for="themeText">Primary Text</label><input id="themeText" type="color" value="#f4efe3"></div>
+                <div class="theme-item"><label for="themeMuted">Muted Text</label><input id="themeMuted" type="color" value="#c9b98e"></div>
+                <div class="theme-item"><label for="themeAccent">Accent</label><input id="themeAccent" type="color" value="#f0b84b"></div>
+                <div class="theme-item"><label for="themeAccent2">Accent Highlight</label><input id="themeAccent2" type="color" value="#ffdf95"></div>
+                <div class="theme-item"><label for="themeButton">Primary Button</label><input id="themeButton" type="color" value="#7b2d2d"></div>
+                <div class="theme-item"><label for="themeButtonHover">Primary Button Hover</label><input id="themeButtonHover" type="color" value="#993c3c"></div>
+                <div class="theme-item"><label for="themeSecondaryButton">Secondary Button</label><input id="themeSecondaryButton" type="color" value="#5c506f"></div>
+                <div class="theme-item"><label for="themeSecondaryButtonHover">Secondary Button Hover</label><input id="themeSecondaryButtonHover" type="color" value="#72648a"></div>
+            </div>
+            <div class="theme-actions">
+                <button id="applyThemeBtn" class="theme-btn" type="button">Apply Theme</button>
+                <button id="resetThemeBtn" class="theme-btn" type="button">Reset Theme</button>
+            </div>
+        </details>
+
+        <p class="hint">Use this to keep a running history of combat beats, spell effects, loot finds, rulings, and session notes.</p>
+    </section>
+</main>
+
+<script>
+const THEME_STORAGE_KEY = "dnd_toolbox_theme_v1";
+const ACTION_LOG_STORAGE_KEY = "dnd_action_log_entries_v1";
+const themeFields = {
+    themeBg1: "--bg-1",
+    themeBg2: "--bg-2",
+    themePanel: "--panel",
+    themePanelBorder: "--panel-border",
+    themeUiBorder: "--ui-border",
+    themeText: "--text",
+    themeMuted: "--muted",
+    themeAccent: "--accent",
+    themeAccent2: "--accent-2",
+    themeButton: "--button",
+    themeButtonHover: "--button-hover",
+    themeSecondaryButton: "--button-secondary",
+    themeSecondaryButtonHover: "--button-secondary-hover"
+};
+
+const defaultTheme = {
+    "--bg-1": "#1a1224",
+    "--bg-2": "#0f0b16",
+    "--panel": "#181222",
+    "--panel-border": "#ffd68c",
+    "--ui-border": "#ffdf95",
+    "--text": "#f4efe3",
+    "--muted": "#c9b98e",
+    "--accent": "#f0b84b",
+    "--accent-2": "#ffdf95",
+    "--button": "#7b2d2d",
+    "--button-hover": "#993c3c",
+    "--button-secondary": "#5c506f",
+    "--button-secondary-hover": "#72648a"
+};
+
+const entryTitle = document.getElementById("entryTitle");
+const entryActor = document.getElementById("entryActor");
+const entryType = document.getElementById("entryType");
+const entryDetails = document.getElementById("entryDetails");
+const addEntryBtn = document.getElementById("addEntryBtn");
+const exportBtn = document.getElementById("exportBtn");
+const clearBtn = document.getElementById("clearBtn");
+const logList = document.getElementById("logList");
+const logStatus = document.getElementById("logStatus");
+
+let logEntries = loadLogEntries();
+
+function applyTheme(theme) {
+    const root = document.documentElement;
+    Object.entries(theme).forEach(([key, value]) => root.style.setProperty(key, value));
+    Object.entries(themeFields).forEach(([inputId, cssVar]) => {
+        const input = document.getElementById(inputId);
+        if (input && theme[cssVar]) {
+            input.value = theme[cssVar];
+        }
+    });
+}
+
+function saveTheme() {
+    const theme = {};
+    Object.entries(themeFields).forEach(([inputId, cssVar]) => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            theme[cssVar] = input.value;
+        }
+    });
+    localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
+    applyTheme(theme);
+}
+
+function resetTheme() {
+    localStorage.removeItem(THEME_STORAGE_KEY);
+    applyTheme(defaultTheme);
+}
+
+function loadTheme() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || "null");
+        applyTheme(stored && typeof stored === "object" ? { ...defaultTheme, ...stored } : defaultTheme);
+    } catch (error) {
+        applyTheme(defaultTheme);
+    }
+}
+
+function loadLogEntries() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(ACTION_LOG_STORAGE_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function saveLogEntries() {
+    localStorage.setItem(ACTION_LOG_STORAGE_KEY, JSON.stringify(logEntries));
+}
+
+function formatTimestamp(timestamp) {
+    try {
+        return new Date(timestamp).toLocaleString();
+    } catch (error) {
+        return timestamp;
+    }
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+}
+
+function updateStatus(message) {
+    logStatus.textContent = message;
+}
+
+function buildIsoTimestamp(year, month, day, hours, minutes, seconds) {
+    const parsed = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hours),
+        Number(minutes),
+        Number(seconds || 0),
+        0
+    );
+
+    if (Number.isNaN(parsed.getTime())) {
+        return null;
+    }
+
+    return parsed.toISOString();
+}
+
+function normalizeTimeParts(hourText, minuteText, meridiemText) {
+    let hours = Number(hourText);
+    const minutes = Number(minuteText || 0);
+    const meridiem = (meridiemText || "").toLowerCase();
+
+    if (Number.isNaN(hours) || Number.isNaN(minutes) || minutes < 0 || minutes > 59) {
+        return null;
+    }
+
+    if (meridiem) {
+        if (hours < 1 || hours > 12) {
+            return null;
+        }
+        if (meridiem === "pm" && hours !== 12) {
+            hours += 12;
+        }
+        if (meridiem === "am" && hours === 12) {
+            hours = 0;
+        }
+    } else if (hours < 0 || hours > 23) {
+        return null;
+    }
+
+    return { hours, minutes };
+}
+
+function parseTimestampFromText(text) {
+    if (!text) {
+        return null;
+    }
+
+    const now = new Date();
+    const source = String(text);
+
+    const dateTimePatterns = [
+        /\b(\d{4})-(\d{1,2})-(\d{1,2})[,\sT]+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i,
+        /\b(\d{1,2})\/(\d{1,2})\/(\d{2,4})[,\s]+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i,
+        /\b(\d{1,2})-(\d{1,2})-(\d{2,4})[,\s]+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i
+    ];
+
+    for (const pattern of dateTimePatterns) {
+        const match = source.match(pattern);
+        if (!match) {
+            continue;
+        }
+
+        let year;
+        let month;
+        let day;
+        let hourText;
+        let minuteText;
+        let meridiemText;
+
+        if (pattern === dateTimePatterns[0]) {
+            [, year, month, day, hourText, minuteText, meridiemText] = match;
+        } else {
+            [, month, day, year, hourText, minuteText, meridiemText] = match;
+            if (year.length === 2) {
+                year = `20${year}`;
+            }
+        }
+
+        const timeParts = normalizeTimeParts(hourText, minuteText, meridiemText);
+        if (!timeParts) {
+            continue;
+        }
+
+        const iso = buildIsoTimestamp(year, month, day, timeParts.hours, timeParts.minutes, 0);
+        if (iso) {
+            return iso;
+        }
+    }
+
+    const datePatterns = [
+        /\b(\d{4})-(\d{1,2})-(\d{1,2})\b/,
+        /\b(\d{1,2})\/(\d{1,2})\/(\d{2,4})\b/,
+        /\b(\d{1,2})-(\d{1,2})-(\d{2,4})\b/
+    ];
+
+    for (const pattern of datePatterns) {
+        const match = source.match(pattern);
+        if (!match) {
+            continue;
+        }
+
+        let year;
+        let month;
+        let day;
+
+        if (pattern === datePatterns[0]) {
+            [, year, month, day] = match;
+        } else {
+            [, month, day, year] = match;
+            if (year.length === 2) {
+                year = `20${year}`;
+            }
+        }
+
+        const iso = buildIsoTimestamp(
+            year,
+            month,
+            day,
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+        );
+        if (iso) {
+            return iso;
+        }
+    }
+
+    const timePatterns = [
+        /\b(\d{1,2}):(\d{2})\s*(am|pm)\b/i,
+        /\b(\d{1,2})\s*(am|pm)\b/i,
+        /\b(\d{1,2}):(\d{2})\b/
+    ];
+
+    for (const pattern of timePatterns) {
+        const match = source.match(pattern);
+        if (!match) {
+            continue;
+        }
+
+        let hourText;
+        let minuteText = "0";
+        let meridiemText = "";
+
+        if (pattern === timePatterns[0]) {
+            [, hourText, minuteText, meridiemText] = match;
+        } else if (pattern === timePatterns[1]) {
+            [, hourText, meridiemText] = match;
+        } else {
+            [, hourText, minuteText] = match;
+        }
+
+        const timeParts = normalizeTimeParts(hourText, minuteText, meridiemText);
+        if (!timeParts) {
+            continue;
+        }
+
+        const iso = buildIsoTimestamp(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            now.getDate(),
+            timeParts.hours,
+            timeParts.minutes,
+            0
+        );
+        if (iso) {
+            return iso;
+        }
+    }
+
+    return null;
+}
+
+function resolveEntryTimestamp(title, details) {
+    return parseTimestampFromText(title) || parseTimestampFromText(details) || new Date().toISOString();
+}
+
+function renderLog() {
+    if (!logEntries.length) {
+        logList.innerHTML = '<div class="empty-log">No entries yet. Add the first action to start the session log.</div>';
+        return;
+    }
+
+    logList.innerHTML = logEntries.map((entry, index) => `
+        <article class="log-entry">
+            <div class="log-entry-top">
+                <div>
+                    <div class="log-entry-title">${escapeHtml(entry.title)}</div>
+                    <div class="log-entry-meta">
+                        <span class="log-pill">${escapeHtml(entry.type)}</span>
+                        <span>${escapeHtml(entry.actor || "Unknown Actor")}</span>
+                        <span>${escapeHtml(formatTimestamp(entry.timestamp))}</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" type="button" data-remove-index="${index}">Delete</button>
+            </div>
+            <div class="log-entry-body">${escapeHtml(entry.details || "No extra details.")}</div>
+        </article>
+    `).join("");
+}
+
+function clearForm() {
+    entryTitle.value = "";
+    entryActor.value = "";
+    entryType.value = "Combat";
+    entryDetails.value = "";
+    entryTitle.focus();
+}
+
+function addEntry() {
+    const title = entryTitle.value.trim();
+    const actor = entryActor.value.trim();
+    const type = entryType.value;
+    const details = entryDetails.value.trim();
+
+    if (!title) {
+        updateStatus("Enter an action title before adding a log entry.");
+        entryTitle.focus();
+        return;
+    }
+
+    logEntries.unshift({
+        title,
+        actor,
+        type,
+        details,
+        timestamp: resolveEntryTimestamp(title, details)
+    });
+
+    saveLogEntries();
+    renderLog();
+    updateStatus(`Logged: ${title}`);
+    clearForm();
+}
+
+async function copyLog() {
+    if (!logEntries.length) {
+        updateStatus("Nothing to copy yet. Add at least one log entry first.");
+        return;
+    }
+
+    const output = logEntries.map((entry) => {
+        const header = `[${formatTimestamp(entry.timestamp)}] ${entry.type} - ${entry.title}`;
+        const actorLine = entry.actor ? `Actor: ${entry.actor}` : "";
+        const detailLine = entry.details ? `Details: ${entry.details}` : "";
+        return [header, actorLine, detailLine].filter(Boolean).join("\n");
+    }).join("\n\n");
+
+    try {
+        await navigator.clipboard.writeText(output);
+        updateStatus("Action log copied to clipboard.");
+    } catch (error) {
+        updateStatus("Clipboard copy failed in this browser. You can still copy from the rendered log manually.");
+    }
+}
+
+function clearLog() {
+    if (!window.confirm("Clear every action log entry for this browser?")) {
+        return;
+    }
+
+    logEntries = [];
+    saveLogEntries();
+    renderLog();
+    updateStatus("Action log cleared.");
+}
+
+document.addEventListener("click", (event) => {
+    const removeIndex = event.target.getAttribute("data-remove-index");
+    if (removeIndex === null) {
+        return;
+    }
+
+    const index = Number(removeIndex);
+    if (Number.isNaN(index)) {
+        return;
+    }
+
+    const removed = logEntries[index];
+    logEntries.splice(index, 1);
+    saveLogEntries();
+    renderLog();
+    updateStatus(removed ? `Deleted: ${removed.title}` : "Log entry deleted.");
+});
+
+addEntryBtn.addEventListener("click", addEntry);
+exportBtn.addEventListener("click", copyLog);
+clearBtn.addEventListener("click", clearLog);
+entryDetails.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        addEntry();
+    }
+});
+
+document.getElementById("applyThemeBtn").addEventListener("click", saveTheme);
+document.getElementById("resetThemeBtn").addEventListener("click", resetTheme);
+
+loadTheme();
+renderLog();
+</script>
+</body>
+</html>
